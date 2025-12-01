@@ -948,6 +948,38 @@ All other models were significantly worse than Ridge:
 
 The statistical equivalence of Ridge and Elastic Net, combined with Elastic Net's superior interpretability through L1-induced sparsity, justified its selection as the primary model for feature importance analysis in the main manuscript.
 
+\section{Educational Materials and Synthetic Data}
+\label{appendix:educational}
+
+To facilitate knowledge transfer and enable replication of this methodology at other heritage sites, we developed supplementary educational materials available in the project repository. These materials include interactive Jupyter notebooks and synthetic datasets designed to preserve data privacy while maintaining statistical fidelity.
+
+\subsection{Interactive Jupyter Notebooks}
+
+Two educational notebooks accompany this manuscript:
+
+\textbf{1. Grant Methodology Demonstration} (\texttt{grant\_methodology\_demo.ipynb}): This notebook provides a step-by-step walkthrough of the complete analytical pipeline, including data preprocessing, correlation analysis, Factor Analysis, and Elastic Net regression. Each code cell is annotated with explanations of statistical assumptions, parameter choices, and interpretation guidelines. The notebook uses synthetic data (described below) to demonstrate the methodology without exposing sensitive site information.
+
+\textbf{2. Intervention Matrix Development} (\texttt{intervention\_matrix\_notebook.ipynb}): This notebook illustrates the process of translating statistical findings into actionable intervention matrices. It demonstrates how Factor Analysis loadings and regression coefficients inform the identification of Necessary and Sufficient Conditions (NSCs), and how preservation standards are integrated into the priority scoring framework. The notebook includes worked examples of matrix construction and priority calculation.
+
+\subsection{Synthetic Data Generation}
+
+The actual Fort Union degradation data contains sensitive information about a National Historic Landmark and cannot be publicly shared without National Park Service approval. To enable educational use and methodological replication, we generated a synthetic dataset (\texttt{synthetic\_adobe\_data.csv}) that preserves key statistical properties of the real data while protecting site confidentiality.
+
+The synthetic data generation process (\texttt{generate\_synthetic\_data.py}) implements the following design principles:
+
+\begin{itemize}
+    \item \textbf{Correlation preservation}: Key pairwise correlations (e.g., Height vs. Total Score, Cap Deterioration vs. Total Score) are maintained within $\pm$0.15 of observed values.
+    \item \textbf{Factor structure}: The synthetic data exhibits three latent factors analogous to those identified in the real data (Sill Deterioration, Surface/Lintel Interaction, Structural Instability).
+    \item \textbf{Distribution matching}: Marginal distributions for each variable approximate the real data distributions (e.g., Poisson for count-based damage scores, gamma for continuous geometric measurements).
+    \item \textbf{Sample size consistency}: The synthetic dataset contains n=67 observations, matching the real Fort Union sample size to preserve feature-to-sample ratio constraints.
+\end{itemize}
+
+The synthetic data enables users to execute all analyses presented in this manuscript, verify computational results, and adapt the methodology to their own heritage sites without requiring access to restricted Fort Union data. Validation tests confirm that regression models trained on synthetic data yield qualitatively similar feature importance rankings and comparable cross-validated $R^2$ values (within 0.10 of real data results).
+
+\subsection{Repository Access}
+
+All educational materials, Python scripts, and documentation are available at the project repository: \url{https://github.com/rkn2/FOUN_ncptt}. The repository includes a comprehensive README with installation instructions, dependency requirements, and usage examples.
+
 \bibliography{biblio.bib} 
 
 
