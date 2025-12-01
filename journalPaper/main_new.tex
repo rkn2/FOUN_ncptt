@@ -76,7 +76,7 @@
 We developed a data-driven assessment framework for structural vulnerability in historic adobe at Fort Union National Monument, integrating correlation analysis, Factor Analysis, and regularized regression (Elastic Net) to identify and rank damage conditions affecting wall performance.
 On-site surveys of 67 wall sections, archival research, and LiDAR scanning provided the empirical basis for the analysis. Factor Analysis isolated three latent structures of degradation (Sill Deterioration, Surface/Lintel Interaction, and Structural Instability) explaining 52.5\% of total variance.
 Model benchmarking across seven regression families (repeated K-fold cross-validation with Wilcoxon statistical testing) confirmed that Ridge and Elastic Net outperformed ensemble methods (Random Forest, Gradient Boosting) by a statistically significant margin.
-Wall Height (standardized coefficient 43.0) and Cap Deterioration (54.5) emerged as the dominant predictors, demonstrating that geometric slenderness and water protection govern vulnerability.
+Wall Height (standardized coefficient 43.0) and Cap Deterioration (54.5) emerged as the dominant predictors, demonstrating that geometric slenderness and water protection are strongly associated with vulnerability, with tall walls exhibiting elevated risk independent of visible damage conditions.
 Statistically-derived priorities were synthesized with Secretary of Interior preservation standards into intervention matrices, providing field managers with a structured decision framework.
 The methodology is constrained by sample size (n=67) and single-site scope but offers a replicable template for integrating geometric and condition data in adobe risk assessment.
 
@@ -723,8 +723,8 @@ Addressing these limitations represents a roadmap for advancing data-driven heri
 This study applied correlation analysis, Factor Analysis, and Elastic Net regression to 67 wall sections at Fort Union National Monument to identify patterns of degradation and inform intervention prioritization. The multivariate analyses converged on three principal damage modes: Sill Deterioration (Factor 1), Surface and Lintel Interaction (Factor 2), and Global Structural Instability (Factor 3), together explaining 52.5\% of variance in the degradation data. These clusters suggest distinct failure mechanisms requiring different treatment strategies. Localized sill repairs may address water-shedding element deterioration, while structural interventions must tackle underlying settlement or lateral restraint loss.
 
 Elastic Net analysis identified Wall Height and Cap Deterioration as the strongest predictors of degradation (standardized coefficients 43.0 and 54.5), challenging the assumption that geometric factors are secondary to visible damage. 
-A supplemental geometric-only model (R² = 0.17) further confirmed that Wall Height is the dominant intrinsic risk factor.
-This suggests that while geometric data alone cannot predict the exact degradation score without condition data, tall walls inherently warrant higher prioritization for preventive maintenance.
+A supplemental geometric-only model (R² = 0.17) further demonstrated that Wall Height is the strongest geometric risk indicator, though geometric factors alone explain limited variance without condition data.
+Tall walls warrant higher prioritization for preventive maintenance based on this intrinsic vulnerability signal, even when current damage is not yet visible.
 
 Treatment variables (bracing, historical interventions) showed negligible importance, likely reflecting selection bias. Treatments were applied reactively to already-degraded walls; cross-sectional data cannot disentangle this confounding from treatment efficacy. Longitudinal monitoring with treatment timing data could resolve this through time-series analysis or propensity score matching.
 
