@@ -700,7 +700,7 @@ Foundation Stone Deterioration receives a priority score of 7. The recommended m
 \section{Limitations and Future Work}
 
 This study has several limitations that should be considered when interpreting results and applying the methodology to other contexts.
-With n=67 wall sections and approximately 22 features, the feature-to-sample ratio approaches 1:3, which motivated the use of regularized regression (Elastic Net) rather than Random Forest. 
+With n=67 wall sections and approximately 22 features, the feature-to-sample ratio approaches 1:3. This motivated the use of regularized regression to prevent overfitting, with Elastic Net selected based on benchmarking results (Appendix \ref{appendix:benchmarking}). 
 While cross-validation mitigates this risk, the limited sample size reduces statistical power to detect subtle effects, particularly for treatment variables where small sample sizes for individual intervention types limit the ability to assess treatment efficacy. 
 Future studies at larger adobe complexes could achieve more precise effect size estimates with increased statistical power.
 
@@ -712,7 +712,7 @@ Several questions remain unanswered: (1) Are high-degradation walls deterioratin
 Longitudinal monitoring with repeated LiDAR scans and condition surveys (recommended interval: 5 years would enable survival analysis and causal inference methods.
 
 % The intervention matrices represent prioritization recommendations based on statistical associations and preservation principles, but lack empirical validation. 
-% We have not demonstrated that implementing the highest-scoring interventions actually reduces degradation rates or extends structure longevity. 
+% We have not demonstrated athat implementing the highest-scoring interventions actually reduces degradation rates or extends structure longevity. 
 % A controlled intervention study, treating matched wall sections with different approaches and monitoring outcomes, would provide this validation but requires multi-year commitment 
 
 
