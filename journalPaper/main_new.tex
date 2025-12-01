@@ -324,7 +324,7 @@ $$
 The $\text{Wall Weight Score}$ aggregates severe structural features (Cap Deterioration, Structural Cracking, Out of Plane, Lintel Deterioration, etc.), while the four $\text{Coat Weight Scores}$ quantify shelter coat degradation. The $\text{Elevation Weight Score}$ focuses on damage localized at the base and sill. 
 
 
-To ensure the generalizability of our findings across algorithmic approaches, we benchmarked seven regression model families: Linear Regression, Ridge Regression (L2-regularized), Elastic Net (L1+L2 regularized), Decision Tree, Random Forest, Support Vector Regression (SVR), and Gradient Boosting (XGBoost equivalent).
+To ensure the generalizability of our findings across algorithmic approaches, we benchmarked seven regression model families: Linear Regression, Ridge Regression (L2-regularized), Elastic Net (L1+L2 regularized), Decision Tree, Random Forest, Support Vector Regression (SVR), and Gradient Boosting (XGBoost equivalent), alongside a Naive Baseline (predicting the mean) to establish a performance floor.
 Repeated K-fold cross-validation was implemented with five folds and five repeats, yielding 25 evaluation rounds per model.
 This design provides 25 independent performance estimates per model, characterizing stability and distribution.
 
@@ -334,7 +334,7 @@ Holm-Bonferroni correction for multiple comparisons was applied to ensure statis
 Models with corrected p-values exceeding 0.05 were deemed statistically indistinguishable from the best performer.
 
 The benchmark revealed that regularized linear models (Ridge and Elastic Net) significantly outperformed complex non-linear ensembles (Random Forest, Gradient Boosting).
-Ridge Regression achieved the highest mean $R^2$ (0.76), while Elastic Net ($R^2 = 0.75$) was statistically indistinguishable ($p_{adj} = 0.21$).
+Ridge Regression achieved the highest mean $R^2$ (0.76), far exceeding the Naive Baseline ($R^2 = -0.10$), confirming the model captures significant signal beyond random chance. Elastic Net ($R^2 = 0.75$) was statistically indistinguishable from Ridge ($p_{adj} = 0.17$).
 Given their statistical equivalence, we selected Elastic Net as the primary model for interpretation due to its ability to perform feature selection via L1 regularization, offering a parsimonious explanation of the degradation drivers.
 All predictors were standardized prior to modeling, allowing regression coefficients to serve as direct measures of feature importance.
 
