@@ -192,6 +192,70 @@ def plot_benchmark_results(raw_scores, best_model_name, stats_results):
     plt.savefig(f'{FIGURE_DIR}/model_benchmark_boxplot.png', dpi=300)
     plt.close()
 
+def generate_latex_tables(results, raw_scores, best_model_name, stats_results):
+    """Generate LaTeX tables for main text and supplementary material"""
+    
+    # Main Text Table: Top 4 Models
+    print("\n=== LaTeX Table for Main Text (Top 4 Models) ===")
+    print("\\begin{table}[h]")
+    print("\\centering")
+    print("\\caption{Model Benchmarking Results (Repeated K-Fold Cross-Validation)}")
+    print("\\label{tab:model_benchmark}")
+    print("\\begin{tabular}{lccl}")
+    print("\\hline")
+    print("Model & Mean $R^2$ & Std Dev & Status vs Best \\\\")
+    print("\\hline")
+    
+    # Sort by mean R2
+    sorted_models = sorted(results.items(), key=lambda x: x[1]['mean_r2'], reverse=True)
+    
+    for i, (name, res) in enumerate(sorted_models[:4]):
+        if name == best_model_name:
+            status = "Best"
+        elif name in stats_results:
+            if stats_results[name]['equivalent_to_best']:
+                status = f"$p={stats_results[name]['p_corrected']:.2f}$"
+            else:
+                status = f"$p<0.001$"
+        else:
+            status = "N/A"
+        
+        print(f"{name} & {res['mean_r2']:.3f} & $\\pm${res['std_r2']:.3f} & {status} \\\\")
+    
+    print("\\hline")
+    print("\\end{tabular}")
+    print("\\end{table}")
+    
+    # Supplementary Table: Full Results
+    print("\n=== LaTeX Table for Supplementary Material (All Models) ===")
+    print("\\begin{table}[h]")
+    print("\\centering")
+    print("\\caption{Complete Model Benchmarking Results with Statistical Comparisons}")
+    print("\\label{tab:model_benchmark_full}")
+    print("\\begin{tabular}{lcccc}")
+    print("\\hline")
+    print("Model & Mean $R^2$ & Std Dev & $p_{raw}$ vs Best & $p_{adj}$ (Holm) \\\\")
+    print("\\hline")
+    
+    for name, res in sorted_models:
+        if name == best_model_name:
+            p_raw = "---"
+            p_adj = "---"
+        elif name in stats_results:
+            p_raw = f"{stats_results[name]['p_raw']:.4f}"
+            p_adj = f"{stats_results[name]['p_corrected']:.4f}"
+        else:
+            p_raw = "N/A"
+            p_adj = "N/A"
+        
+        print(f"{name} & {res['mean_r2']:.3f} & $\\pm${res['std_r2']:.3f} & {p_raw} & {p_adj} \\\\")
+    
+    print("\\hline")
+    print(f"\\multicolumn{{5}}{{l}}{{\\footnotesize Best model: {best_model_name} ($R^2$ = {results[best_model_name]['mean_r2']:.3f})}} \\\\")
+    print("\\multicolumn{5}{l}{\\footnotesize Wilcoxon signed-rank test with Holm-Bonferroni correction ($\\alpha=0.05$)} \\\\")
+    print("\\end{tabular}")
+    print("\\end{table}")
+
 def main():
     df = load_and_prep_data()
     
@@ -212,6 +276,7 @@ def main():
     results, raw_scores = run_benchmark(X, y)
     best_model, stats = perform_statistical_tests(raw_scores)
     plot_benchmark_results(raw_scores, best_model, stats)
+    generate_latex_tables(results, raw_scores, best_model, stats)
 
 if __name__ == "__main__":
     main()

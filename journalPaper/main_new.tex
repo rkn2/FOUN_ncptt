@@ -338,6 +338,24 @@ Ridge Regression achieved the highest mean $R^2$ (0.76), while Elastic Net ($R^2
 Given their statistical equivalence, we selected Elastic Net as the primary model for interpretation due to its ability to perform feature selection via L1 regularization, offering a parsimonious explanation of the degradation drivers.
 All predictors were standardized prior to modeling, allowing regression coefficients to serve as direct measures of feature importance.
 
+\begin{table}[h]
+\centering
+\caption{Model Benchmarking Results (Repeated K-Fold Cross-Validation, 5 folds $\times$ 5 repeats)}
+\label{tab:model_benchmark}
+\begin{tabular}{lccc}
+\hline
+Model & Mean $R^2$ & Std Dev & Status vs Best \\
+\hline
+Ridge & 0.763 & $\pm$0.133 & Best \\
+Elastic Net & 0.753 & $\pm$0.082 & $p=0.21$ \\
+Linear Regression & 0.744 & $\pm$0.144 & $p<0.001$ \\
+Gradient Boosting & 0.610 & $\pm$0.150 & $p<0.001$ \\
+\hline
+\multicolumn{4}{l}{\footnotesize Wilcoxon signed-rank test with Holm-Bonferroni correction} \\
+\multicolumn{4}{l}{\footnotesize Full results for all 7 models available in supplementary material} \\
+\end{tabular}
+\end{table}
+
 \subsection{Data synthesis methods}
 Intervention matrices graphically represent the logic of intervention decisions, reminding stakeholders to consider multiple perspectives and options\cite[]{harris2001building}. The tool avoids formulaic responses to commonly encountered deterioration mechanisms by facilitating a structured evaluation of the various options, weighing their advantages and disadvantages, and considering cost, risk, efficacy, and potential outcomes. It also illustrates the complexity of decision-making in these contexts \cite[]{harris2001building}. In these matrices, the horizontal axis represents the NSC, while the vertical axis represents various intervention approaches: abstention, mitigation, reconstitution, substitution, circumvention, and acceleration as defined by \cite[]{harris2001building}. The cells within the matrix represent a qualitative assessment of the effectiveness, cost, and potential risks associated with each intervention approach for a given NSC. For example, a cell might indicate that repointing mortar joints is highly effective for addressing cracking at wall junctions but has a moderate cost and a low risk of negatively impacting the historical fabric.
 The initial step in developing an intervention matrix involves determining the NSCs.
