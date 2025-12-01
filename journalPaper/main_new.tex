@@ -75,7 +75,7 @@
 
 We developed a data-driven assessment framework for structural vulnerability in historic adobe at Fort Union National Monument, integrating correlation analysis, Factor Analysis, and regularized regression (Elastic Net) to identify and rank damage conditions affecting wall performance.
 On-site surveys of 67 wall sections, archival research, and LiDAR scanning provided the empirical basis for the analysis. Factor Analysis isolated three latent structures of degradation (Sill Deterioration, Surface/Lintel Interaction, and Structural Instability) explaining 52.5\% of total variance.
-Model benchmarking across seven regression families (repeated K-fold cross-validation with Wilcoxon statistical testing) confirmed that Ridge and Elastic Net outperformed ensemble methods (Random Forest, Gradient Boosting) by a statistically significant margin.
+Model benchmarking across seven regression families (repeated K-fold cross-validation with Wilcoxon statistical testing) confirmed that Ridge and Elastic Net significantly outperformed ensemble methods (Random Forest, Gradient Boosting), with mean cross-validated $R^2$ of 0.76 vs. 0.59 ($p<0.001$).
 Wall Height (standardized coefficient 43.0) and Cap Deterioration (54.5) emerged as the dominant predictors, demonstrating that geometric slenderness and water protection are strongly associated with vulnerability, with tall walls exhibiting elevated risk independent of visible damage conditions.
 Statistically-derived priorities were synthesized with Secretary of Interior preservation standards into intervention matrices, providing field managers with a structured decision framework.
 The methodology is constrained by sample size (n=67) and single-site scope but offers a replicable template for integrating geometric and condition data in adobe risk assessment.
@@ -496,6 +496,7 @@ Feature importance rankings (Figure \ref{fig:random_forest_geometric}) identify 
 
 Height emerged as the single most powerful geometric predictor (Coefficient = 57.8), far exceeding Point Cloud Deviation (-24.6) and Point Cloud Mean (18.4).
 When blind to actual damage conditions, the model depends heavily on Wall Height to estimate risk.
+The negative coefficient for Point Cloud Deviation ($-24.6$) is counterintuitive but likely reflects a suppressor effect: after accounting for height, greater surface irregularity may mark walls with intact, textured caps rather than smooth, eroded profiles.
 This confirms that slenderness is not just a correlate of damage but a fundamental, intrinsic vulnerability factor.
 
 \subsubsection{Structural Engineering Interpretation of Geometric Risk Factors}
@@ -529,7 +530,7 @@ Controlled comparison studies, where feasible, could separate treatment effects 
 \subsection{Identifying significant conditions from results}
 
 The development of intervention matrices requires identifying damage conditions from the multivariate analyses. 
-Based on the Factor Analysis and Random Forest results, we identified four primary conditions warranting intervention focus:
+Based on the Factor Analysis and Elastic Net results, we identified four primary conditions warranting intervention focus:
 
 \textbf{(1) Structural Instability (Factor 3, RF rank 2-3):} This encompasses Structural Cracking  and Out of Plane movement, grouping into Factor 3 alongside Coat 2 Cracking. 
 This cluster suggests coupled structural failure requiring intervention addressing underlying causes (foundation issues, loss of lateral restraint) rather than merely treating surface manifestations.
@@ -584,13 +585,13 @@ Table \ref{tab:significant_features} lists the features identified as significan
 
 \subsection{FOUN Intervention Matrices}
 
-With the NSCs identified through the combined application of correlation analysis, Factor Analysis, and Random Forest regression, intervention matrices were constructed following the framework proposed by \cite[]{harris2001building}. The horizontal axis of each matrix represents different intervention approaches: abstention, mitigation, reconstitution, substitution, circumvention, and acceleration. The vertical axis lists the NSCs, ranked according to their importance as determined by the factor loadings and feature importance scores. Each cell in the matrix contains a numerical score representing the product of the NSC priority and the intervention approach's alignment with preservation standards. Higher scores indicate interventions that address high-priority conditions while maintaining fidelity to preservation principles.
+With the NSCs identified through the combined application of correlation analysis, Factor Analysis, and Elastic Net regression, intervention matrices were constructed following the framework proposed by \cite[]{harris2001building}. The horizontal axis of each matrix represents different intervention approaches: abstention, mitigation, reconstitution, substitution, circumvention, and acceleration. The vertical axis lists the NSCs, ranked according to their importance as determined by the factor loadings and feature importance scores. Each cell in the matrix contains a numerical score representing the product of the NSC priority and the intervention approach's alignment with preservation standards. Higher scores indicate interventions that address high-priority conditions while maintaining fidelity to preservation principles.
 
 Tables \ref{tab:intervention_matrix_adobe} and \ref{tab:intervention_matrix_foundation} present the intervention matrices for adobe wall degradation and foundation degradation, respectively. 
 The scoring system incorporates two primary criteria, combined multiplicatively to yield cell scores.
 
 The final NSC Priority Scores (0-10) were determined through a structured process of expert elicitation and consensus rather than direct mathematical calculation. 
-The statistical findings, including Factor Analysis loadings and Random Forest feature importance, were utilized as quantitative evidence to identify and validate the core set of NSCs relevant to degradation.
+The statistical findings, including Factor Analysis loadings and Elastic Net feature importance, were utilized as quantitative evidence to identify and validate the core set of NSCs relevant to degradation.
 These quantitative results established the relevant degradation phenomena (e.g., Structural Instability, Sill Deterioration) but were not used for initial score weighting. 
 The final 0-10 priority ranking was assigned exclusively by multiple expert raters; this expert judgment allowed for the application of real-world context and structural risk assessment. 
 Raters specifically adjusted scores based on the immediacy of risk (prioritizing conditions posing an immediate safety concern), cascading effects (accounting for how one condition accelerates others), and operational feasibility (considering NPS management priorities). 
@@ -706,13 +707,13 @@ Surface and Lintel Interactions (Factor 2) are assigned a priority score of 7. T
 \normalsize
 \endgroup
 
-The foundation degradation intervention matrix (Table \ref{tab:intervention_matrix_foundation}) assigns the highest priority to Exposed Foundation Height (score: 8), consistent with the Random Forest analysis that identified this as the single most important predictor of overall degradation. The recommended mitigation approach involves adding fill around the foundation (score: 48) to reduce the exposed height and thereby minimize vulnerability to splash-back and direct precipitation impact. This intervention is reversible and does not alter the foundation itself, making it highly compatible with preservation standards. Circumvention through the construction of a barrier or retaining wall (score: 40) offers an alternative that may be appropriate in locations where adding fill would alter site drainage patterns or obscure archaeological features.
+The foundation degradation intervention matrix (Table \ref{tab:intervention_matrix_foundation}) assigns the highest priority to Exposed Foundation Height (score: 8), consistent with the Elastic Net analysis that identified Wall Height as a dominant predictor of overall degradation. The recommended mitigation approach involves adding fill around the foundation (score: 48) to reduce the exposed height and thereby minimize vulnerability to splash-back and direct precipitation impact. This intervention is reversible and does not alter the foundation itself, making it highly compatible with preservation standards. Circumvention through the construction of a barrier or retaining wall (score: 40) offers an alternative that may be appropriate in locations where adding fill would alter site drainage patterns or obscure archaeological features.
 Foundation Stone Deterioration receives a priority score of 7. The recommended mitigation approach involves sloping the ground to improve drainage (score: 42), which addresses the underlying cause of deterioration rather than merely treating its symptoms. This approach is consistent with the principle of addressing NSCs rather than simply repairing damage. 
 
 \section{Limitations and Future Work}
 
 This study has several limitations that should be considered when interpreting results and applying the methodology to other contexts.
-With n=67 wall sections and approximately 30 features, the feature-to-sample ratio approaches 1:2, raising concerns about overfitting in the Random Forest model. 
+With n=67 wall sections and approximately 22 features, the feature-to-sample ratio approaches 1:3, which motivated the use of regularized regression (Elastic Net) rather than Random Forest. 
 While cross-validation mitigates this risk, the limited sample size reduces statistical power to detect subtle effects, particularly for treatment variables where only \hl{Becca: how many walls per treatment type?} sections received each intervention type. 
 Future studies at larger adobe complexes could achieve more precise effect size estimates with increased statistical power.
 
