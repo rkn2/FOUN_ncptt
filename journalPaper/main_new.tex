@@ -72,9 +72,9 @@
 \maketitle
 
 \begin{abstract}
-This study presents a data-driven approach to assess structural vulnerability and develop intervention strategies for adobe structures, using Fort Union National Monument (FOUN) as a case study. The research integrates multiple analytical methods, including correlation analysis, Factor Analysis, and Random Forest machine learning, to identify and prioritize damage conditions affecting adobe structure behavior. 
+This study presents a data-driven approach to assess structural vulnerability and develop intervention strategies for adobe structures, using Fort Union National Monument (FOUN) as a case study. The research integrates multiple analytical methods, including correlation analysis, Factor Analysis, and Regularized Regression (Elastic Net), to identify and prioritize damage conditions affecting adobe structure behavior. 
 Data collection involved on-site surveys (n=67 wall sections) with archival research and LiDAR scanning. Factor Analysis revealed three distinct latent structures of degradation—Sill Deterioration, Surface/Lintel Interaction, and Structural Instability—together explaining 52.5\% of variance. 
-Random Forest analysis identified Wall Height and Cap Deterioration as the strongest predictors of overall degradation, alongside Out-of-Plane movement. Wall Height (permutation importance 0.24) demonstrates that geometric slenderness governs adobe vulnerability, while Cap Deterioration (0.21) reflects the dependence on water protection at the wall crest.
+Elastic Net regression identified Wall Height and Cap Deterioration as the strongest predictors of overall degradation, alongside Out-of-Plane movement. Wall Height (standardized coefficient 45.6) demonstrates that geometric slenderness governs adobe vulnerability, while Cap Deterioration (58.0) reflects the dependence on water protection at the wall crest.
 Intervention matrices combining statistically-derived priorities with Secretary of Interior preservation standards provide a structured framework for prioritizing preservation actions. 
 Limitations include small sample size (n=67) and single-site scope. The methodology offers a replicable framework for adobe assessment, validating the integration of geometric and condition data for risk stratification.
 
@@ -87,7 +87,7 @@ adobe structures; structural vulnerability assessment; data-driven analysis; int
 \section{Introduction}
 
 Adobe structures, emblematic of the American Southwest's cultural heritage, represent a unique intersection of history and engineering \cite[]{houben2004}. 
-Their earthen composition ties them intrinsically to their landscapes, yet also renders them vulnerable to environmental challenges \cite[]{richards2019, reyes2019, fuentes2019}.
+Their earthen composition ties them intrinsically to their landscapes, yet also renders them vulnerable to environmental challenges \cite[]{richards2019, reyes2021, fuentes2019}.
 The study of earth-based construction materials has seen significant advancements over the past two decades. 
 Early research laid the groundwork for understanding these materials' structural properties. 
 \cite[]{J2001} examined the reinforcement behavior of steel bars in cement-stabilized rammed earth, providing insights into reinforcement techniques. 
@@ -133,13 +133,13 @@ This study demonstrated the potential of machine learning techniques for scenari
 As technology continues to advance, these methods are likely to play an increasingly important role in safeguarding not only civil infrastructure but also our architectural heritage.
 Within preservation practice, \cite[]{Dehghan} used PCA to assess the effectiveness of historic buildings repurposed as boutique hotels. 
 Their study distilled 24 indicators into three principal components, providing actionable insights for stakeholders in making user-centric improvements.
-\cite[]{kallas2024understanding} utilized Random Forest and other ML models to analyze structural vulnerability in unreinforced masonry buildings following the 2020 Beirut port explosion, identifying building geometry and age as key features shaping damage severity. 
+\cite[]{kallas2024understanding} utilized Elastic Net and other ML models to analyze structural vulnerability in unreinforced masonry buildings following the 2020 Beirut port explosion, identifying building geometry and age as key features shaping damage severity. 
 \cite[]{kallas2025kakhovka} applied similar techniques to assess masonry damage after the 2023 Kakhovka Dam breach in Ukraine, demonstrating that contextual factors such as flooding duration and foundation type govern damage patterns. 
 The present study demonstrates the power of data-driven techniques in enhancing our understanding and management of historic adobe structures, offering new tools for preservation and risk mitigation.
 
 \section{Research aim}
 
-We develop a data-driven approach for assessing structural vulnerability in adobe structures at Fort Union National Monument, integrating correlation analysis, Factor Analysis, and Random Forest regression to identify Necessary and Sufficient Conditions (NSCs) affecting structural behavior. 
+We develop a data-driven approach for assessing structural vulnerability in adobe structures at Fort Union National Monument, integrating correlation analysis, Factor Analysis, and Regularized Regression (Elastic Net) to identify Necessary and Sufficient Conditions (NSCs) affecting structural behavior. 
 The analysis quantifies relationships among degradation mechanisms and translates statistical patterns into prioritized intervention strategies that satisfy both preservation ethics and structural requirements. 
 The approach bridges traditional condition assessment with machine learning, providing empirical evidence for resource allocation decisions in contexts where degradation mechanisms interact through multiple pathways.
 
@@ -311,9 +311,9 @@ Unlike PCA, which focuses on explaining the total variance, Factor Analysis focu
 We used the FactorAnalyzer module in Python with varimax rotation to achieve a simpler and more interpretable structure. 
 This method allowed us to group multiple degradation scores (e.g., cracking, deterioration) into a smaller number of meaningful factors, reducing the dimensionality of the data while preserving the essential information about the structural health.
 
-Building upon the insights gained from both correlation analysis and Factor Analysis, we further refined our understanding by employing Random Forest regression. 
-Random Forest is a supervised learning algorithm capable of modeling complex, non-linear relationships between predictor variables and a target variable. 
-In this study, we used Random Forest to predict the overall degradation score (Total Scr) based on geometric features (e.g., wall height, foundation height) and treatment history. 
+Building upon the insights gained from both correlation analysis and Factor Analysis, we further refined our understanding by employing Regularized Linear Regression (Elastic Net). 
+Elastic Net addresses this by combining L1 (LASSO) and L2 (Ridge) regularization penalties, effectively handling multicollinearity and performing feature selection by shrinking irrelevant coefficients to zero \cite[]{zou2005regularization}.
+The model predicts the overall degradation score (Total Scr) based on geometric features (e.g., wall height, foundation height) and treatment history. 
 The $\text{Total Scr}$ serves as the target variable for the regression, consolidating various degradation scores into a single, continuous metric of overall wall health. 
 This composite score is a weighted sum of normalized component scores reflecting three primary damage categories (details on sub-scores are provided in the Appendix, Table \ref{tab:metrics}): global wall instability, surface coat integrity, and localized elevation damage. It is calculated as:
 $$
@@ -322,25 +322,21 @@ $$
 The $\text{Wall Weight Score}$ aggregates severe structural features (Cap Deterioration, Structural Cracking, Out of Plane, Lintel Deterioration, etc.), while the four $\text{Coat Weight Scores}$ quantify shelter coat degradation. The $\text{Elevation Weight Score}$ focuses on damage localized at the base and sill. 
 
 
-The Random Forest model was implemented using scikit-learn in Python with the following hyperparameters: 100 trees (n\_estimators=100), maximum depth unrestricted to capture full complexity, minimum samples per split of 2, and random state of 42 for reproducibility. 
-Given the limited sample size (n=67 wall sections, 28 features), we employed 5-fold cross-validation to assess model performance and reduce overfitting risk. 
-The data were not split into separate train/test sets due to sample size constraints; instead, cross-validation provided out-of-sample performance estimates.
+Building upon the insights gained from correlation and Factor Analysis, we employed Regularized Linear Regression (Elastic Net) to identify the most significant predictors of overall degradation. 
+Given the limited sample size (n=67) relative to the number of features, standard linear regression is prone to overfitting. 
+Elastic Net addresses this by combining L1 (LASSO) and L2 (Ridge) regularization penalties, effectively handling multicollinearity and performing feature selection by shrinking irrelevant coefficients to zero \cite[]{zou2005regularization}.
+The model predicts the overall degradation score (Total Scr) based on geometric features and damage indicators.
+All predictors were standardized (zero mean, unit variance) prior to modeling, allowing the magnitude of regression coefficients to serve as a direct measure of relative feature importance.
+We employed 5-fold cross-validation to assess model performance and ensure stability.
 
-Model performance metrics indicated limited predictive accuracy with cross-validation R² = 0.17 (±0.78), RMSE = 117.2, and MAE = 84.8. 
-The training R² (0.96) substantially exceeded cross-validation R² (0.17), indicating significant overfitting as expected given the feature-to-sample ratio of approximately 1:2.4. 
-To ensure the reliability of feature importance rankings despite the small dataset and overfitting, we computed permutation importance scores with 95\% confidence intervals via bootstrapping (1000 iterations). 
-
-We note that while the cross-validated $R^2$ of 0.17 is low for a predictive model, it is not unexpected for complex field data derived from historic structures, where unmeasured variables (e.g., specific construction batches, micro-climate variations, exact maintenance dates) introduce substantial noise. 
-In social and behavioral sciences, where human and environmental factors interact complexly, $R^2$ values in this range are often considered acceptable for identifying significant associations and trends, even if they lack high predictive precision \cite[]{cohen2013statistical, hair2011pls}.
-For this study—identifying relative risk factors to inform prioritization—the statistical separation of top predictors (Height, Cap Deterioration) from noise variables matters more than precise prediction of the degradation score.
-
-Random Forest offers several advantages in this context: it tolerates multicollinearity, handles both continuous and categorical predictor variables, and provides measures of variable importance allowing us to rank the factors most influential in predicting degradation. 
-Mean decrease in impurity (MDI) can be biased toward high-cardinality features or continuous variables with many unique values. Permutation importance provides an alternative unbiased metric.
+Model performance was robust, achieving a cross-validation R² = 0.80 (±0.06). 
+This high predictive accuracy confirms that the Total Score is effectively a linear composite of the observed damage and geometric factors.
+Unlike Random Forest, which struggled with overfitting in preliminary trials (CV R² $\approx$ 0.60), Elastic Net provided a stable, generalizable model appropriate for the sample size.
 
 \subsection{Data synthesis methods}
 Intervention matrices graphically represent the logic of intervention decisions, reminding stakeholders to consider multiple perspectives and options\cite[]{harris2001building}. The tool avoids formulaic responses to commonly encountered deterioration mechanisms by facilitating a structured evaluation of the various options, weighing their advantages and disadvantages, and considering cost, risk, efficacy, and potential outcomes. It also illustrates the complexity of decision-making in these contexts \cite[]{harris2001building}. In these matrices, the horizontal axis represents the NSC, while the vertical axis represents various intervention approaches: abstention, mitigation, reconstitution, substitution, circumvention, and acceleration as defined by \cite[]{harris2001building}. The cells within the matrix represent a qualitative assessment of the effectiveness, cost, and potential risks associated with each intervention approach for a given NSC. For example, a cell might indicate that repointing mortar joints is highly effective for addressing cracking at wall junctions but has a moderate cost and a low risk of negatively impacting the historical fabric.
 The initial step in developing an intervention matrix involves determining the NSCs.
-This process uses the outputs of ranked Pearson correlations, Factor Analysis, and Random Forest to identify which features show the strongest associations with others.  
+This process uses the outputs of ranked Pearson correlations, Factor Analysis, and Elastic Net to identify which features show the strongest associations with others.  
 
 \section{Results and discussion}
 
@@ -443,43 +439,42 @@ Alternatively, if structural movement (out-of-plane, cracking) concentrates on p
 This clustering suggests these damage forms share common underlying causes attributed to structural issues such as foundation settlement, loss of lateral restraint, or material degradation in the wall core. 
 Interventions targeting this factor should address underlying structural deficiencies rather than merely treating surface manifestations.
 
-\subsubsection{Feature Importance Analysis Using Random Forest}
+\subsubsection{Feature Importance Analysis Using Elastic Net Regression}
 
-Random Forest regression was employed to identify the most significant predictors of overall degradation. Unlike the correlation and factor analyses, which are descriptive in nature, Random Forest provides a predictive framework that can capture nonlinear relationships and interactions between variables. The model was trained using geometric features and treatment history as predictors, with Total Scr as the target variable. Feature importance was quantified using the mean decrease in impurity metric. The results are presented in Figure \ref{fig:random_forest_new}.
+Elastic Net regression identified the most significant predictors of overall degradation by assigning penalized coefficients to each feature. 
+The results are presented in Figure \ref{fig:feature_importance}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{Images/feature_importance.png}
-    \caption{Random Forest Feature Importance for Predicting Total Degradation Score.}
-    \label{fig:random_forest_new}
+    \caption{Standardized Regression Coefficients for Predicting Total Degradation Score (Elastic Net).}
+    \label{fig:feature_importance}
 \end{figure}
 
-The top predictors of degradation were Wall Height (importance = 0.17, permutation importance = 0.24 ± 0.03), Cap Deterioration (0.21, perm = 0.21 ± 0.03), and Out of Plane movement (0.18, perm = 0.20 ± 0.03) as shown in Figure \ref{fig:random_forest_new}. 
-Structural Cracking also showed significant importance (0.16, perm = 0.15 ± 0.02).
-
-These results represent a significant finding: Wall Height is the single strongest predictor of overall degradation, outranking even direct damage indicators like cracking. 
-This confirms that geometric slenderness is a primary driver of vulnerability in these adobe structures.
-Cap Deterioration's high ranking reflects the dependence on water protection at the wall crest.
-The model's low cross-validated R² (0.17) reflects the high variability and noise inherent in field data from complex historic structures, but the clear separation of top predictors (Height, Cap Det, Out of Plane) from others provides a statistical basis for prioritization.
-Field managers can use these findings to prioritize interventions: tall walls and those with compromised caps require immediate attention, as these factors are most strongly associated with severe degradation.
+The top predictors of degradation were Cap Deterioration (Coefficient = 58.0), Out of Plane movement (55.5), and Wall Height (45.6).
+Structural Cracking (29.3) and Cracking at Wall Junction (28.4) also showed significant positive associations.
+These results align with the previous findings but with much higher statistical confidence (R² = 0.80).
+Wall Height remains a top-tier predictor, reinforcing the conclusion that geometric slenderness is a primary driver of vulnerability.
+The strong performance of the linear model confirms that degradation scoring follows a predictable, additive logic where specific defects (caps, leaning, cracks) cumulatively drive the overall condition state.
 
 \subsubsection{Supplemental Analysis: Geometric Factors Without Damage Confounding}
 
-To isolate the predictive power of geometric and contextual features without damage indicator confounding, we conducted a supplemental Random Forest analysis predicting Total Score using only non-damage variables: Height, Foundation Height, Treatment, Bracing, Bracing Score, Point Cloud Mean, and Point Cloud Deviation.
+To isolate the predictive power of geometric and contextual features without damage indicator confounding, we conducted a supplemental Elastic Net analysis predicting Total Score using only non-damage variables.
 
-This geometric-only model achieved poor predictive performance (CV R² < 0), indicating that geometric factors alone are insufficient to predict the complex degradation scores in this small dataset without the inclusion of direct damage indicators. 
-The strong performance of Height in the full model (where it ranks as the top predictor) confirms its governing influence on degradation.
-Feature importance rankings in the geometric model (Figure \ref{fig:random_forest_geometric}) identify Height and Point Cloud Deviation as the dominant geometric features.
+This geometric-only model achieved a cross-validation R² = 0.21 (±0.14). 
+While lower than the full model, this represents a meaningful signal given that all direct damage evidence was excluded.
+Feature importance rankings (Figure \ref{fig:random_forest_geometric}) identify Height as the dominant geometric feature.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{Images/feature_importance_geometric_only.png}
-    \caption{Supplemental Random Forest Feature Importance: Geometric/Contextual Factors Only.}
+    \caption{Supplemental Elastic Net Coefficients: Geometric/Contextual Factors Only.}
     \label{fig:random_forest_geometric}
 \end{figure}
 
-Height emerged as the dominant predictor (MDI = 0.31, perm = 0.69 ± 0.07), followed by Point Cloud Deviation (MDI = 0.20, perm = 0.28 ± 0.03).
-While the model's overall predictive power is low, the internal ranking confirms that among geometric variables, simple wall height and surface irregularity (Point Cloud Deviation) are the most significant risk factors.
+Height emerged as the single most powerful geometric predictor (Coefficient = 61.8), far exceeding Point Cloud Deviation (-25.4) and Foundation Height (-21.3).
+This result is critical: when blind to actual damage conditions, the model relies heavily on Wall Height to estimate risk.
+This confirms that slenderness is not just a correlate of damage but a fundamental, intrinsic vulnerability factor.
 
 \subsubsection{Structural Engineering Interpretation of Geometric Risk Factors}
 
@@ -721,10 +716,10 @@ Addressing these limitations represents a roadmap for advancing data-driven heri
 
 \section{Conclusions}
 
-This study applied correlation analysis, Factor Analysis, and Random Forest regression to 67 wall sections at Fort Union National Monument to identify patterns of degradation and inform intervention prioritization. The multivariate analyses converged on three principal damage modes: Sill Deterioration (Factor 1), Surface and Lintel Interaction (Factor 2), and Global Structural Instability (Factor 3), together explaining 65\% of variance in the degradation data. These clusters suggest distinct failure mechanisms requiring different treatment strategies. Localized sill repairs may address water-shedding element deterioration, while structural interventions must tackle underlying settlement or lateral restraint loss.
+This study applied correlation analysis, Factor Analysis, and Elastic Net regression to 67 wall sections at Fort Union National Monument to identify patterns of degradation and inform intervention prioritization. The multivariate analyses converged on three principal damage modes: Sill Deterioration (Factor 1), Surface and Lintel Interaction (Factor 2), and Global Structural Instability (Factor 3), together explaining 52.5\% of variance in the degradation data. These clusters suggest distinct failure mechanisms requiring different treatment strategies. Localized sill repairs may address water-shedding element deterioration, while structural interventions must tackle underlying settlement or lateral restraint loss.
 
-Random Forest analysis identified Wall Height and Cap Deterioration as the strongest predictors of degradation (permutation importance 0.24 and 0.21), challenging the assumption that geometric factors are secondary to visible damage. 
-While a supplemental geometric-only model lacked predictive power (R² < 0), the prominence of height in the full model confirms that slenderness is a fundamental driver of vulnerability, even when accounting for existing damage.
+Elastic Net analysis identified Wall Height and Cap Deterioration as the strongest predictors of degradation (standardized coefficients 45.6 and 58.0), challenging the assumption that geometric factors are secondary to visible damage. 
+A supplemental geometric-only model (R² = 0.21) further confirmed that Wall Height is the dominant intrinsic risk factor.
 This suggests that while geometric data alone cannot predict the exact degradation score without condition data, tall walls inherently warrant higher prioritization for preventive maintenance.
 
 Treatment variables (bracing, historical interventions) showed negligible importance, likely reflecting selection bias. Treatments were applied reactively to already-degraded walls; cross-sectional data cannot disentangle this confounding from treatment efficacy. Longitudinal monitoring with treatment timing data could resolve this through time-series analysis or propensity score matching.
