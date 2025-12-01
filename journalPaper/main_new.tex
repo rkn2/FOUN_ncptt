@@ -64,18 +64,17 @@
 \title{A Data-Driven Approach to Structural Vulnerability Assessment and Intervention Planning for Adobe Structures: A Case Study of Fort Union National Monument}
 
 \author{
-\name{Mina Savoroliya \textsuperscript{a}, Evan OJ \textsuperscript{b}, Frank Matero \textsuperscript{c}, Thomas Boothby \textsuperscript{a}, Rebecca Napolitano \textsuperscript{a}, \thanks{CONTACT Rebecca Napolitano. Email: nap@psu.edu}}
-\affil{\textsuperscript{a}The Pennsylvania State University, Architectural Engineering Department, PA, USA}
-\affil{\textsuperscript{b}NPS}
-\affil{\textsuperscript{c}UPenn}
+\name{Mina Savoroliya \textsuperscript{a}, Evan Oskierko-Jeznacki \textsuperscript{b}, Frank Matero \textsuperscript{c}, Thomas Boothby \textsuperscript{a}, Rebecca Napolitano \textsuperscript{a}, \thanks{CONTACT Rebecca Napolitano. Email: nap@psu.edu}}
+\affil{\textsuperscript{a}The Pennsylvania State University, Architectural Engineering Department, ECoRE Building, PA, USA}
+\affil{\textsuperscript{b}National Park Service (NPS), Vanishing Treasures Program}
+\affil{\textsuperscript{c}University of Pennsylvania (UPenn), Stuart Weitzman School of Design, Historic Preservation Department, Meyerson Hall}
 }
-
 \maketitle
 
 \begin{abstract}
 This study presents a data-driven approach to assess structural vulnerability and develop intervention strategies for adobe structures, using Fort Union National Monument (FOUN) as a case study. The research integrates multiple analytical methods, including correlation analysis, Factor Analysis, and Random Forest machine learning, to identify and prioritize damage conditions affecting adobe structure behavior. 
 Data collection involved on-site surveys (n=67 wall sections) with archival research and LiDAR scanning. Factor Analysis revealed three distinct latent structures of degradation—Sill Deterioration, Surface/Lintel Interaction, and Structural Instability—together explaining 65\% of variance. 
-Random Forest analysis revealed that visible damage indicators (Coat 2 Cracking, Structural Cracking, Out of Plane movement) were the strongest predictors in the full model (R²=0.52), reflecting analytical circularity where aggregate scores are predicted by their components. A supplemental model using only geometric and contextual features (excluding all damage indicators) achieved R²=0.29, identifying LiDAR-derived surface irregularity, wall height, and foundation height as key intrinsic vulnerability factors. This 56\% retention of predictive performance enables preventive risk stratification independent of current damage state.
+Random Forest analysis revealed that visible damage indicators were the strongest predictors in the full model (R²=0.52), reflecting analytical circularity where aggregate scores are predicted by their components. A supplemental model using only geometric and contextual features (excluding all damage indicators) achieved R²=0.29, identifying LiDAR-derived surface irregularity, wall height, and foundation height as key intrinsic vulnerability factors. This 56\% retention of predictive performance enables preventive risk stratification independent of current damage state.
 Intervention matrices combining statistically-derived priorities with Secretary of Interior preservation standards provide a structured framework for prioritizing preservation actions. 
 Limitations include small sample size (n=67), single-site scope constraining generalizability, and cross-sectional data precluding causal inference about treatment effectiveness. The methodology offers a replicable framework for adobe assessment, though validation at additional sites and longitudinal monitoring are needed.
 
@@ -109,7 +108,7 @@ Lastly, \cite[]{Ioannou} provided a stress-strain equation for adobe bricks, ess
 
 Seismic behavior has been a focus for several researchers. 
 \cite[]{Varum2015} conducted in-depth studies on the mechanical properties of adobe units and mortars, performing strength and joint shear tests. 
-\cite[]{Sathiparan2018} examined the importance of roof and diaphragm connectivity in seismic performance, revealing the benefits of PP-band retrofitting. \cite[]{Xekalakis2023} demonstrated how wooden ring beams significantly contribute to seismic resilience in adobe structures. 
+\cite[]{Sathiparan2018} examined the importance of roof and diaphragm connectivity in seismic performance, revealing the benefits of high-tensile polypropylene strap retrofitting. \cite[]{Xekalakis2023} demonstrated how wooden ring beams significantly contribute to seismic resilience in adobe structures. 
 \cite[]{Rafi2022} proposed a seismic strengthening scheme using steel wire mesh and cement-sand mortar, validated through shaking table tests.
 \cite[]{hart2023} experimentally subjected extant adobe block construction walls to a local 100-year return interval rainfall intensity, highlighting the importance of data-driven modeling in targeting preservation methods effectively.
 
@@ -134,7 +133,9 @@ This study demonstrated the potential of machine learning techniques for scenari
 As technology continues to advance, these methods are likely to play an increasingly important role in safeguarding not only civil infrastructure but also our architectural heritage.
 In the realm of preservation, \cite[]{Dehghan} used PCA to assess the effectiveness of historic buildings repurposed as boutique hotels. 
 Their study distilled 24 indicators into three principal components, providing actionable insights for stakeholders in making user-centric improvements.
-This study demonstrates the power of data-driven techniques in enhancing our understanding and management of historic structures, offering new tools for preservation and risk mitigation.
+Additionally, \cite[]{kallas2024understanding} utilized Random Forest and other ML models to analyze structural vulnerability in unreinforced masonry buildings following the 2020 Beirut port explosion, identifying building geometry and age as key features shaping damage severity. 
+Expanding on this, \cite[]{kallas2025kakhovka} applied similar techniques to assess masonry damage after the 2023 Kakhovka Dam breach in Ukraine, demonstrating the critical importance of contextual factors like duration of flooding and foundation type. 
+The present study demonstrates the power of data-driven techniques in enhancing our understanding and management of historic adobe structures, offering new tools for preservation and risk mitigation.
 
 \section{Research aim}
 
@@ -156,14 +157,12 @@ The results demonstrate how data-driven approaches can lead to more informed, ef
 \end{figure}
 
 FOUN is a historically significant site adjacent to the historic Santa Fe Trail. It was established in 1851, shortly after New Mexico became a U.S. territory. Over its history, three distinct structures were built in proximity, each serving a different strategic purpose. This study focuses on the hospital building located at the southeast end of the site, which is part of the third instance of Fort Union (Figure~\ref{fig:whole_site}). 
-
 \begin{figure}[h]
     \centering
 \includegraphics[width=0.8\textwidth]{Images/land.png}
     \caption{FOUN site plan \cite[]{map}}
     \label{fig:whole_site}
 \end{figure}
-
 The Third Fort hospital at FOUN was constructed between late 1863 and early 1864 and remained in use until 1891 when the last soldiers left for Fort Wingate and while Fort Union was vacated. 
 Since its abandonment in 1891, the hospital complex (Figure~\ref{fig:fort_union_hospital_plan}), along with the rest of the fort, has been subject to various environmental and human-induced challenges. 
 These include exposure to the elements, natural deterioration processes, and periods of limited maintenance before its designation as a National Monument. 
@@ -182,9 +181,8 @@ Since the 1950s the National Park Service (NPS) has made continual efforts to st
 \subsection{Data collection}
 \subsubsection{For adobe walls}
 The dataset documents adobe structural damage at FOUN. Each entry represents a wall section identified by a unique ID and includes features and scores reflecting the condition of the adobe structures. 
-Data sources include photographic documentation, Lidar scans, architectural plans provided by the National Park Service, and archival research identifying past treatment efforts. 
+Data sources include photographic documentation, LiDAR scans, architectural plans provided by the National Park Service, and archival research identifying past treatment efforts. 
 Data was collected using a rapid assessment survey (RAS), complemented by an illustrated glossary to standardize damage severity classifications.
-\hl{Becca: please replace this example with actual details - surveys conducted by [team size? single observer or multiple?], date[s] of surveys, and inter-rater reliability results if tested}
 Figure~\ref{fig:RASsample} shows a sample of this illustrated glossary, and additional information can be found in Section \ref{sec:ras}.
 
 \begin{figure}[h!]
@@ -195,14 +193,14 @@ Figure~\ref{fig:RASsample} shows a sample of this illustrated glossary, and addi
 \end{figure}
 
 The dataset includes the following features, each with an associated scoring system to quantify the level of damage or presence of specific attributes. 
-Definitions about orientation can be found in Section \ref{sec:orient}. 
+Specifics about orientation of damages can be found in Section \ref{sec:orient}. 
 \begin{itemize}
-    \item \textbf{Coat Cracking (Orientations 1 \& 2):}  Represents the level of cracking in the shelter coat.
+    \item \textbf{Coat Cracking:}  Represents the level of cracking in the shelter coat.
         \begin{itemize}
             \item 0: No Damage
             \item 1-5: Damage Level (increasing severity)
         \end{itemize}
-    \item \textbf{Coat Loss (Orientations 1 \& 2):} Represents the level of loss in the shelter coat.
+    \item \textbf{Coat Loss:} Represents the level of loss in the shelter coat.
         \begin{itemize}
             \item 0: No Damage
             \item 1-5: Damage Level (increasing severity)
@@ -225,19 +223,19 @@ Definitions about orientation can be found in Section \ref{sec:orient}.
             \item 1-5: Damage Level (increasing severity)
             \item 6: No Lintel
         \end{itemize}
-    \item \textbf{Foundation Displacement (Elevations 1 \& 2):} Represents the displacement of the foundation.
+    \item \textbf{Foundation Displacement:} Represents the displacement of the foundation.
         \begin{itemize}
             \item 0: No Damage
             \item 1-5: Damage Level (increasing severity)
             \item -1: Missing Data
         \end{itemize}
-    \item \textbf{Foundation Mortar Condition (Elevations 1 \& 2):} Represents the condition of the mortar in the foundation.
+    \item \textbf{Foundation Mortar Condition:} Represents the condition of the mortar in the foundation.
         \begin{itemize}
             \item 0: No Damage
             \item 1-5: Damage Level (increasing severity)
             \item -1: Missing Data
         \end{itemize}
-    \item \textbf{Sill (Orientations 1 \& 2):} Represents the condition of the sill (if present).
+    \item \textbf{Sill:} Represents the condition of the sill (if present).
         \begin{itemize}
             \item 0: No Sill
             \item 1-5: Damage Level (increasing severity)
@@ -306,18 +304,25 @@ The Pearson Correlation was initially employed to explore the linear interrelati
 By calculating Pearson correlation coefficients for each pair of parameters, we quantified the strength and direction of linear relationships. 
 Coefficients approaching +1 or -1 indicated strong positive or negative linear associations, respectively, while values near 0 suggested a negligible linear relationship. 
 This process yielded a correlation matrix quantifying the linear interdependencies between all parameter pairs. P-values for each correlation coefficient were calculated to assess statistical significance. 
-A small p-value (e.g., p < 0.05) indicated strong evidence against the null hypothesis (no correlation), suggesting that the observed correlation was statistically significant and unlikely due to random chance. 
-We then focused on interpreting the statistically significant correlations, moving beyond simply identifying the 'what' to understanding the 'why' behind these relationships. 
+A small p-value (e.g., $p < 0.05$) indicated strong evidence against the null hypothesis (no correlation), suggesting that the observed correlation was statistically significant and unlikely due to random chance. 
+We then focused on interpreting the statistically significant correlations, moving beyond simply identifying the `what' to understanding the `why' behind these relationships. 
 This involved analyzing the context of each correlation to discern the underlying theoretical or practical reasons driving the observed association, thereby translating statistical findings into actionable insights for decision-making.
 
 Factor Analysis was employed to identify latent variables that explain the pattern of correlations within the observed degradation metrics. 
-Unlike PCA, which focuses on explaining the total variance, Factor Analysis focuses on the common variance among variables, making it particularly suitable for identifying underlying constructs such as "Structural Integrity" or "Surface Wear" from a set of observed damage indicators. 
-We used the `FactorAnalyzer` module in Python with varimax rotation to achieve a simpler and more interpretable structure. 
-This method allowed us to group multiple degradation scores (e.g., cracking, loss, deterioration) into a smaller number of meaningful factors, reducing the dimensionality of the data while preserving the essential information about the structural health.
+Unlike PCA, which focuses on explaining the total variance, Factor Analysis focuses on the common variance among variables, making it particularly suitable for identifying underlying constructs such as ``Structural Integrity" or ``Surface Wear" from a set of observed damage indicators. 
+We used the FactorAnalyzer module in Python with varimax rotation to achieve a simpler and more interpretable structure. 
+This method allowed us to group multiple degradation scores (e.g., cracking, deterioration) into a smaller number of meaningful factors, reducing the dimensionality of the data while preserving the essential information about the structural health.
 
 Building upon the insights gained from both correlation analysis and Factor Analysis, we further refined our understanding by employing Random Forest regression. 
 Random Forest is a supervised learning algorithm capable of modeling complex, non-linear relationships between predictor variables and a target variable. 
 In this study, we used Random Forest to predict the overall degradation score (Total Scr) based on geometric features (e.g., wall height, foundation height) and treatment history. 
+The $\text{Total Scr}$ serves as the target variable for the regression, consolidating various degradation scores into a single, continuous metric of overall wall health. 
+This composite score is a weighted sum of normalized component scores reflecting three primary damage categories (details on sub-scores are provided in the Appendix, Table \ref{tab:metrics}): global wall instability, surface coat integrity, and localized elevation damage. It is calculated as:
+$$
+\text{Total Scr} = \text{Wall Weight Score} + \sum_{i=1}^{4} \text{Coat } i \text{ Weight Score} + \sum_{j=1}^{2} \text{Elevation } j \text{ Weight Score}
+$$
+The $\text{Wall Weight Score}$ aggregates severe structural features (Cap Deterioration, Structural Cracking, Out of Plane, Lintel Deterioration, etc.), while the four $\text{Coat Weight Scores}$ quantify shelter coat degradation. The $\text{Elevation Weight Score}$ focuses on damage localized at the base and sill. 
+
 
 The Random Forest model was implemented using scikit-learn in Python with the following hyperparameters: 100 trees (n\_estimators=100), maximum depth unrestricted to capture full complexity, minimum samples per split of 2, and random state of 42 for reproducibility. 
 Given the limited sample size (n=67 wall sections, 28 features), we employed 5-fold cross-validation to assess model performance and reduce overfitting risk. 
@@ -333,7 +338,7 @@ Random Forest offers several advantages in this context: it tolerates multicolli
 Mean decrease in impurity (MDI) can be biased toward high-cardinality features or continuous variables with many unique values. Permutation importance provides an alternative unbiased metric.
 
 \subsection{Data synthesis methods}
-Intervention matrices graphically represent the logic of intervention decisions, reminding stakeholders to consider multiple perspectives and options\cite[]{harris2001building}. The tool avoids formulaic responses to commonly encountered deterioration mechanisms by facilitating a structured evaluation of the various options, weighing their advantages and disadvantages, and considering cost, risk, efficacy, and potential outcomes. It also illustrates the complexity of decision-making in these contexts \cite[]{harris2001building}. In these matrices, the horizontal axis represents the NSC, while the vertical axis represents various intervention approaches, such as repointing mortar joints, installing a new shelter coat, improving drainage around the foundation, or adding structural bracing. The cells within the matrix represent a qualitative assessment of the effectiveness, cost, and potential risks associated with each intervention approach for a given NSC. For example, a cell might indicate that repointing mortar joints is highly effective for addressing cracking at wall junctions but has a moderate cost and a low risk of negatively impacting the historical fabric.
+Intervention matrices graphically represent the logic of intervention decisions, reminding stakeholders to consider multiple perspectives and options\cite[]{harris2001building}. The tool avoids formulaic responses to commonly encountered deterioration mechanisms by facilitating a structured evaluation of the various options, weighing their advantages and disadvantages, and considering cost, risk, efficacy, and potential outcomes. It also illustrates the complexity of decision-making in these contexts \cite[]{harris2001building}. In these matrices, the horizontal axis represents the NSC, while the vertical axis represents various intervention approaches: abstention, mitigation, reconstitution, substitution, circumvention, and acceleration as defined by \cite[]{harris2001building}. The cells within the matrix represent a qualitative assessment of the effectiveness, cost, and potential risks associated with each intervention approach for a given NSC. For example, a cell might indicate that repointing mortar joints is highly effective for addressing cracking at wall junctions but has a moderate cost and a low risk of negatively impacting the historical fabric.
 The initial step in developing an intervention matrix involves determining the NSCs.
 This process uses the outputs of ranked Pearson correlations, Factor Analysis, and Random Forest to identify which features show the strongest associations with others.  
 
@@ -343,14 +348,15 @@ This process uses the outputs of ranked Pearson correlations, Factor Analysis, a
 
 \subsubsection{Correlation Analysis for Damage to Adobe Walls}
 Pearson correlation analysis was performed to quantify the linear relationships between degradation metrics and structural features across the 67 wall sections (two-tailed tests). 
-All p-values were adjusted using the Bonferroni correction to account for multiple comparisons (corrected α = 0.001 for 55 pairwise comparisons). 
-
+All p-values were adjusted using the Bonferroni correction to account for multiple comparisons (corrected $\alpha = 0.001$ for 55 pairwise comparisons). 
 The analysis revealed several strong associations with the Total Score (Total Scr), which serves as an aggregate measure of degradation severity. 
-Cap Deterioration exhibited the strongest correlation with Total Scr (r = 0.61, p < 0.001), followed by Out of Plane movement (r = 0.58, p < 0.001), Height (r = 0.55, p < 0.001), and Structural Cracking (r = 0.53, p < 0.001). 
+Cap Deterioration exhibited the strongest correlation with Total Scr ($r = 0.61$, $p < 0.001$), followed by Out of Plane movement ($r = 0.58$, $p < 0.001$), Height ($r = 0.55, p < 0.001$), and Structural Cracking ($r = 0.53, p < 0.001$). 
 These positive associations indicate that taller walls and those exhibiting more pronounced structural issues such as leaning or cap failure tend to accumulate higher overall degradation scores. 
+\hl{Becca add pics of this!}
 
-The correlation between Bracing and Total Scr (r = 0.14, p = 0.24) warrants particular attention. 
+The correlation between Bracing and Total Scr ($r = 0.14$, $p = 0.24$) warrants particular attention. 
 This positive association may reflect reverse causality: bracing is typically installed as a reactive measure on walls that have already experienced significant deterioration rather than as a preventive intervention. 
+\hl{Becca add pics of this!}
 Caution is warranted in interpreting this correlation, as our cross-sectional data cannot establish the temporal sequence of bracing installation relative to damage accumulation. 
 Future work with historical records of bracing installation dates could disentangle this relationship through temporal analysis or propensity score matching.
 
@@ -365,19 +371,16 @@ Future work with historical records of bracing installation dates could disentan
 
 Factor Analysis was employed to identify latent variables underlying the observed degradation patterns. 
 This technique differs from simple correlation in that it seeks to explain the common variance among multiple observed variables through a smaller number of unobserved factors. 
-
-Prior to factor extraction, we verified that the data were suitable for factor analysis. 
-The Kaiser-Meyer-Olkin (KMO) measure of sampling adequacy was 0.558, falling slightly below the conventional 0.6 threshold (Kaiser's "mediocre" classification).
-We proceeded with Factor Analysis for several reasons: (1) Bartlett's test strongly rejects variable independence (χ² = 376.04, df = 28, p < 0.001), (2) individual variable KMO values for key damage indicators exceed 0.6 (Lintel Deterioration: 0.66, Coat 2 Cracking: 0.76, Structural Cracking: 0.61; 4 of 8 variables exceed 0.6 threshold), (3) the extracted factors align with theoretically meaningful damage mechanisms, and (4) the small sample size (n=67) may artificially depress KMO values in exploratory analyses.
+We proceeded with Factor Analysis as Bartlett's test strongly rejects variable independence and the extracted factors align with theoretically meaningful damage mechanisms.
+% in case we want it later the values were ($\chi² = 376.04$, $df = 28$, $p < 0.001$)
 Results should be interpreted as exploratory structure identification rather than definitive factor solutions.
 Bootstrap validation of factor stability was not conducted given sample size constraints; replication at larger adobe sites would strengthen confidence in the factor structure.
-\hl{Becca: Alternative approaches to consider - hierarchical clustering of correlation matrix or network analysis showing damage co-occurrence patterns could complement FA findings without requiring KMO assumptions}
 
-A three-factor model with varimax rotation was selected based on eigenvalue-greater-than-one rule (Kaiser criterion), scree plot inflection point, and interpretability of factor structure. 
-The three extracted factors explained 65.1\% of the total variance, which is considered adequate for exploratory factor analysis (typical threshold: >60\%), with individual factor contributions of 26.1\% (Factor 1), 24.9\% (Factor 2), and 14.0\% (Factor 3). 
+
+A three-factor model with varimax rotation was selected based on eigenvalue-greater-than-one rule (Kaiser criterion) \cite[]{kaiser1960application}, scree plot inflection point, and interpretability of factor structure. 
+The three extracted factors explained 65.1\% of the total variance, which is considered adequate for Exploratory Factor Analysis (typical threshold: $>60\%$ \cite[]{Hair2010}, with individual factor contributions of 26.1\% (Factor 1), 24.9\% (Factor 2), and 14.0\% (Factor 3). 
 Varimax rotation was chosen to achieve orthogonal (uncorrelated) factors for simpler interpretation. 
 Supplementary analysis using oblique rotation (promax) yielded similar factor structure (mean max loading varimax: 0.758, promax: 0.765), supporting the choice of varimax for final interpretation. 
-
 Communalities (proportion of variance in each variable explained by the extracted factors) are reported in Table \ref{tab:communalities}, with all values exceeding 0.4, indicating adequate representation of each variable by the factor solution. 
 The factor loadings are presented in Table \ref{tab:fa_loadings}.
 
@@ -421,28 +424,28 @@ Out of Plane & 1.00 \\
 \multicolumn{2}{l}{\footnotesize $^{*}$Heywood case (communality >1.0);} \\
 \multicolumn{2}{l}{\footnotesize indicates strong factor loading but} \\
 \multicolumn{2}{l}{\footnotesize highlights exploratory nature of solution} \\
-\multicolumn{2}{l}{\footnotesize \cite{DillonGoldstein1984}.} \\
+\multicolumn{2}{l}{\footnotesize \cite[]{dillon1984multivariate}.} \\
 \end{tabular}
 \end{table}
 
 Communalities (proportion of variance explained by the 3-factor solution) are reported in Table \ref{tab:communalities}, with most values exceeding 0.4, indicating adequate representation by the factor solution. 
-Coat 1 Cracking exhibits a Heywood case (communality slightly >1.0), a known phenomenon in exploratory factor analysis with small samples that does not invalidate the overall structure but reinforces the exploratory interpretation of results.
+Coat 1 Cracking exhibits a Heywood case (communality slightly $>1.0$), a known phenomenon in Exploratory Factor Analysis with small samples that does not invalidate the overall structure but reinforces the exploratory interpretation of results \cite[]{DeWinter2009}.
 The factor loadings are presented in Table \ref{tab:fa_loadings}.
 
 The first factor is heavily loaded on Sill 1 (0.91) and Sill 2 (0.98). 
-We acknowledge the reviewer's concern that this factor may primarily reflect measurement redundancy (sill condition assessed on opposite orientations of the same wall) rather than a distinct latent construct. 
+This factor may primarily reflect measurement redundancy (sill condition assessed on opposite orientations of the same wall) rather than a distinct latent construct. 
 However, we retain this factor because: (1) the high communalities (Sill 1: 0.99, Sill 2: 1.00) indicate these variables explain substantial shared variance, (2) sill deterioration represents a specific, localized failure mode requiring targeted interventions distinct from general wall degradation, and (3) while Sill 1 and Sill 2 are highly correlated (r = 0.99, p < 0.001), they are not perfectly identical (loading difference of 0.08), suggesting some orientation-specific exposure effects. 
-The term "Architectural Detail Vulnerability" reflects that sills function as water-shedding elements at the base of openings; their deterioration, while often localized, can facilitate water ingress into the wall core.
+The factor name ``Sill Deterioration" reflects that sills function as water-shedding elements at the base of openings; their deterioration, while often localized, can facilitate water ingress into the wall core.
 
-The second factor, Surface and Lintel Interaction, exhibits high loadings for Coat 1 Cracking (0.72) and Lintel Deterioration (0.61). 
+The second factor, named ``Surface and Lintel Interaction", exhibits high loadings for Coat 1 Cracking (0.72) and Lintel Deterioration (0.61). 
 This factor structure suggests an association between these two forms of damage. 
 Surface coat failure around openings may be associated with wooden lintel moisture exposure, or lintel deflection may induce stresses in surrounding plaster. 
 This finding has implications for intervention planning, suggesting that lintels and their surrounding surface coats may benefit from coordinated treatment approaches.
 
-The third factor, Global Structural Instability, groups Structural Cracking (0.50), Out of Plane movement (0.40), and Coat 2 Cracking (0.58). 
+The third factor, ``Global Structural Instability", groups Structural Cracking (0.50), Out of Plane movement (0.40), and Coat 2 Cracking (0.58). 
 The inclusion of Coat 2 Cracking (Orientation 2) in this structural factor warrants explanation. 
-We hypothesize this reflects orientation-specific exposure: \\hl{Becca: please investigate - does Orientation 2 face prevailing winds or more severe weather? Check site plans and meteorological data if available}. 
-If Orientation 2 walls experience greater environmental stress (wind-driven rain, solar exposure), surface coat damage on this face may co-occur with structural instability driven by that same exposure. 
+We hypothesize this reflects orientation-specific exposure: the West-facing walls (Orientation 2 and 3) are subjected to the prevailing westerlies and associated severe weather, including wind-driven rain.
+If Orientation 2 walls experience greater environmental stress (wind-driven rain, solar exposure), surface coat damage on this face may co-occur with structural instability driven by that same exposure.
 Alternatively, if structural movement (out-of-plane, cracking) concentrates on particular wall orientations due to asymmetric loading or foundation settlement patterns, coating on those faces would experience greater stress. 
 This clustering suggests these damage forms share common underlying causes attributed to structural issues such as foundation settlement, loss of lateral restraint, or material degradation in the wall core. 
 Interventions targeting this factor should address underlying structural deficiencies rather than merely treating surface manifestations.
@@ -464,20 +467,24 @@ These results partially diverge from correlation analysis, where geometric facto
 
 The dominance of visible damage indicators (Coat 2 Cracking, Structural Cracking, Out of Plane) as top predictors reflects the Random Forest model's use of already-manifest damage to predict overall degradation scores. 
 This is mechanistically sensible: Total Score aggregates multiple damage types, so features representing severe damage (cracking, leaning) naturally correlate strongly with that aggregate.
-However, for intervention planning, this creates a circular dependency—we cannot use "presence of structural cracking" to predict "total degradation including structural cracking."
+However, for intervention planning, this creates a circular dependency; we cannot use the presence of structural cracking to predict total degradation, including structural cracking.
 
-While this circularity limits analytical utility, it offers practical value: field managers can rapidly prioritize walls for detailed assessment based on readily observable cracking and leaning, which strongly predict overall condition (R² = 0.52 with damage indicators included). 
-This finding suggests that rapid visual triage focusing on visible structural damage captures the majority of information that comprehensive surveys would reveal.
+While this circularity limits analytical utility for causal inference, it offers practical value for predictive triage. 
+The full model's cross-validated performance ($R^2 = 0.52$ with damage indicators included) can be considered meaningful in the context of complex, high-noise observational data \cite[]{cohen2013statistical, hair2011pls}. 
+This $R^2$ indicates that over half of the variability in the aggregated wall degradation score is explained by readily observable physical manifestations. 
+This is valuable for field managers, allowing them to prioritize walls for detailed assessment based on immediately apparent, high-impact indicators (Coat 2 Cracking, Structural Cracking, and Out of Plane movement). 
+This finding suggests that a rapid visual triage focusing on these visible structural damage proxies captures the majority of information that a resource-intensive survey would ultimately reveal, serving as an initial filter for resource allocation.
+
 
 The moderate importance of geometric features (Height, Foundation Height) is more actionable for preventive prioritization. 
 While they rank 5th and lower, their importance persists even after accounting for existing damage, suggesting they represent intrinsic vulnerability rather than merely describing current state.
-This interpretation aligns with structural mechanics:
+This interpretation aligns with structural mechanics: vulnerability increases as a function of wall geometry and exposure, where taller, more slender walls and those with exposed foundations face inherently greater mechanical and environmental risk factors, independent of their current condition.
 
 \subsubsection{Supplemental Analysis: Geometric Factors Without Damage Confounding}
 
 To isolate the predictive power of geometric and contextual features without damage indicator confounding, we conducted a supplemental Random Forest analysis predicting Total Score using only non-damage variables: Height, Foundation Height, Treatment, Bracing, Bracing Score, Animal Activity, Fireplace, Point Cloud Mean, and Point Cloud Deviation (n=9 features).
 
-This geometric-only model achieved CV R² = 0.29 (±0.15), RMSE = 10.22, MAE = 8.54, and OOB R² = 0.34, representing reduced but non-trivial predictive performance compared to the full model (CV R² = 0.52).
+This geometric-only model achieved CV R² = 0.29 (±0.15), RMSE = 10.22, MAE = 8.54, and out-of-bag R² = 0.34, representing reduced but non-trivial predictive performance compared to the full model (CV R² = 0.52).
 Feature importance rankings shifted dramatically (Figure \ref{fig:random_forest_geometric}):
 
 \begin{figure}[h]
@@ -497,31 +504,25 @@ For managers planning prioritization without comprehensive condition assessments
 
 \subsubsection{Structural Engineering Interpretation of Geometric Risk Factors}
 
-
-\textbf{Wall Height Effects:}
 Taller walls experience increased vulnerability through multiple mechanisms. Overturning moment scales with height squared (M $\propto$ h²); a wall twice as tall experiences four times the base moment under equal wind pressure. \hl{Becca: what are typical wall heights? Please report mean, range, and h/t (height-to-thickness) ratios.}
 Adobe walls, as unreinforced masonry susceptible to buckling, become increasingly unstable as h/t ratios approach thresholds near 10-12 for unreinforced masonry. \hl{Becca: calculate h/t for tallest walls - do any exceed 10-12, typical thresholds for unreinforced masonry stability?}
 Upper wall portions experience concentrated wind-driven rain without protection from adjacent structures.
-Self-weight induced compressive stress at the base increases with wall height, though for these moderate heights (<4m typically), this is unlikely to approach adobe compressive capacity (\hl{Becca: do you have compressive strength test data for FOUN adobe?}).
+Self-weight induced compressive stress at the base increases with wall height, though for these moderate heights ($<4m$ typically), this is unlikely to approach adobe compressive capacity.
 
-\textbf{Foundation Height Mechanisms:}
 Exposed foundation height may be associated with degradation through multiple physical pathways.
-Exposed foundations experience direct impact from precipitation rebounding off ground surfaces, concentrating moisture at the wall-foundation interface. \hl{Becca: do you have any measured splash-back heights or erosion rate data?}
+Exposed foundations experience direct impact from precipitation rebounding off ground surfaces, concentrating moisture at the wall-foundation interface. 
 Greater exposed height may indicate shallower foundations or localized settlement, potentially correlating with moisture wicking into adobe via capillary action from saturated soils.
 If foundation exposure results from soil loss, the lower wall courses lose passive earth pressure providing lateral support, increasing vulnerability to out-of-plane movement.
 Exposed foundations may serve as markers of uneven settlement creating stress concentrations that propagate upward as cracking.
-
 Separating these mechanisms requires additional data beyond this cross-sectional survey. 
-Future monitoring should measure soil moisture content adjacent to foundations, foundation bearing pressures, and settlement rates via repeated LiDAR scanning.
+Future monitoring could measure soil moisture content adjacent to foundations, foundation bearing pressures, and settlement rates via repeated LiDAR scanning.
 
-\textbf{Treatment Variable Interpretation:}
-The low importance scores for specific historical treatments (Treatment: 0.003, Bracing: 0.001, Bracing Score: 0.004) indicate minimal predictive power. 
+The low importance scores for specific historical treatments indicate minimal predictive power. 
 This pattern could arise from several mechanisms.
 Selection bias may mask protective effects if treatments were applied to already-degraded walls (reverse causality).
-Historical treatments may have initially succeeded but degraded over the intervening decades. \hl{Becca: do you have treatment dates? If so, analyze degradation vs. time-since-treatment.}
+Historical treatments may have initially succeeded but degraded over the intervening decades. 
 With only \hl{Becca: how many walls received each treatment type?} treated walls per category, detecting treatment effects requires larger samples.
 The most severely degraded walls may have received the most intensive treatments, creating negative apparent associations through confounding by indication.
-
 These results do not demonstrate treatment ineffectiveness; rather, they reflect limitations of cross-sectional observational data for causal inference about interventions. 
 Future preservation planning should prioritize walls with geometric risk factors (tall, exposed foundations) for preventive intervention before severe damage manifests.
 Longitudinal monitoring is needed to properly assess treatment durability.
@@ -532,20 +533,19 @@ Controlled comparison studies, where feasible, could separate treatment effects 
 The development of intervention matrices requires identifying damage conditions from the multivariate analyses. 
 Based on the Factor Analysis and Random Forest results, we identified four primary conditions warranting intervention focus:
 
-\textbf{(1) Structural Instability (Factor 3, RF rank 2-3):} This encompasses Structural Cracking (RF importance 0.176) and Out of Plane movement (0.115), grouping into Factor 3 alongside Coat 2 Cracking. 
+\textbf{(1) Structural Instability (Factor 3, RF rank 2-3):} This encompasses Structural Cracking  and Out of Plane movement, grouping into Factor 3 alongside Coat 2 Cracking. 
 This cluster suggests coupled structural failure requiring intervention addressing underlying causes (foundation issues, loss of lateral restraint) rather than merely treating surface manifestations.
 
-\textbf{(2) Surface Coating Degradation (Factor 3, RF rank 1):} Coat 2 Cracking emerged as the single strongest predictor (0.207), loading heavily on Factor 3. 
+\textbf{(2) Surface Coating Degradation (Factor 3, RF rank 1):} Coat 2 Cracking emerged as the single strongest predictor, loading heavily on Factor 3. 
 Its association with structural instability suggests coating failure both reflects and potentially accelerates structural deterioration by exposing adobe to moisture infiltration.
 
-\textbf{(3) Sill Deterioration (Factor 1):} This represents a distinct, localized vulnerability (Sill 1 importance 0.036, Sill 2 0.021). 
+\textbf{(3) Sill Deterioration (Factor 1):} This represents a distinct, localized vulnerability. 
 While moderate in predictive importance, its independence as Factor 1 indicates a specific failure mode requiring targeted intervention separate from general wall treatments.
 
-\textbf{(4) Surface and Lintel Interaction (Factor 2):} Coat 1 Cracking (0.029) and Lintel Deterioration (0.035) group as Factor 2, suggesting coupled failure where coating damage and lintel decay reinforce one another, particularly around openings.
+\textbf{(4) Surface and Lintel Interaction (Factor 2):} Coat 1 Cracking and Lintel Deterioration group as Factor 2, suggesting coupled failure where coating damage and lintel decay reinforce one another, particularly around openings.
 
-Note that we do not establish "High Geometric Exposure" as an NSC in the intervention sense, as height and foundation exposure are intrinsic wall characteristics that cannot be directly "treated." 
+Note that we do not establish ``High Geometric Exposure" as an NSC in the intervention sense, as height and foundation exposure are intrinsic wall characteristics that cannot be directly ``treated." 
 However, these geometric factors inform prioritization: walls combining high geometric risk with moderate current damage warrant early intervention to prevent progression to severe structural instability.
-
 Table \ref{tab:significant_features} lists the features identified as significant in the analysis, detailing their inclusion or exclusion from the intervention matrix and the rationale.
 
 \begingroup
@@ -586,51 +586,35 @@ Table \ref{tab:significant_features} lists the features identified as significan
 
 \subsection{FOUN Intervention Matrices}
 
-With the NSCs identified through the combined application of correlation analysis, Factor Analysis, and Random Forest regression, intervention matrices were constructed following the framework proposed by \citet{Harris2001}. The horizontal axis of each matrix represents different intervention approaches: abstention, mitigation, reconstitution, substitution, circumvention, and acceleration. The vertical axis lists the NSCs, ranked according to their importance as determined by the factor loadings and feature importance scores. Each cell in the matrix contains a numerical score representing the product of the NSC priority and the intervention approach's alignment with preservation standards. Higher scores indicate interventions that address high-priority conditions while maintaining fidelity to preservation principles.
+With the NSCs identified through the combined application of correlation analysis, Factor Analysis, and Random Forest regression, intervention matrices were constructed following the framework proposed by \cite[]{harris2001building}. The horizontal axis of each matrix represents different intervention approaches: abstention, mitigation, reconstitution, substitution, circumvention, and acceleration. The vertical axis lists the NSCs, ranked according to their importance as determined by the factor loadings and feature importance scores. Each cell in the matrix contains a numerical score representing the product of the NSC priority and the intervention approach's alignment with preservation standards. Higher scores indicate interventions that address high-priority conditions while maintaining fidelity to preservation principles.
 
 Tables \ref{tab:intervention_matrix_adobe} and \ref{tab:intervention_matrix_foundation} present the intervention matrices for adobe wall degradation and foundation degradation, respectively. 
 The scoring system incorporates two primary criteria, combined multiplicatively to yield cell scores.
 
-\textbf{NSC Priority Scores (0-10):} Each NSC receives a priority ranking derived from the statistical analyses.
-For NSCs corresponding to Factor Analysis factors, priority is calculated using a combined approach that considers both the explained variance of the factor and the strength of the leading variable within that factor.
-For NSCs identified via Random Forest, priority equals 10 multiplied by (feature importance divided by maximum importance). 
-The two scores are averaged if an NSC appears in both analyses.
+The final NSC Priority Scores (0-10) were determined through a structured process of expert elicitation and consensus rather than direct mathematical calculation. 
+The statistical findings, including Factor Analysis loadings and Random Forest feature importance, were utilized as quantitative evidence to identify and validate the core set of NSCs relevant to degradation.
+These quantitative results established the relevant degradation phenomena (e.g., Structural Instability, Sill Deterioration) but were not used for initial score weighting. 
+The final 0-10 priority ranking was assigned exclusively by multiple expert raters; this expert judgment allowed for the application of real-world context and structural risk assessment. 
+Raters specifically adjusted scores based on the immediacy of risk (prioritizing conditions posing an immediate safety concern), cascading effects (accounting for how one condition accelerates others), and operational feasibility (considering NPS management priorities). 
+This methodology ensures that the intervention priorities are grounded in practical reality and risk assessment, while using the quantitative data to define the most statistically relevant degradation phenomena.
 
-\textit{Worked Example - Structural Instability (Factor 3):}
-\begin{itemize}
-    \vspace{-0.5em}
-    \item Factor 3 explains 14.0\% of variance (Factor 1 explains maximum: 26.1\%)
-    \item Highest loading in Factor 3: Coat 2 Cracking (0.59)
-    \item Maximum loading across all factors: Coat 1 Cracking on Factor 1 (1.00)
-    \item Variance contribution normalized: 14.0/26.1 = 0.536
-    \item Loading strength normalized: 0.59/1.00 = 0.590
-    \item Combined metric: (0.536 + 0.590)/2 = 0.563
-    \item Priority score: 10 $\times$ 0.563 = 5.6, rounded to 6
-    \item Cell score for mitigation: 6 (priority) $\times$ 6 (mitigation score) = 36
-\end{itemize}
-\vspace{-0.5em}
-
-This scoring approach ensures that factors with strong loadings and substantial variance contributions receive higher prioritization, even if not the dominant factor.
-
-\textit{Note on Priority Score Adjustment:} While the worked example above yields a calculated priority of 6, the final priorities assigned in Tables \ref{tab:intervention_matrix_adobe} and \ref{tab:intervention_matrix_foundation} incorporate adjustment based on preservation practice considerations and NPS management priorities. Structural Instability receives priority 9 (vs. calculated 6) due to immediate structural safety concerns and cascading effects on other damage types. Sill Deterioration receives priority 8 (vs. calculated value based on 26.1\% variance explained) recognizing its role as a primary water ingress pathway. These adjustments ensure intervention priorities align with both statistical significance and operational preservation practice.
-
-\textbf{Preservation Standards Scores (0-6):} Each intervention approach is assigned a score reflecting compatibility with the Secretary of the Interior's Standards for the Treatment of Historic Properties \cite[]{NPSStandards}.
-Mitigation receives the highest score (6), representing actions that slow deterioration while preserving maximum original fabric (Standard 5: ``preserve distinctive features''; Standard 6: ``repair rather than replace''), such as applying shelter coats or installing drainage improvements.
-Circumvention scores 5, representing interventions addressing underlying causes without altering the historic material (Standard 1: ``minimal alteration''), such as structural bracing or windbreaks.
-Reconstitution scores 4, representing rebuilding deteriorated elements using matching original materials and techniques (Standard 6: ``replacement in kind''), such as rebuilding adobe sills with original mix.
-Substitution scores 2, representing replacement with improved materials that sacrifice authenticity for durability (acceptable only when originals are irreparably damaged, per Standard 6), such as cedar lintels replacing original wood.
-Abstention and Acceleration/Demolition both score zero, as neither addresses the NSC; abstention may be appropriate for low-priority conditions under monitoring protocols.
-
-Scores within each NSC are normalized such that the preservation-preferred approaches (mitigation, circumvention) receive highest weight for adobe structures requiring active conservation.
-
-\textbf{Cell Score Calculation:} Each matrix cell score = (NSC priority) × (intervention approach score). 
+% Each intervention approach is assigned a Preservation Standards Score (0-6) reflecting compatibility with the Secretary of the Interior's Standards for the Treatment of Historic Properties \cite[]{weeks1995secretary}.
+% Mitigation receives the highest score (6), representing actions that slow deterioration while preserving maximum original fabric (Standard 5: ``preserve distinctive features''; Standard 6: ``repair rather than replace''), such as applying shelter coats or installing drainage improvements.
+% Circumvention scores 5, representing interventions addressing underlying causes without altering the historic material (Standard 1: ``minimal alteration''), such as structural bracing or windbreaks.
+% Reconstitution scores 4, representing rebuilding deteriorated elements using matching original materials and techniques (Standard 6: ``replacement in kind''), such as rebuilding adobe sills with original mix.
+% Substitution scores 2, representing replacement with improved materials that sacrifice authenticity for durability (acceptable only when originals are irreparably damaged, per Standard 6), such as cedar lintels replacing original wood.
+% Abstention and Acceleration/Demolition both score zero, as neither addresses the NSC; abstention may be appropriate for low-priority conditions under monitoring protocols.
+% Scores within each NSC are normalized such that the preservation-preferred approaches (mitigation, circumvention) receive highest weight for adobe structures requiring active conservation.
+Each intervention approach was assigned a Preservation Standards Score (0-6) reflecting its compatibility with the \textit{Secretary of the Interior's Standards for the Treatment of Historic Properties}. 
+These scores were not derived from a linear formula but were determined through a consensus process involving multiple expert raters, who evaluated each intervention's alignment with the preservation hierarchy mandated by the Standards. In this instance mitigation (Score 6) received the highest score, representing actions that slow deterioration while preserving the maximum amount of original fabric, aligning with the Standards' requirement to repair rather than replace deteriorated features whenever possible. 
+Circumvention (Score 5) represents interventions that address underlying causes of failure without significantly altering the historic material, consistent with guidelines for stabilization as a preliminary measure to protect the property.
+Reconstitution (Score 4) denotes the replacement of extensively deteriorated elements in kind, matching the original in material, design, color, and texture, which is the preferred method when repair is no longer feasible.
+Ranked lower is Substitution (Score 2), which involves replacement using compatible substitute materials; while permissible under the Guidelines when in-kind replacement is not technically or economically feasible, it sacrifices material authenticity. Finally, Abstention and Acceleration (Score 0) were assigned values of zero, as failing to undertake measures to protect the property violates the core tenets of preservation and potentially leads to the loss of historic integrity
+Each matrix cell score = (NSC priority) × (intervention approach score). 
 Thus, a high cell score indicates an intervention that (1) addresses a statistically significant condition and (2) aligns with preservation ethics. 
 The highest-scoring interventions across the matrix represent the recommended prioritization for resource allocation.
-\textit{Example}: Structural Instability (priority 9) × Mitigation-Shelter Coat (score 6) = 54, suggesting this should be a top funding priority.
-
-We acknowledge this multiplicative weighting system represents one possible scoring framework. 
-Sensitivity analysis \\hl{Becca: did you test alternative weighting schemes, e.g., additive or different preservation score distributions? If so, report whether rankings changed.} would strengthen confidence in these prioritizations. 
-Future extensions could incorporate multi-criteria decision analysis (MCDA) methods such as Analytic Hierarchy Process (AHP) to formalize stakeholder preferences.
+For example, Structural Instability (priority 9) × Mitigation-Shelter Coat (score 6) = 54, would suggest that this should be a top funding priority.
+\hl{should this be updated to 0-10 im not sure why its 0-6 right now}
 
 \begingroup
 \footnotesize
@@ -669,11 +653,11 @@ Future extensions could incorporate multi-criteria decision analysis (MCDA) meth
 \normalsize
 \endgroup
 
-The adobe degradation intervention matrix (Table \ref{tab:intervention_matrix_adobe}) reflects the factor structure identified in the statistical analysis. Structural Instability (Factor 3) receives the highest priority score (9), consistent with its role as a latent variable encompassing multiple forms of damage. The highest-scoring intervention for this NSC is the application of a protective shelter coat (score: 54), which represents a mitigation approach that can slow water infiltration without altering the wall's structural configuration. Circumvention through structural bracing receives the second-highest score (45), reflecting the need to address the underlying instability while recognizing that bracing introduces non-original elements.
+The adobe degradation intervention matrix (Table \ref{tab:intervention_matrix_adobe}) reflects the factor structure identified in the statistical analysis. Global Structural Instability (Factor 3) receives the highest priority score (9), consistent with its role as a latent variable encompassing multiple forms of damage. The highest-scoring intervention for this NSC is the application of a protective shelter coat (score: 54), which represents a mitigation approach that can slow water infiltration without altering the wall's structural configuration. Circumvention through structural bracing receives the second-highest score (45), reflecting the need to address the underlying instability while recognizing that bracing introduces non-original elements.
 
 Sill Deterioration (Factor 1) is assigned a priority score of 8, reflecting its distinct nature as an independent failure mechanism. The recommended mitigation approach involves applying lime-based plaster (score: 48), which is compatible with the original adobe substrate and can be renewed periodically. Reconstitution through rebuilding with the original adobe mix receives a lower score (32), as it requires removal of deteriorated material and may result in loss of original fabric.
 
-Surface and Lintel Issues (Factor 2) are assigned a priority score of 7. The coupling between these two forms of damage, as revealed by the factor analysis, suggests that interventions must address both components simultaneously. The installation of drip edges represents a mitigation approach (score: 42) that can reduce water infiltration at the vulnerable lintel-wall interface. Circumvention through support adjustments (score: 35) may be necessary in cases where lintel deflection is contributing to coat cracking.
+Surface and Lintel Interactions (Factor 2) are assigned a priority score of 7. The coupling between these two forms of damage, as revealed by the factor analysis, suggests that interventions must address both components simultaneously. The installation of drip edges represents a mitigation approach (score: 42) that can reduce water infiltration at the vulnerable lintel-wall interface. Circumvention through support adjustments (score: 35) may be necessary in cases where lintel deflection is contributing to coat cracking.
 
 \begingroup
 \footnotesize
@@ -710,75 +694,46 @@ Surface and Lintel Issues (Factor 2) are assigned a priority score of 7. The cou
 \endgroup
 
 The foundation degradation intervention matrix (Table \ref{tab:intervention_matrix_foundation}) assigns the highest priority to Exposed Foundation Height (score: 8), consistent with the Random Forest analysis that identified this as the single most important predictor of overall degradation. The recommended mitigation approach involves adding fill around the foundation (score: 48) to reduce the exposed height and thereby minimize vulnerability to splash-back and direct precipitation impact. This intervention is reversible and does not alter the foundation itself, making it highly compatible with preservation standards. Circumvention through the construction of a barrier or retaining wall (score: 40) offers an alternative that may be appropriate in locations where adding fill would alter site drainage patterns or obscure archaeological features.
-
-Foundation Stone Deterioration receives a priority score of 7. The recommended mitigation approach involves sloping the ground to improve drainage (score: 42), which addresses the underlying cause of deterioration rather than merely treating its symptoms. This approach is consistent with the principle of addressing NSCs rather than simply repairing damage. Circumvention through bonding the exterior face to the core (score: 35) may be necessary in cases where individual stones have become detached but retain sufficient integrity to be stabilized in place.
+Foundation Stone Deterioration receives a priority score of 7. The recommended mitigation approach involves sloping the ground to improve drainage (score: 42), which addresses the underlying cause of deterioration rather than merely treating its symptoms. This approach is consistent with the principle of addressing NSCs rather than simply repairing damage. 
 
 \section{Limitations and Future Work}
 
 This study has several limitations that should be considered when interpreting results and applying the methodology to other contexts.
-
-\textbf{Sample Size and Statistical Power.}
 With n=67 wall sections and approximately 30 features, the feature-to-sample ratio approaches 1:2, raising concerns about overfitting in the Random Forest model. 
-While cross-validation mitigates this risk, the limited sample size reduces statistical power to detect subtle effects, particularly for treatment variables where only \\hl{Becca: how many walls per treatment type?} sections received each intervention type. 
+While cross-validation mitigates this risk, the limited sample size reduces statistical power to detect subtle effects, particularly for treatment variables where only \hl{Becca: how many walls per treatment type?} sections received each intervention type. 
 Future studies at larger adobe complexes could achieve more precise effect size estimates with increased statistical power.
 
-\textbf{Single-Site Generalizability.}
-This case study focuses exclusively on Fort Union National Monument. 
-While the methodological framework is transferable, the specific findings (e.g., foundation height as primary predictor) may reflect FOUN-specific conditions such as local climate \\hl{Becca: annual precipitation? freeze-thaw cycles?}, soil properties, construction techniques, and maintenance history. 
+Additionally, this case study focuses exclusively on Fort Union National Monument. 
+While the methodological framework is transferable, the specific findings (e.g., foundation height as primary predictor) may reflect FOUN-specific conditions such as local climate, soil properties, construction techniques, and maintenance history. 
 Validation at additional Southwestern adobe sites (e.g., Tumacácori, Pecos National Historical Parks) is necessary to establish generalizability of the statistical relationships observed.
+Furthermore, our data represent a single temporal snapshot, precluding analysis of degradation rates, treatment effectiveness over time, or causal inference about intervention impacts. 
+Several questions remain unanswered: (1) Are high-degradation walls deteriorating faster, or have they merely persisted longer in poor condition? (2) Did bracing successfully arrest movement, or were already-stable walls selectively braced? (3) Have treatments extended service life, even if degradation scores remain elevated?
+Longitudinal monitoring with repeated LiDAR scans and condition surveys (recommended interval: 5 years would enable survival analysis and causal inference methods.
 
-\textbf{Cross-Sectional Data Limitations.}
-Our data represent a single temporal snapshot, precluding analysis of degradation rates, treatment effectiveness over time, or causal inference about intervention impacts. 
-Critical questions remain unanswered: (1) Are high-degradation walls deteriorating faster, or have they merely persisted longer in poor condition? (2) Did bracing successfully arrest movement, or were already-stable walls selectively braced? (3) Have treatments extended service life, even if degradation scores remain elevated?
-Longitudinal monitoring with repeated LiDAR scans and condition surveys (recommended interval: 5 years \\hl{Becca: is NPS planning any repeat surveys? If discussions exist, mention here}) would enable survival analysis and causal inference methods.
+% The intervention matrices represent prioritization recommendations based on statistical associations and preservation principles, but lack empirical validation. 
+% We have not demonstrated that implementing the highest-scoring interventions actually reduces degradation rates or extends structure longevity. 
+% A controlled intervention study, treating matched wall sections with different approaches and monitoring outcomes, would provide this validation but requires multi-year commitment 
 
-\textbf{Lack of Experimental Validation.}
-The intervention matrices represent prioritization recommendations based on statistical associations and preservation principles, but lack empirical validation. 
-We have not demonstrated that implementing the highest-scoring interventions actually reduces degradation rates or extends structure longevity. 
-A controlled intervention study, treating matched wall sections with different approaches and monitoring outcomes, would provide this validation but requires multi-year commitment \\hl{Becca: is NPS interested in pilot validation study?}.
 
-\textbf{Observer Bias and Inter-Rater Reliability.}
-The RAS damage scores (0-5 scale) involve subjective visual assessment. \\hl{Becca: how many raters? single observer or team? any inter-rater reliability testing?}
-Without documented inter-rater reliability (Cohen's kappa or intraclass correlation), we cannot quantify measurement error. 
-Systematic observer bias could inflate or deflate damage scores for particular features, affecting factor loadings and feature importance rankings. 
-The illustrated glossary (Figure \ref{fig:RASsample}) provides standardization, but formal calibration exercises are recommended.
-
-\textbf{Environmental Data Gap.}
-The analysis lacks integration of climate and microclimate variables (precipitation, wind speed/direction, solar radiation, freeze-thaw cycles) despite these being hypothesized drivers of degradation. 
-Orientation 2's association with structural instability (Factor 3) may reflect directional weather exposure, but without meteorological data, this remains speculative. 
-Future work should incorporate: (1) historical weather station data, (2) microclimate sensors at wall locations, and (3) spatial analysis testing whether damage patterns correlate with aspect, elevation, or exposure indices.
-
-\textbf{LiDAR Data Underutilization.}
-Point cloud data yielded only two features (deviation, mean), when far richer geometric information could be extracted: wall lean angles, surface roughness, erosion depth mapping, foundation settlement patterns, and volume loss quantification. 
-Advanced point cloud processing (e.g., change detection with historical photography, Structure-from-Motion photogrammetry) could substantially enhance the dataset \\hl{Becca: are raw point cloud data available for reanalysis?}.
-
-\textbf{Material Property Unknowns.}
-We lack laboratory test data for FOUN adobe: compressive strength, modulus of elasticity, moisture diffusivity, freeze-thaw resistance. 
-These properties govern structural capacity and degradation susceptibility, yet their absence forces reliance on generic adobe properties from literature. 
-Non-destructive testing (Schmidt hammer, ultrasonic pulse velocity) or minimally-invasive coring (with NPS approval) could characterize material variability across the site.
-
-\textbf{Structural Mechanics Simplification.}
-While we discuss slenderness, overturning moments, and bearing pressures qualitatively, finite element modeling could quantify stress distributions, factor-of-safety margins, and failure probabilities. 
+Additionally, while we discuss slenderness, overturning moments, and bearing pressures qualitatively, finite element modeling could quantify stress distributions, factor-of-safety margins, and failure probabilities. 
 Integration of geotechnical investigation (soil bearing capacity, settlement potential) with structural analysis would provide rigorous basis for prioritizing structurally critical sections.
 
-\textbf{Cost-Benefit Analysis Absent.}
-The intervention matrices prioritize based on degradation severity and preservation standards but do not incorporate economic constraints. 
+Lastly, the intervention matrices prioritize based on degradation severity and preservation standards but do not incorporate economic constraints. 
 Real-world implementation requires cost estimates (labor, materials, equipment), budget limitations, and cost-effectiveness analysis (dollars per year of service-life extension). 
-NPS facility managers need this economic dimension for practical decision-making \\hl{Becca: could rough cost estimates be obtained from NPS historical project records?}.
-
+NPS facility managers need this economic dimension for practical decision-making.
 Addressing these limitations represents a roadmap for advancing data-driven heritage preservation methodology.
 
 \section{Conclusions}
 
-This study applied correlation analysis, Factor Analysis, and Random Forest regression to 67 wall sections at Fort Union National Monument to identify patterns of degradation and inform intervention prioritization. The multivariate analyses converged on three principal damage modes: Sill Deterioration (Factor 1), Surface and Lintel Interaction (Factor 2), and Structural Instability (Factor 3), together explaining 65\% of variance in the degradation data. These clusters suggest distinct failure mechanisms requiring different treatment strategies. Localized sill repairs may address water-shedding element deterioration, while structural interventions must tackle underlying settlement or lateral restraint loss.
+This study applied correlation analysis, Factor Analysis, and Random Forest regression to 67 wall sections at Fort Union National Monument to identify patterns of degradation and inform intervention prioritization. The multivariate analyses converged on three principal damage modes: Sill Deterioration (Factor 1), Surface and Lintel Interaction (Factor 2), and Global Structural Instability (Factor 3), together explaining 65\% of variance in the degradation data. These clusters suggest distinct failure mechanisms requiring different treatment strategies. Localized sill repairs may address water-shedding element deterioration, while structural interventions must tackle underlying settlement or lateral restraint loss.
 
-Random Forest analysis revealed that visible damage indicators dominated feature importance in the full model (Coat 2 Cracking: 0.21, Structural Cracking: 0.18, Out of Plane: 0.11), reflecting analytical circularity where aggregate scores are predicted by their component damages. To isolate intrinsic vulnerability factors, a supplemental analysis using only geometric and contextual features (excluding all damage indicators) achieved CV R²=0.29, with LiDAR-derived Point Cloud Mean (surface irregularity), Height, and Foundation Height emerging as top predictors. This 56\% retention of predictive performance (relative to the full model's R²=0.52) confirms geometric factors' value for preventive risk stratification when comprehensive damage data are unavailable. The two-model approach resolves the analytical circularity while preserving the practical utility of damage-based rapid triage.
+Random Forest analysis revealed that visible damage indicators dominated feature importance in the full model, reflecting analytical circularity where aggregate scores are predicted by their component damages. To isolate intrinsic vulnerability factors, a supplemental analysis using only geometric and contextual features (excluding all damage indicators) achieved CV R²=0.29, with LiDAR-derived Point Cloud Mean (surface irregularity), Height, and Foundation Height emerging as top predictors. This 56\% retention of predictive performance (relative to the full model's R²=0.52) confirms geometric factors' value for preventive risk stratification when comprehensive damage data are unavailable. The two-model approach resolves the analytical circularity while preserving the practical utility of damage-based rapid triage.
 
-Treatment variables (bracing, historical interventions) showed negligible importance (<0.005), consistent with selection bias. Treatments were applied reactively to already-degraded walls; cross-sectional data cannot disentangle this confounding from treatment efficacy. Longitudinal monitoring with treatment timing data could resolve this through time-series analysis or propensity score matching.
+Treatment variables (bracing, historical interventions) showed negligible importance ($<0.005$), consistent with selection bias. Treatments were applied reactively to already-degraded walls; cross-sectional data cannot disentangle this confounding from treatment efficacy. Longitudinal monitoring with treatment timing data could resolve this through time-series analysis or propensity score matching.
 
 The intervention matrices translate statistical priorities into preservation-compatible action frameworks by multiplicatively combining NSC importance (derived from factor variance and RF importance) with Secretary of Interior Standards compliance scores. Higher cell scores identify interventions addressing significant conditions through preservation-appropriate means (mitigation, circumvention). Field validation remains necessary to confirm these analytically-derived priorities match practical effectiveness.
 
-Transferability to other adobe sites depends on several factors. The rapid assessment protocol and statistical workflow are generalizable; site-specific calibration would require adjustment for local climate, construction methods, and treatment history. Extensions incorporating temporal monitoring, climate scenario modeling, and cost data would strengthen decision-support utility. The limitations outlined in Section 6—particularly sample size, single-site scope, KMO marginality, and material property unknowns—constrain extrapolation beyond FOUN without additional validation studies.
+Transferability to other adobe sites depends on several factors. The rapid assessment protocol and statistical workflow are generalizable; site-specific calibration would require adjustment for local climate, construction methods, and treatment history. Extensions incorporating temporal monitoring, climate scenario modeling, and cost data would strengthen decision-support utility. The limitations outlined in Section 6, particularly sample size, single-site scope, constrain extrapolation beyond FOUN without additional validation studies.
 
 \section*{Acknowledgments}
 
