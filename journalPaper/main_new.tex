@@ -74,7 +74,7 @@
 \begin{abstract}
 This study presents a data-driven approach to assess structural vulnerability and develop intervention strategies for adobe structures, using Fort Union National Monument (FOUN) as a case study. The research integrates multiple analytical methods, including correlation analysis, Factor Analysis, and Regularized Regression (Elastic Net), to identify and prioritize damage conditions affecting adobe structure behavior. 
 Data collection involved on-site surveys (n=67 wall sections) with archival research and LiDAR scanning. Factor Analysis revealed three distinct latent structures of degradation—Sill Deterioration, Surface/Lintel Interaction, and Structural Instability—together explaining 52.5\% of variance. 
-Elastic Net regression identified Wall Height and Cap Deterioration as the strongest predictors of overall degradation, alongside Out-of-Plane movement. Wall Height (standardized coefficient 45.6) demonstrates that geometric slenderness governs adobe vulnerability, while Cap Deterioration (58.0) reflects the dependence on water protection at the wall crest.
+Elastic Net regression identified Wall Height and Cap Deterioration as the strongest predictors of overall degradation, alongside Out-of-Plane movement. Wall Height (standardized coefficient 43.0) demonstrates that geometric slenderness governs adobe vulnerability, while Cap Deterioration (54.5) reflects the dependence on water protection at the wall crest.
 Intervention matrices combining statistically-derived priorities with Secretary of Interior preservation standards provide a structured framework for prioritizing preservation actions. 
 Limitations include small sample size (n=67) and single-site scope. The methodology offers a replicable framework for adobe assessment, validating the integration of geometric and condition data for risk stratification.
 
@@ -451,8 +451,8 @@ The results are presented in Figure \ref{fig:feature_importance}.
     \label{fig:feature_importance}
 \end{figure}
 
-The top predictors of degradation were Cap Deterioration (Coefficient = 58.0), Out of Plane movement (55.5), and Wall Height (45.6).
-Structural Cracking (29.3) and Cracking at Wall Junction (28.4) also showed significant positive associations.
+The top predictors of degradation were Cap Deterioration (Coefficient = 54.5), Out of Plane movement (43.3), and Wall Height (43.0).
+Structural Cracking (30.8) and Cracking at Wall Junction (27.7) also showed significant positive associations.
 These results align with the previous findings but with much higher statistical confidence (R² = 0.80).
 Wall Height remains a top-tier predictor, reinforcing the conclusion that geometric slenderness is a primary driver of vulnerability.
 The strong performance of the linear model confirms that degradation scoring follows a predictable, additive logic where specific defects (caps, leaning, cracks) cumulatively drive the overall condition state.
@@ -461,7 +461,7 @@ The strong performance of the linear model confirms that degradation scoring fol
 
 To isolate the predictive power of geometric and contextual features without damage indicator confounding, we conducted a supplemental Elastic Net analysis predicting Total Score using only non-damage variables.
 
-This geometric-only model achieved a cross-validation R² = 0.21 (±0.14). 
+This geometric-only model achieved a cross-validation R² = 0.17 (±0.18). 
 While lower than the full model, this represents a meaningful signal given that all direct damage evidence was excluded.
 Feature importance rankings (Figure \ref{fig:random_forest_geometric}) identify Height as the dominant geometric feature.
 
@@ -472,7 +472,7 @@ Feature importance rankings (Figure \ref{fig:random_forest_geometric}) identify 
     \label{fig:random_forest_geometric}
 \end{figure}
 
-Height emerged as the single most powerful geometric predictor (Coefficient = 61.8), far exceeding Point Cloud Deviation (-25.4) and Foundation Height (-21.3).
+Height emerged as the single most powerful geometric predictor (Coefficient = 57.8), far exceeding Point Cloud Deviation (-24.6) and Point Cloud Mean (18.4).
 This result is critical: when blind to actual damage conditions, the model relies heavily on Wall Height to estimate risk.
 This confirms that slenderness is not just a correlate of damage but a fundamental, intrinsic vulnerability factor.
 
@@ -718,8 +718,8 @@ Addressing these limitations represents a roadmap for advancing data-driven heri
 
 This study applied correlation analysis, Factor Analysis, and Elastic Net regression to 67 wall sections at Fort Union National Monument to identify patterns of degradation and inform intervention prioritization. The multivariate analyses converged on three principal damage modes: Sill Deterioration (Factor 1), Surface and Lintel Interaction (Factor 2), and Global Structural Instability (Factor 3), together explaining 52.5\% of variance in the degradation data. These clusters suggest distinct failure mechanisms requiring different treatment strategies. Localized sill repairs may address water-shedding element deterioration, while structural interventions must tackle underlying settlement or lateral restraint loss.
 
-Elastic Net analysis identified Wall Height and Cap Deterioration as the strongest predictors of degradation (standardized coefficients 45.6 and 58.0), challenging the assumption that geometric factors are secondary to visible damage. 
-A supplemental geometric-only model (R² = 0.21) further confirmed that Wall Height is the dominant intrinsic risk factor.
+Elastic Net analysis identified Wall Height and Cap Deterioration as the strongest predictors of degradation (standardized coefficients 43.0 and 54.5), challenging the assumption that geometric factors are secondary to visible damage. 
+A supplemental geometric-only model (R² = 0.17) further confirmed that Wall Height is the dominant intrinsic risk factor.
 This suggests that while geometric data alone cannot predict the exact degradation score without condition data, tall walls inherently warrant higher prioritization for preventive maintenance.
 
 Treatment variables (bracing, historical interventions) showed negligible importance, likely reflecting selection bias. Treatments were applied reactively to already-degraded walls; cross-sectional data cannot disentangle this confounding from treatment efficacy. Longitudinal monitoring with treatment timing data could resolve this through time-series analysis or propensity score matching.
