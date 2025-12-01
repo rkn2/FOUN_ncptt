@@ -72,11 +72,13 @@
 \maketitle
 
 \begin{abstract}
-This study presents a data-driven approach to assess structural vulnerability and develop intervention strategies for adobe structures, using Fort Union National Monument (FOUN) as a case study. The research integrates multiple analytical methods, including correlation analysis, Factor Analysis, and Regularized Regression (Elastic Net), to identify and prioritize damage conditions affecting adobe structure behavior. 
-Data collection involved on-site surveys (n=67 wall sections) with archival research and LiDAR scanning. Factor Analysis revealed three distinct latent structures of degradation—Sill Deterioration, Surface/Lintel Interaction, and Structural Instability—together explaining 52.5\% of variance. 
-Elastic Net regression identified Wall Height and Cap Deterioration as the strongest predictors of overall degradation, alongside Out-of-Plane movement. Wall Height (standardized coefficient 43.0) demonstrates that geometric slenderness governs adobe vulnerability, while Cap Deterioration (54.5) reflects the dependence on water protection at the wall crest.
-Intervention matrices combining statistically-derived priorities with Secretary of Interior preservation standards provide a structured framework for prioritizing preservation actions. 
-Limitations include small sample size (n=67) and single-site scope. The methodology offers a replicable framework for adobe assessment, validating the integration of geometric and condition data for risk stratification.
+
+We developed a data-driven assessment framework for structural vulnerability in historic adobe at Fort Union National Monument, integrating correlation analysis, Factor Analysis, and regularized regression (Elastic Net) to identify and rank damage conditions affecting wall performance.
+On-site surveys of 67 wall sections, archival research, and LiDAR scanning provided the empirical basis for the analysis. Factor Analysis isolated three latent structures of degradation (Sill Deterioration, Surface/Lintel Interaction, and Structural Instability) explaining 52.5\% of total variance.
+Model benchmarking across seven regression families (repeated K-fold cross-validation with Wilcoxon statistical testing) confirmed that Ridge and Elastic Net outperformed ensemble methods (Random Forest, Gradient Boosting) by a statistically significant margin.
+Wall Height (standardized coefficient 43.0) and Cap Deterioration (54.5) emerged as the dominant predictors, demonstrating that geometric slenderness and water protection govern vulnerability.
+Statistically-derived priorities were synthesized with Secretary of Interior preservation standards into intervention matrices, providing field managers with a structured decision framework.
+The methodology is constrained by sample size (n=67) and single-site scope but offers a replicable template for integrating geometric and condition data in adobe risk assessment.
 
 \end{abstract}
 
@@ -324,7 +326,7 @@ The $\text{Wall Weight Score}$ aggregates severe structural features (Cap Deteri
 
 To ensure the generalizability of our findings across algorithmic approaches, we benchmarked seven regression model families: Linear Regression, Ridge Regression (L2-regularized), Elastic Net (L1+L2 regularized), Decision Tree, Random Forest, Support Vector Regression (SVR), and Gradient Boosting (XGBoost equivalent).
 Repeated K-fold cross-validation was implemented with five folds and five repeats, yielding 25 evaluation rounds per model.
-This rigorous design provides a robust estimate of model stability and performance distribution.
+This design provides 25 independent performance estimates per model, characterizing stability and distribution.
 
 The model achieving the best mean $R^2$ score was identified, and paired Wilcoxon signed-rank tests were performed on the 25 fold-wise $R^2$ differences to compare competing models.
 The Wilcoxon test is appropriate for paired, non-normal data and is recommended for classifier comparisons \cite[]{demvsar2006statistical}.
@@ -475,7 +477,7 @@ Feature importance rankings (Figure \ref{fig:random_forest_geometric}) identify 
 \end{figure}
 
 Height emerged as the single most powerful geometric predictor (Coefficient = 57.8), far exceeding Point Cloud Deviation (-24.6) and Point Cloud Mean (18.4).
-This result is critical: when blind to actual damage conditions, the model relies heavily on Wall Height to estimate risk.
+When blind to actual damage conditions, the model depends heavily on Wall Height to estimate risk.
 This confirms that slenderness is not just a correlate of damage but a fundamental, intrinsic vulnerability factor.
 
 \subsubsection{Structural Engineering Interpretation of Geometric Risk Factors}
