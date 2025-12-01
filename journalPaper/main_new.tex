@@ -332,7 +332,10 @@ The data were not split into separate train/test sets due to sample size constra
 Model performance metrics indicated limited predictive accuracy with cross-validation R² = 0.17 (±0.78), RMSE = 117.2, and MAE = 84.8. 
 The training R² (0.96) substantially exceeded cross-validation R² (0.17), indicating significant overfitting as expected given the feature-to-sample ratio of approximately 1:2.4. 
 To ensure the reliability of feature importance rankings despite the small dataset and overfitting, we computed permutation importance scores with 95\% confidence intervals via bootstrapping (1000 iterations). 
-We note that while the model's absolute predictive power is limited by sample size and noise, the relative importance rankings provide valuable insights into which factors are most strongly associated with degradation.
+
+We note that while the cross-validated $R^2$ of 0.17 is low for a predictive model, it is not unexpected for complex field data derived from historic structures, where unmeasured variables (e.g., specific construction batches, micro-climate variations, exact maintenance dates) introduce substantial noise. 
+In social and behavioral sciences, where human and environmental factors interact complexly, $R^2$ values in this range are often considered acceptable for identifying significant associations and trends, even if they lack high predictive precision \cite[]{cohen2013statistical, hair2011pls}.
+For the purpose of this study—identifying relative risk factors to inform prioritization—the robust separation of top predictors (Height, Cap Deterioration) from noise variables is more critical than the ability to predict the exact degradation score.
 
 Random Forest offers several advantages in this context: it tolerates multicollinearity, handles both continuous and categorical predictor variables, and provides measures of variable importance allowing us to rank the factors most influential in predicting degradation. 
 Mean decrease in impurity (MDI) can be biased toward high-cardinality features or continuous variables with many unique values. Permutation importance provides an alternative unbiased metric.
