@@ -352,6 +352,7 @@ Linear Regression & 0.744 & $\pm$0.144 & $p<0.001$ \\
 Gradient Boosting & 0.610 & $\pm$0.150 & $p<0.001$ \\
 \hline
 \multicolumn{4}{l}{\footnotesize Wilcoxon signed-rank test with Holm-Bonferroni correction} \\
+\multicolumn{4}{l}{\footnotesize Additional models tested: Random Forest, Decision Tree, SVR} \\
 \multicolumn{4}{l}{\footnotesize Full results for all 7 models available in supplementary material} \\
 \end{tabular}
 \end{table}
@@ -532,10 +533,10 @@ Controlled comparison studies, where feasible, could separate treatment effects 
 The development of intervention matrices requires identifying damage conditions from the multivariate analyses. 
 Based on the Factor Analysis and Elastic Net results, we identified four primary conditions warranting intervention focus:
 
-\textbf{(1) Structural Instability (Factor 3, RF rank 2-3):} This encompasses Structural Cracking  and Out of Plane movement, grouping into Factor 3 alongside Coat 2 Cracking. 
+\textbf{(1) Structural Instability (Factor 3, EN rank 2-3):} This encompasses Structural Cracking  and Out of Plane movement, grouping into Factor 3 alongside Coat 2 Cracking. 
 This cluster suggests coupled structural failure requiring intervention addressing underlying causes (foundation issues, loss of lateral restraint) rather than merely treating surface manifestations.
 
-\textbf{(2) Surface Coating Degradation (Factor 3, RF rank 1):} Coat 2 Cracking emerged as the single strongest predictor, loading heavily on Factor 3. 
+\textbf{(2) Surface Coating Degradation (Factor 3, EN rank 1):} Coat 2 Cracking emerged as the single strongest predictor, loading heavily on Factor 3. 
 Its association with structural instability suggests coating failure both reflects and potentially accelerates structural deterioration by exposing adobe to moisture infiltration.
 
 \textbf{(3) Sill Deterioration (Factor 1):} This represents a distinct, localized vulnerability. 
@@ -554,13 +555,13 @@ Table \ref{tab:significant_features} lists the features identified as significan
     \caption{Overview of significant features identified in analysis, their status in the intervention matrix, and justifications for exclusion.}
     \label{tab:significant_features} \\ % Add caption here
     \toprule
-    \textbf{Key Features} & \textbf{Incl.} & \textbf{Corr.} & \textbf{FA} & \textbf{RF} & \textbf{Reason for Exclusion (if Not Included)} \\
+    \textbf{Key Features} & \textbf{Incl.} & \textbf{Corr.} & \textbf{FA} & \textbf{EN} & \textbf{Reason for Exclusion (if Not Included)} \\
     \midrule
     \endfirsthead
 
     \multicolumn{6}{c}{\tablename\ \thetable\ -- \textit{Continued from previous page}} \\
     \toprule
-    \textbf{Key Features} & \textbf{Incl.} & \textbf{Corr.} & \textbf{FA} & \textbf{RF} & \textbf{Reason for Exclusion (if Not Included)} \\
+    \textbf{Key Features} & \textbf{Incl.} & \textbf{Corr.} & \textbf{FA} & \textbf{EN} & \textbf{Reason for Exclusion (if Not Included)} \\
     \midrule
     \endhead
 
