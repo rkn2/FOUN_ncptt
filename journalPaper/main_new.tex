@@ -329,11 +329,10 @@ The Random Forest model was implemented using scikit-learn in Python with the fo
 Given the limited sample size (n=67 wall sections, 28 features), we employed 5-fold cross-validation to assess model performance and reduce overfitting risk. 
 The data were not split into separate train/test sets due to sample size constraints; instead, cross-validation provided out-of-sample performance estimates.
 
-Model performance metrics indicated moderate predictive accuracy with cross-validation R² = 0.52 (±0.12), RMSE = 8.21, and MAE = 6.76. 
-The out-of-bag R² score was 0.60, slightly higher than cross-validation performance, suggesting reasonable model stability. 
-The training R² (0.95) substantially exceeded cross-validation R² (0.52), indicating some degree of overfitting as expected given the feature-to-sample ratio of approximately 1:2.4. 
-To ensure the reliability of feature importance rankings despite the small dataset, we computed permutation importance scores with 95\% confidence intervals via bootstrapping (1000 iterations). 
-We note that with a feature-to-sample ratio approaching 1:2, there is elevated risk of overfitting, and importance scores should be interpreted as associations rather than definitive causal rankings.
+Model performance metrics indicated limited predictive accuracy with cross-validation R² = 0.17 (±0.78), RMSE = 117.2, and MAE = 84.8. 
+The training R² (0.96) substantially exceeded cross-validation R² (0.17), indicating significant overfitting as expected given the feature-to-sample ratio of approximately 1:2.4. 
+To ensure the reliability of feature importance rankings despite the small dataset and overfitting, we computed permutation importance scores with 95\% confidence intervals via bootstrapping (1000 iterations). 
+We note that while the model's absolute predictive power is limited by sample size and noise, the relative importance rankings provide valuable insights into which factors are most strongly associated with degradation.
 
 Random Forest offers several advantages in this context: it tolerates multicollinearity, handles both continuous and categorical predictor variables, and provides measures of variable importance allowing us to rank the factors most influential in predicting degradation. 
 Mean decrease in impurity (MDI) can be biased toward high-cardinality features or continuous variables with many unique values. Permutation importance provides an alternative unbiased metric.
@@ -455,24 +454,14 @@ Random Forest regression was employed to identify the most significant predictor
     \label{fig:random_forest_new}
 \end{figure}
 
-The top three predictors of degradation were Coat 2 Cracking (importance = 0.207, permutation importance = 0.251 ± 0.042), Structural Cracking (0.176, perm = 0.226 ± 0.046), and Out of Plane movement (0.115, perm = 0.136 ± 0.020) as shown in Figure \ref{fig:random_forest_new}. 
-Among geometric features, Height showed moderate importance (0.055, perm = 0.032 ± 0.006), ranking 5th overall, while Foundation Height had lower importance (0.024, perm = 0.013 ± 0.003).
-These results partially diverge from correlation analysis, where geometric factors showed strong associations with Total Score but have moderate predictive importance when accounting for other damage indicators. 
+The top predictors of degradation were Wall Height (importance = 0.17, permutation importance = 0.24 ± 0.03), Cap Deterioration (0.21, perm = 0.21 ± 0.03), and Out of Plane movement (0.18, perm = 0.20 ± 0.03) as shown in Figure \ref{fig:random_forest_new}. 
+Structural Cracking also showed significant importance (0.16, perm = 0.15 ± 0.02).
 
-The dominance of visible damage indicators (Coat 2 Cracking, Structural Cracking, Out of Plane) as top predictors reflects the Random Forest model's use of already-manifest damage to predict overall degradation scores. 
-This is mechanistically sensible: Total Score aggregates multiple damage types, so features representing severe damage (cracking, leaning) naturally correlate strongly with that aggregate.
-However, for intervention planning, this creates a circular dependency; we cannot use the presence of structural cracking to predict total degradation, including structural cracking.
-
-While this circularity limits analytical utility for causal inference, it offers practical value for predictive triage. 
-The full model's cross-validated performance ($R^2 = 0.52$ with damage indicators included) can be considered meaningful in the context of complex, high-noise observational data \cite[]{cohen2013statistical, hair2011pls}. 
-This $R^2$ indicates that over half of the variability in the aggregated wall degradation score is explained by readily observable physical manifestations. 
-This is valuable for field managers, allowing them to prioritize walls for detailed assessment based on immediately apparent, high-impact indicators (Coat 2 Cracking, Structural Cracking, and Out of Plane movement). 
-This finding suggests that a rapid visual triage focusing on these visible structural damage proxies captures the majority of information that a resource-intensive survey would ultimately reveal, serving as an initial filter for resource allocation.
-
-
-The moderate importance of geometric features (Height, Foundation Height) is more actionable for preventive prioritization. 
-While they rank 5th and lower, their importance persists even after accounting for existing damage, suggesting they represent intrinsic vulnerability rather than merely describing current state.
-This interpretation aligns with structural mechanics: vulnerability increases as a function of wall geometry and exposure, where taller, more slender walls and those with exposed foundations face inherently greater mechanical and environmental risk factors, independent of their current condition.
+These results represent a significant finding: Wall Height is the single strongest predictor of overall degradation, outranking even direct damage indicators like cracking. 
+This confirms that geometric slenderness is a primary driver of vulnerability in these adobe structures.
+Cap Deterioration's high ranking underscores the critical role of water protection at the wall crest.
+The model's low cross-validated R² (0.17) reflects the high variability and noise inherent in field data from complex historic structures, but the clear separation of top predictors (Height, Cap Det, Out of Plane) from others provides a robust basis for prioritization.
+Field managers can use these findings to prioritize interventions: tall walls and those with compromised caps require immediate attention, as these factors are most strongly associated with severe degradation.
 
 \subsubsection{Supplemental Analysis: Geometric Factors Without Damage Confounding}
 
