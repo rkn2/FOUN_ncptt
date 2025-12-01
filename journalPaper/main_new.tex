@@ -322,16 +322,19 @@ $$
 The $\text{Wall Weight Score}$ aggregates severe structural features (Cap Deterioration, Structural Cracking, Out of Plane, Lintel Deterioration, etc.), while the four $\text{Coat Weight Scores}$ quantify shelter coat degradation. The $\text{Elevation Weight Score}$ focuses on damage localized at the base and sill. 
 
 
-Building upon the insights gained from correlation and Factor Analysis, we employed Regularized Linear Regression (Elastic Net) to identify the most significant predictors of overall degradation. 
-Given the limited sample size (n=67) relative to the number of features, standard linear regression is prone to overfitting. 
-Elastic Net addresses this by combining L1 (LASSO) and L2 (Ridge) regularization penalties, effectively handling multicollinearity and performing feature selection by shrinking irrelevant coefficients to zero \cite[]{zou2005regularization}.
-The model predicts the overall degradation score (Total Scr) based on geometric features and damage indicators.
-All predictors were standardized (zero mean, unit variance) prior to modeling, allowing the magnitude of regression coefficients to serve as a direct measure of relative feature importance.
-We employed 5-fold cross-validation to assess model performance and ensure stability.
+To ensure the generalizability of our findings across algorithmic approaches, we benchmarked seven regression model families: Linear Regression, Ridge Regression (L2-regularized), Elastic Net (L1+L2 regularized), Decision Tree, Random Forest, Support Vector Regression (SVR), and Gradient Boosting (XGBoost equivalent).
+Repeated K-fold cross-validation was implemented with five folds and five repeats, yielding 25 evaluation rounds per model.
+This rigorous design provides a robust estimate of model stability and performance distribution.
 
-Model performance was robust, achieving a cross-validation R² = 0.80 (±0.06). 
-This high predictive accuracy confirms that the Total Score is effectively a linear composite of the observed damage and geometric factors.
-Unlike Random Forest, which struggled with overfitting in preliminary trials (CV R² $\approx$ 0.60), Elastic Net provided a stable, generalizable model appropriate for the sample size.
+The model achieving the best mean $R^2$ score was identified, and paired Wilcoxon signed-rank tests were performed on the 25 fold-wise $R^2$ differences to compare competing models.
+The Wilcoxon test is appropriate for paired, non-normal data and is recommended for classifier comparisons \cite[]{demvsar2006statistical}.
+Holm-Bonferroni correction for multiple comparisons was applied to ensure statistical rigor.
+Models with corrected p-values exceeding 0.05 were deemed statistically indistinguishable from the best performer.
+
+The benchmark revealed that regularized linear models (Ridge and Elastic Net) significantly outperformed complex non-linear ensembles (Random Forest, Gradient Boosting).
+Ridge Regression achieved the highest mean $R^2$ (0.76), while Elastic Net ($R^2 = 0.75$) was statistically indistinguishable ($p_{adj} = 0.21$).
+Given their statistical equivalence, we selected Elastic Net as the primary model for interpretation due to its ability to perform feature selection via L1 regularization, offering a parsimonious explanation of the degradation drivers.
+All predictors were standardized prior to modeling, allowing regression coefficients to serve as direct measures of feature importance.
 
 \subsection{Data synthesis methods}
 Intervention matrices graphically represent the logic of intervention decisions, reminding stakeholders to consider multiple perspectives and options\cite[]{harris2001building}. The tool avoids formulaic responses to commonly encountered deterioration mechanisms by facilitating a structured evaluation of the various options, weighing their advantages and disadvantages, and considering cost, risk, efficacy, and potential outcomes. It also illustrates the complexity of decision-making in these contexts \cite[]{harris2001building}. In these matrices, the horizontal axis represents the NSC, while the vertical axis represents various intervention approaches: abstention, mitigation, reconstitution, substitution, circumvention, and acceleration as defined by \cite[]{harris2001building}. The cells within the matrix represent a qualitative assessment of the effectiveness, cost, and potential risks associated with each intervention approach for a given NSC. For example, a cell might indicate that repointing mortar joints is highly effective for addressing cracking at wall junctions but has a moderate cost and a low risk of negatively impacting the historical fabric.
@@ -453,9 +456,8 @@ The results are presented in Figure \ref{fig:feature_importance}.
 
 The top predictors of degradation were Cap Deterioration (Coefficient = 54.5), Out of Plane movement (43.3), and Wall Height (43.0).
 Structural Cracking (30.8) and Cracking at Wall Junction (27.7) also showed significant positive associations.
-These results align with the previous findings but with much higher statistical confidence (R² = 0.80).
-Wall Height remains a top-tier predictor, reinforcing the conclusion that geometric slenderness is a primary driver of vulnerability.
-The strong performance of the linear model confirms that degradation scoring follows a predictable, additive logic where specific defects (caps, leaning, cracks) cumulatively drive the overall condition state.
+These results align with the benchmark findings, where linear models consistently outperformed non-linear ones ($R^2_{Ridge}=0.76$ vs $R^2_{RF}=0.59$, $p < 0.001$).
+This statistical superiority of linear models confirms that degradation scoring follows a predictable, additive logic where specific defects cumulatively drive the overall condition state.
 
 \subsubsection{Supplemental Analysis: Geometric Factors Without Damage Confounding}
 
