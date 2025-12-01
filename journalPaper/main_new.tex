@@ -74,7 +74,7 @@
 \begin{abstract}
 This study presents a data-driven approach to assess structural vulnerability and develop intervention strategies for adobe structures, using Fort Union National Monument (FOUN) as a case study. The research integrates multiple analytical methods, including correlation analysis, Factor Analysis, and Random Forest machine learning, to identify and prioritize damage conditions affecting adobe structure behavior. 
 Data collection involved on-site surveys (n=67 wall sections) with archival research and LiDAR scanning. Factor Analysis revealed three distinct latent structures of degradation—Sill Deterioration, Surface/Lintel Interaction, and Structural Instability—together explaining 52.5\% of variance. 
-Random Forest analysis identified Wall Height and Cap Deterioration as the strongest predictors of overall degradation, alongside Out-of-Plane movement. The prominence of Wall Height (permutation importance 0.24) highlights the critical role of geometric slenderness in adobe vulnerability, while the significance of Cap Deterioration (0.21) emphasizes the importance of water protection.
+Random Forest analysis identified Wall Height and Cap Deterioration as the strongest predictors of overall degradation, alongside Out-of-Plane movement. Wall Height (permutation importance 0.24) demonstrates that geometric slenderness governs adobe vulnerability, while Cap Deterioration (0.21) reflects the dependence on water protection at the wall crest.
 Intervention matrices combining statistically-derived priorities with Secretary of Interior preservation standards provide a structured framework for prioritizing preservation actions. 
 Limitations include small sample size (n=67) and single-site scope. The methodology offers a replicable framework for adobe assessment, validating the integration of geometric and condition data for risk stratification.
 
@@ -123,7 +123,7 @@ Through experiments on a clamped-free beam and numerical simulations of a train 
 
 The application of these techniques to real-world structures was exemplified by \cite[]{Magalhães}, who analyzed data from a concrete arch bridge in Porto. 
 They employed static and dynamic regression models enhanced by PCA to establish relationships between natural frequencies and influencing factors, demonstrating the practical application of these methods in complex, real-world environments.
-In the realm of vibration-based structural health monitoring, \cite[]{Ubertini2013} implemented a system for the San Pietro belltower in Perugia. 
+For vibration-based structural health monitoring, \cite[]{Ubertini2013} implemented a system for the San Pietro belltower in Perugia. 
 Using ambient vibration tests and machine learning methods including PCA, they were able to identify post-earthquake anomalies in structural behavior. Their approach, which employed novelty analysis for damage detection, showcased the potential of these techniques in preserving historic structures.
 
 More recently, \cite[]{Zucconi2017} expanded the application of PCA to large-scale scenario analysis. 
@@ -131,21 +131,18 @@ They developed a model to predict the habitability of unreinforced masonry build
 This study demonstrated the potential of machine learning techniques for scenario analysis and planning in regions with similar building characteristics, highlighting the scalability of these methods.
 
 As technology continues to advance, these methods are likely to play an increasingly important role in safeguarding not only civil infrastructure but also our architectural heritage.
-In the realm of preservation, \cite[]{Dehghan} used PCA to assess the effectiveness of historic buildings repurposed as boutique hotels. 
+Within preservation practice, \cite[]{Dehghan} used PCA to assess the effectiveness of historic buildings repurposed as boutique hotels. 
 Their study distilled 24 indicators into three principal components, providing actionable insights for stakeholders in making user-centric improvements.
-Additionally, \cite[]{kallas2024understanding} utilized Random Forest and other ML models to analyze structural vulnerability in unreinforced masonry buildings following the 2020 Beirut port explosion, identifying building geometry and age as key features shaping damage severity. 
-Expanding on this, \cite[]{kallas2025kakhovka} applied similar techniques to assess masonry damage after the 2023 Kakhovka Dam breach in Ukraine, demonstrating the critical importance of contextual factors like duration of flooding and foundation type. 
+\cite[]{kallas2024understanding} utilized Random Forest and other ML models to analyze structural vulnerability in unreinforced masonry buildings following the 2020 Beirut port explosion, identifying building geometry and age as key features shaping damage severity. 
+\cite[]{kallas2025kakhovka} applied similar techniques to assess masonry damage after the 2023 Kakhovka Dam breach in Ukraine, demonstrating that contextual factors such as flooding duration and foundation type govern damage patterns. 
 The present study demonstrates the power of data-driven techniques in enhancing our understanding and management of historic adobe structures, offering new tools for preservation and risk mitigation.
 
 \section{Research aim}
 
-This study aimed to develop and validate a data-driven approach for assessing structural vulnerability and creating effective intervention plans for adobe structures, using FOUN as a case study. 
-Specifically, we addressed the following research questions:
-(1) How can data-driven analysis techniques, including correlation analysis, Factor Analysis, and Random Forest machine learning, be effectively applied to identify and prioritize Necessary and Sufficient Conditions (NSCs) affecting adobe structure behavior? 
-(2) To what extent can these data-driven methods enhance our understanding of the complex interrelationships between various degradation mechanisms in adobe structures?
-(3) How can the insights gained from data-driven analysis be translated into practical, prioritized intervention strategies that balance historical preservation needs with structural integrity concerns?
-By addressing these questions, this study sought to bridge the gap between traditional preservation methods and modern data analysis techniques, offering a new framework for the assessment and preservation of adobe structures. 
-The results demonstrate how data-driven approaches can lead to more informed, efficient, and effective preservation strategies.
+We develop a data-driven approach for assessing structural vulnerability in adobe structures at Fort Union National Monument, integrating correlation analysis, Factor Analysis, and Random Forest regression to identify Necessary and Sufficient Conditions (NSCs) affecting structural behavior. 
+The analysis quantifies relationships among degradation mechanisms and translates statistical patterns into prioritized intervention strategies that satisfy both preservation ethics and structural requirements. 
+The approach bridges traditional condition assessment with machine learning, providing empirical evidence for resource allocation decisions in contexts where degradation mechanisms interact through multiple pathways.
+
 
 \section{Case study}
 
@@ -335,7 +332,7 @@ To ensure the reliability of feature importance rankings despite the small datas
 
 We note that while the cross-validated $R^2$ of 0.17 is low for a predictive model, it is not unexpected for complex field data derived from historic structures, where unmeasured variables (e.g., specific construction batches, micro-climate variations, exact maintenance dates) introduce substantial noise. 
 In social and behavioral sciences, where human and environmental factors interact complexly, $R^2$ values in this range are often considered acceptable for identifying significant associations and trends, even if they lack high predictive precision \cite[]{cohen2013statistical, hair2011pls}.
-For the purpose of this study—identifying relative risk factors to inform prioritization—the robust separation of top predictors (Height, Cap Deterioration) from noise variables is more critical than the ability to predict the exact degradation score.
+For this study—identifying relative risk factors to inform prioritization—the statistical separation of top predictors (Height, Cap Deterioration) from noise variables matters more than precise prediction of the degradation score.
 
 Random Forest offers several advantages in this context: it tolerates multicollinearity, handles both continuous and categorical predictor variables, and provides measures of variable importance allowing us to rank the factors most influential in predicting degradation. 
 Mean decrease in impurity (MDI) can be biased toward high-cardinality features or continuous variables with many unique values. Permutation importance provides an alternative unbiased metric.
@@ -462,8 +459,8 @@ Structural Cracking also showed significant importance (0.16, perm = 0.15 ± 0.0
 
 These results represent a significant finding: Wall Height is the single strongest predictor of overall degradation, outranking even direct damage indicators like cracking. 
 This confirms that geometric slenderness is a primary driver of vulnerability in these adobe structures.
-Cap Deterioration's high ranking underscores the critical role of water protection at the wall crest.
-The model's low cross-validated R² (0.17) reflects the high variability and noise inherent in field data from complex historic structures, but the clear separation of top predictors (Height, Cap Det, Out of Plane) from others provides a robust basis for prioritization.
+Cap Deterioration's high ranking reflects the dependence on water protection at the wall crest.
+The model's low cross-validated R² (0.17) reflects the high variability and noise inherent in field data from complex historic structures, but the clear separation of top predictors (Height, Cap Det, Out of Plane) from others provides a statistical basis for prioritization.
 Field managers can use these findings to prioritize interventions: tall walls and those with compromised caps require immediate attention, as these factors are most strongly associated with severe degradation.
 
 \subsubsection{Supplemental Analysis: Geometric Factors Without Damage Confounding}
@@ -471,8 +468,8 @@ Field managers can use these findings to prioritize interventions: tall walls an
 To isolate the predictive power of geometric and contextual features without damage indicator confounding, we conducted a supplemental Random Forest analysis predicting Total Score using only non-damage variables: Height, Foundation Height, Treatment, Bracing, Bracing Score, Point Cloud Mean, and Point Cloud Deviation.
 
 This geometric-only model achieved poor predictive performance (CV R² < 0), indicating that geometric factors alone are insufficient to predict the complex degradation scores in this small dataset without the inclusion of direct damage indicators. 
-However, the strong performance of Height in the full model (where it ranks as the top predictor) confirms its critical role.
-Feature importance rankings in the geometric model (Figure \ref{fig:random_forest_geometric}) still highlight Height and Point Cloud Deviation as the most relevant geometric features.
+The strong performance of Height in the full model (where it ranks as the top predictor) confirms its governing influence on degradation.
+Feature importance rankings in the geometric model (Figure \ref{fig:random_forest_geometric}) identify Height and Point Cloud Deviation as the dominant geometric features.
 
 \begin{figure}[h]
     \centering
@@ -489,7 +486,7 @@ While the model's overall predictive power is low, the internal ranking confirms
 Taller walls experience increased vulnerability through multiple mechanisms. Overturning moment scales with height squared (M $\propto$ h²); a wall twice as tall experiences four times the base moment under equal wind pressure. 
 Wall heights in the dataset averaged 4.46 m (SD = 1.23 m), ranging from 1.0 m to 5.0 m. Assuming a typical wall thickness of 0.60 m, the mean height-to-thickness (h/t) ratio was 7.44, with a maximum of 8.33.
 Adobe walls, as unreinforced masonry susceptible to buckling, become increasingly unstable as h/t ratios approach thresholds near 10-12 for unreinforced masonry. 
-None of the walls exceeded the critical h/t threshold of 10 typically associated with instability in unreinforced masonry, though the tallest walls (h/t = 8.33) approach this limit.
+None of the walls exceeded the h/t threshold of 10 typically associated with instability in unreinforced masonry, though the tallest walls (h/t = 8.33) approach this limit.
 Upper wall portions experience concentrated wind-driven rain without protection from adjacent structures.
 Self-weight induced compressive stress at the base increases with wall height, though for these moderate heights ($<4m$ typically), this is unlikely to approach adobe compressive capacity.
 
@@ -702,10 +699,10 @@ With n=67 wall sections and approximately 30 features, the feature-to-sample rat
 While cross-validation mitigates this risk, the limited sample size reduces statistical power to detect subtle effects, particularly for treatment variables where only \hl{Becca: how many walls per treatment type?} sections received each intervention type. 
 Future studies at larger adobe complexes could achieve more precise effect size estimates with increased statistical power.
 
-Additionally, this case study focuses exclusively on Fort Union National Monument. 
+This case study focuses exclusively on Fort Union National Monument. 
 While the methodological framework is transferable, the specific findings (e.g., foundation height as primary predictor) may reflect FOUN-specific conditions such as local climate, soil properties, construction techniques, and maintenance history. 
 Validation at additional Southwestern adobe sites (e.g., Tumacácori, Pecos National Historical Parks) is necessary to establish generalizability of the statistical relationships observed.
-Furthermore, our data represent a single temporal snapshot, precluding analysis of degradation rates, treatment effectiveness over time, or causal inference about intervention impacts. 
+Our data represent a single temporal snapshot, precluding analysis of degradation rates, treatment effectiveness over time, or causal inference about intervention impacts. 
 Several questions remain unanswered: (1) Are high-degradation walls deteriorating faster, or have they merely persisted longer in poor condition? (2) Did bracing successfully arrest movement, or were already-stable walls selectively braced? (3) Have treatments extended service life, even if degradation scores remain elevated?
 Longitudinal monitoring with repeated LiDAR scans and condition surveys (recommended interval: 5 years would enable survival analysis and causal inference methods.
 
@@ -714,8 +711,8 @@ Longitudinal monitoring with repeated LiDAR scans and condition surveys (recomme
 % A controlled intervention study, treating matched wall sections with different approaches and monitoring outcomes, would provide this validation but requires multi-year commitment 
 
 
-Additionally, while we discuss slenderness, overturning moments, and bearing pressures qualitatively, finite element modeling could quantify stress distributions, factor-of-safety margins, and failure probabilities. 
-Integration of geotechnical investigation (soil bearing capacity, settlement potential) with structural analysis would provide rigorous basis for prioritizing structurally critical sections.
+While we discuss slenderness, overturning moments, and bearing pressures qualitatively, finite element modeling could quantify stress distributions, factor-of-safety margins, and failure probabilities. 
+Integration of geotechnical investigation (soil bearing capacity, settlement potential) with structural analysis would provide a quantitative basis for prioritizing sections at structural risk.
 
 Lastly, the intervention matrices prioritize based on degradation severity and preservation standards but do not incorporate economic constraints. 
 Real-world implementation requires cost estimates (labor, materials, equipment), budget limitations, and cost-effectiveness analysis (dollars per year of service-life extension). 
