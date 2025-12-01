@@ -922,28 +922,36 @@ To ensure the generalizability of our model selection, we benchmarked seven regr
 \toprule
 Model & Mean $R^2$ & Std Dev & $p_{raw}$ vs Best & $p_{adj}$ (Holm) \\
 \midrule
-Ridge & 0.763 & $\pm$0.133 & --- & --- \\
-Elastic Net & 0.753 & $\pm$0.082 & 0.2099 & 0.2099 \\
+Ridge & 0.764 & $\pm$0.132 & --- & --- \\
+Elastic Net & 0.750 & $\pm$0.082 & 0.1730 & 0.1730 \\
 Linear Regression & 0.744 & $\pm$0.144 & 0.0000 & 0.0000 \\
-Gradient Boosting & 0.610 & $\pm$0.150 & 0.0001 & 0.0003 \\
-Random Forest & 0.585 & $\pm$0.160 & 0.0004 & 0.0008 \\
-Decision Tree & -0.012 & $\pm$0.533 & 0.0000 & 0.0000 \\
-SVR & -0.103 & $\pm$0.123 & 0.0000 & 0.0000 \\
+Gradient Boosting & 0.612 & $\pm$0.150 & 0.0001 & 0.0003 \\
+Random Forest & 0.588 & $\pm$0.161 & 0.0004 & 0.0009 \\
+Decision Tree & -0.007 & $\pm$0.537 & 0.0000 & 0.0000 \\
+Naive Baseline (Mean) & -0.096 & $\pm$0.117 & 0.0000 & 0.0000 \\
+SVR & -0.102 & $\pm$0.123 & 0.0000 & 0.0000 \\
 \bottomrule
-\multicolumn{5}{l}{\footnotesize Best model: Ridge ($R^2$ = 0.763)} \\
+\multicolumn{5}{l}{\footnotesize Best model: Ridge ($R^2$ = 0.764)} \\
 \multicolumn{5}{l}{\footnotesize Wilcoxon signed-rank test with Holm-Bonferroni correction ($\alpha=0.05$)} \\
 \multicolumn{5}{l}{\footnotesize Repeated K-Fold Cross-Validation: 5 folds $\times$ 5 repeats = 25 evaluation rounds} \\
 \end{tabular}
 \end{table}
 
-Ridge Regression achieved the highest mean cross-validated $R^2$ (0.763 $\pm$ 0.133), establishing it as the best-performing model. Elastic Net ($R^2$ = 0.753 $\pm$ 0.082) was statistically indistinguishable from Ridge based on paired Wilcoxon signed-rank testing with Holm-Bonferroni correction ($p_{adj} = 0.21 > 0.05$). 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1.0\textwidth]{Images/calibration_plots.png}
+    \caption{Calibration plots (Predicted vs. Observed) for all benchmarked models. Ideally, points should align with the red dashed line ($y=x$). Elastic Net and Ridge show strong alignment, while non-linear models like Random Forest show greater dispersion and bias.}
+    \label{fig:calibration_plots}
+\end{figure}
+
+Ridge Regression achieved the highest mean cross-validated $R^2$ (0.764 $\pm$ 0.132), establishing it as the best-performing model. Elastic Net ($R^2$ = 0.750 $\pm$ 0.082) was statistically indistinguishable from Ridge based on paired Wilcoxon signed-rank testing with Holm-Bonferroni correction ($p_{adj} = 0.17 > 0.05$). 
 
 All other models were significantly worse than Ridge:
 \begin{itemize}
     \item Linear Regression: $p_{adj} < 0.001$
     \item Gradient Boosting: $p_{adj} = 0.0003$
-    \item Random Forest: $p_{adj} = 0.0008$
-    \item Decision Tree and SVR: $p_{adj} < 0.001$ (negative $R^2$ indicates poor fit)
+    \item Random Forest: $p_{adj} = 0.0009$
+    \item Decision Tree, SVR, and Naive Baseline: $p_{adj} < 0.001$ (negative $R^2$ indicates poor fit)
 \end{itemize}
 
 The statistical equivalence of Ridge and Elastic Net, combined with Elastic Net's superior interpretability through L1-induced sparsity, justified its selection as the primary model for feature importance analysis in the main manuscript.

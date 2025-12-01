@@ -13,6 +13,9 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.svm import SVR
 from sklearn.metrics import r2_score
+from sklearn.dummy import DummyRegressor
+from sklearn.model_selection import RepeatedKFold, cross_val_score, cross_val_predict, KFold
+import os
 
 # Configuration
 INPUT_FILE = 'defunct/2023_12_8_targeted_eval.csv'
@@ -83,33 +86,42 @@ def get_models():
     models = {
         'Linear Regression': LinearRegression(),
         'Ridge': Ridge(random_state=RANDOM_STATE),
-        'Elastic Net': ElasticNet(random_state=RANDOM_STATE, max_iter=10000),
+        'Elastic Net': ElasticNet(random_state=RANDOM_STATE, l1_ratio=0.5), # Modified
         'Decision Tree': DecisionTreeRegressor(random_state=RANDOM_STATE),
-        'Random Forest': RandomForestRegressor(n_estimators=100, random_state=RANDOM_STATE),
-        'SVR': SVR(kernel='rbf'),
-        'Gradient Boosting': GradientBoostingRegressor(random_state=RANDOM_STATE)
+        'Random Forest': RandomForestRegressor(random_state=RANDOM_STATE), # Modified
+        'SVR': SVR(), # Modified
+        'Gradient Boosting': GradientBoostingRegressor(random_state=RANDOM_STATE),
+        'Naive Baseline (Mean)': DummyRegressor(strategy='mean') # Added
     }
     return models
 
 def run_benchmark(X, y):
     models = get_models()
-    results = {}
-    raw_scores = {}
     
-    # Repeated K-Fold: 5 folds, 5 repeats = 25 runs
-    rkf = RepeatedKFold(n_splits=5, n_repeats=5, random_state=RANDOM_STATE)
+    # Define common pipeline for preprocessing
+    preprocessor = Pipeline([
+        ('imputer', SimpleImputer(strategy='mean')),
+        ('scaler', StandardScaler())
+    ])
     
-    print("Running Benchmark (5 folds x 5 repeats)...")
+    # Apply preprocessing to X
+    X_scaled = preprocessor.fit_transform(X)
+
+    # Store results
+    results = {name: [] for name in models}
+    raw_scores = {name: [] for name in models}
+    predictions = {name: {'y_true': [], 'y_pred': []} for name in models}
+    
+    n_splits = 5
+    n_repeats = 5
+    print(f"Starting benchmark with {n_splits}-fold CV and {n_repeats} repeats...")
     
     for name, model in models.items():
-        # Create pipeline with scaling
-        pipeline = Pipeline([
-            ('imputer', SimpleImputer(strategy='mean')),
-            ('scaler', StandardScaler()),
-            ('model', model)
-        ])
+        print(f"Evaluating {name}...")
+        rkf = RepeatedKFold(n_splits=n_splits, n_repeats=n_repeats, random_state=RANDOM_STATE)
         
-        scores = cross_val_score(pipeline, X, y, cv=rkf, scoring='r2')
+        # 1. Get CV scores
+        scores = cross_val_score(model, X_scaled, y, cv=rkf, scoring='r2')
         results[name] = {
             'mean_r2': np.mean(scores),
             'std_r2': np.std(scores)
@@ -117,6 +129,42 @@ def run_benchmark(X, y):
         raw_scores[name] = scores
         print(f"{name}: R2 = {np.mean(scores):.3f} (+/- {np.std(scores):.3f})")
         
+        # 2. Get predictions for calibration plot (using simple KFold for clean visualization)
+        kf_plot = KFold(n_splits=5, shuffle=True, random_state=RANDOM_STATE)
+        y_pred_plot = cross_val_predict(model, X_scaled, y, cv=kf_plot)
+        predictions[name]['y_true'] = y
+        predictions[name]['y_pred'] = y_pred_plot
+
+    # Generate Calibration Plots
+    print("Generating calibration plots...")
+    # 8 models -> 2 rows of 4
+    fig, axes = plt.subplots(2, 4, figsize=(20, 10))
+    axes = axes.flatten()
+    
+    for i, (name, data) in enumerate(predictions.items()):
+        if i >= len(axes): break
+        ax = axes[i]
+        y_true = data['y_true']
+        y_pred = data['y_pred']
+        r2 = r2_score(y_true, y_pred)
+        
+        ax.scatter(y_true, y_pred, alpha=0.6, edgecolors='w')
+        # Plot perfect prediction line
+        min_val = min(y_true.min(), y_pred.min())
+        max_val = max(y_true.max(), y_pred.max())
+        ax.plot([min_val, max_val], [min_val, max_val], 'r--', lw=2)
+        
+        ax.set_title(f'{name}\n$R^2 = {r2:.3f}$')
+        ax.set_xlabel('Observed Score')
+        ax.set_ylabel('Predicted Score')
+        ax.grid(True, alpha=0.3)
+        
+    plt.tight_layout()
+    if not os.path.exists(FIGURE_DIR):
+        os.makedirs(FIGURE_DIR)
+    plt.savefig(os.path.join(FIGURE_DIR, 'calibration_plots.png'), dpi=300)
+    print(f"Saved calibration plots to {os.path.join(FIGURE_DIR, 'calibration_plots.png')}")
+
     return results, raw_scores
 
 def perform_statistical_tests(raw_scores):
