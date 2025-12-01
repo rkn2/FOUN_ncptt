@@ -76,7 +76,7 @@
 We developed a data-driven assessment framework for structural vulnerability in historic adobe at Fort Union National Monument, integrating correlation analysis, Factor Analysis, and regularized regression (Elastic Net) to identify and rank damage conditions affecting wall performance.
 On-site surveys of 67 wall sections, archival research, and LiDAR scanning provided the empirical basis for the analysis. Factor Analysis isolated three latent structures of degradation (Sill Deterioration, Surface/Lintel Interaction, and Structural Instability) explaining 52.5\% of total variance.
 Model benchmarking across seven regression families (repeated K-fold cross-validation with Wilcoxon statistical testing) confirmed that Ridge and Elastic Net significantly outperformed ensemble methods (Random Forest, Gradient Boosting), with mean cross-validated $R^2$ of 0.76 vs. 0.59 ($p<0.001$).
-Wall Height (standardized coefficient 43.0) and Cap Deterioration (54.5) emerged as the dominant predictors, demonstrating that geometric slenderness and water protection are strongly associated with vulnerability, with tall walls exhibiting elevated risk independent of visible damage conditions.
+Wall Height (standardized coefficient 43.0) and Cap Deterioration (54.5) emerged as the dominant predictors, demonstrating that geometric slenderness and water protection are strongly associated with vulnerability, with tall walls exhibiting higher degradation scores independent of visible damage conditions.
 Statistically-derived priorities were synthesized with Secretary of Interior preservation standards into intervention matrices, providing field managers with a structured decision framework.
 The methodology is constrained by sample size (n=67) and single-site scope but offers a replicable template for integrating geometric and condition data in adobe risk assessment.
 
@@ -452,15 +452,15 @@ The factor name ``Sill Deterioration" reflects that sills function as water-shed
 
 The second factor, named ``Surface and Lintel Interaction", exhibits high loadings for Coat 1 Cracking (0.72) and Lintel Deterioration (0.61). 
 This factor structure suggests an association between these two forms of damage. 
-Surface coat failure around openings may be associated with wooden lintel moisture exposure, or lintel deflection may induce stresses in surrounding plaster. 
+Surface coat failure around openings may be associated with wooden lintel moisture exposure, or potentially reflects stresses in surrounding plaster associated with lintel deflection. 
 This finding has implications for intervention planning, suggesting that lintels and their surrounding surface coats may benefit from coordinated treatment approaches.
 
 The third factor, ``Global Structural Instability", groups Structural Cracking (0.50), Out of Plane movement (0.40), and Coat 2 Cracking (0.58). 
 The inclusion of Coat 2 Cracking (Orientation 2) in this structural factor warrants explanation. 
 We hypothesize this reflects orientation-specific exposure: the West-facing walls (Orientation 2 and 3) are subjected to the prevailing westerlies and associated severe weather, including wind-driven rain.
-If Orientation 2 walls experience greater environmental stress (wind-driven rain, solar exposure), surface coat damage on this face may co-occur with structural instability driven by that same exposure.
-Alternatively, if structural movement (out-of-plane, cracking) concentrates on particular wall orientations due to asymmetric loading or foundation settlement patterns, coating on those faces would experience greater stress. 
-This clustering suggests these damage forms share common underlying causes attributed to structural issues such as foundation settlement, loss of lateral restraint, or material degradation in the wall core. 
+If Orientation 2 walls experience greater environmental stress (wind-driven rain, solar exposure), surface coat damage on this face may co-occur with structural instability associated with that same exposure.
+Alternatively, if structural movement (out-of-plane, cracking) concentrates on particular wall orientations due to asymmetric loading or foundation settlement patterns, coating on those faces may exhibit increased distress. 
+This clustering suggests these damage forms share common underlying associations with structural issues such as foundation settlement, loss of lateral restraint, or material degradation in the wall core. 
 Interventions targeting this factor should address underlying structural deficiencies rather than merely treating surface manifestations.
 
 \subsubsection{Feature Importance Analysis Using Elastic Net Regression}
@@ -496,7 +496,7 @@ Feature importance rankings (Figure \ref{fig:random_forest_geometric}) identify 
 \end{figure}
 
 Height emerged as the single most powerful geometric predictor (Coefficient = 57.8), far exceeding Point Cloud Deviation (-24.6) and Point Cloud Mean (18.4).
-When blind to actual damage conditions, the model depends heavily on Wall Height to estimate risk.
+When blind to actual damage conditions, the model depends heavily on Wall Height to predict degradation scores.
 The negative coefficient for Point Cloud Deviation ($-24.6$) is counterintuitive but likely reflects a suppressor effect: after accounting for height, greater surface irregularity may mark walls with intact, textured caps rather than smooth, eroded profiles.
 This confirms that slenderness is not just a correlate of damage but a fundamental, intrinsic vulnerability factor.
 
@@ -537,15 +537,15 @@ Based on the Factor Analysis and Elastic Net results, we identified four primary
 This cluster suggests coupled structural failure requiring intervention addressing underlying causes (foundation issues, loss of lateral restraint) rather than merely treating surface manifestations.
 
 \textbf{(2) Surface Coating Degradation (Factor 3, EN rank 1):} Coat 2 Cracking emerged as the single strongest predictor, loading heavily on Factor 3. 
-Its association with structural instability suggests coating failure both reflects and potentially accelerates structural deterioration by exposing adobe to moisture infiltration.
+Its association with structural instability suggests coating failure is strongly linked to structural deterioration, potentially serving as both an indicator and an aggravating factor by exposing adobe to moisture infiltration.
 
 \textbf{(3) Sill Deterioration (Factor 1):} This represents a distinct, localized vulnerability. 
 While moderate in predictive importance, its independence as Factor 1 indicates a specific failure mode requiring targeted intervention separate from general wall treatments.
 
-\textbf{(4) Surface and Lintel Interaction (Factor 2):} Coat 1 Cracking and Lintel Deterioration group as Factor 2, suggesting coupled failure where coating damage and lintel decay reinforce one another, particularly around openings.
+\textbf{(4) Surface and Lintel Interaction (Factor 2):} Coat 1 Cracking and Lintel Deterioration group as Factor 2, suggesting a coupled relationship where coating damage and lintel decay are closely linked, particularly around openings.
 
 Note that we do not establish ``High Geometric Exposure" as an NSC in the intervention sense, as height and foundation exposure are intrinsic wall characteristics that cannot be directly ``treated." 
-However, these geometric factors inform prioritization: walls combining high geometric risk with moderate current damage warrant early intervention to prevent progression to severe structural instability.
+However, these geometric factors inform prioritization: walls combining high geometric risk with moderate current damage warrant early intervention to mitigate potential progression to severe structural instability.
 Table \ref{tab:significant_features} lists the features identified as significant in the analysis, detailing their inclusion or exclusion from the intervention matrix and the rationale.
 
 \begingroup
