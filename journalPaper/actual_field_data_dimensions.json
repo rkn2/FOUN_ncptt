@@ -1,0 +1,18 @@
+{
+  "data_source": "defunct/2023_12_8_targeted_eval.csv",
+  "note": "ACTUAL FIELD DATA (not synthetic)",
+  "wall_dimensions": {
+    "height_mean_m": 4.462686567164179,
+    "height_std_m": 1.234950105837371,
+    "height_min_m": 1.0,
+    "height_max_m": 5.0,
+    "height_range": "1.00-5.00",
+    "thickness_assumed_m": 0.6,
+    "ht_ratio_mean": 7.437810945273632,
+    "ht_ratio_std": 2.0582501763956187,
+    "ht_ratio_max": 8.333333333333334,
+    "ht_ratio_range": "1.67-8.33",
+    "walls_exceeding_critical": 0,
+    "foundation_height_mean_cm": 11.925373134328359
+  }
+}
