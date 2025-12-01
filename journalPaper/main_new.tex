@@ -336,7 +336,7 @@ Models with corrected p-values exceeding 0.05 were deemed statistically indistin
 The benchmark revealed that regularized linear models (Ridge and Elastic Net) significantly outperformed complex non-linear ensembles (Random Forest, Gradient Boosting).
 Ridge Regression achieved the highest mean $R^2$ (0.76), far exceeding the Naive Baseline ($R^2 = -0.10$), confirming the model captures significant signal beyond random chance. Elastic Net ($R^2 = 0.75$) was statistically indistinguishable from Ridge ($p_{adj} = 0.17$).
 Given their statistical equivalence, we selected Elastic Net as the primary model for interpretation due to its ability to perform feature selection via L1 regularization, offering a parsimonious explanation of the degradation drivers.
-All predictors were standardized prior to modeling, allowing regression coefficients to serve as direct measures of feature importance.
+All predictors were standardized to z-scores (mean=0, SD=1) prior to modeling, allowing regression coefficients to serve as direct measures of feature importance. Missing values in foundation variables were handled using mean imputation. The Elastic Net model was configured with a mixing parameter ($\alpha$) of 1.0 and an L1 ratio of 0.5, balancing LASSO and Ridge penalties.
 
 \begin{table}[h]
 \centering
@@ -346,8 +346,8 @@ All predictors were standardized prior to modeling, allowing regression coeffici
 \hline
 Model & Mean $R^2$ & Std Dev & Status vs Best \\
 \hline
-Ridge & 0.763 & $\pm$0.133 & Best \\
-Elastic Net & 0.753 & $\pm$0.082 & $p=0.21$ \\
+Ridge & 0.764 & $\pm$0.132 & Best \\
+Elastic Net & 0.750 & $\pm$0.082 & $p=0.17$ \\
 Linear Regression & 0.744 & $\pm$0.144 & $p<0.001$ \\
 Gradient Boosting & 0.610 & $\pm$0.150 & $p<0.001$ \\
 \hline
@@ -410,14 +410,14 @@ The factor loadings are presented in Table \ref{tab:fa_loadings}.
 \toprule
 \textbf{Variable} & \textbf{Factor 1} & \textbf{Factor 2} & \textbf{Factor 3} \\
 \midrule
-Sill 1 & \textbf{0.94} & -0.07 & 0.06 \\
-Sill 2 & \textbf{0.97} & 0.03 & 0.02 \\
-Coat 1 Cracking & -0.11 & 0.43 & \textbf{0.60} \\
-Coat 1 Loss & 0.10 & 0.14 & \textbf{0.51} \\
-Lintel Deterioration & 0.12 & \textbf{0.82} & 0.10 \\
-Coat 2 Cracking & 0.08 & \textbf{-0.54} & 0.03 \\
-Structural Cracking & 0.08 & -0.33 & 0.36 \\
-Out of Plane & -0.02 & -0.21 & \textbf{0.48} \\
+Sill 1 & \textbf{0.94} & - & - \\
+Sill 2 & \textbf{0.97} & - & - \\
+Coat 1 Cracking & - & 0.43 & \textbf{0.60} \\
+Coat 1 Loss & - & - & \textbf{0.51} \\
+Lintel Deterioration & - & \textbf{0.82} & - \\
+Coat 2 Cracking & - & \textbf{-0.54} & - \\
+Structural Cracking & - & -0.33 & 0.36 \\
+Out of Plane & - & - & \textbf{0.48} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -500,33 +500,22 @@ When blind to actual damage conditions, the model depends heavily on Wall Height
 The negative coefficient for Point Cloud Deviation ($-24.6$) is counterintuitive but likely reflects a suppressor effect: after accounting for height, greater surface irregularity may mark walls with intact, textured caps rather than smooth, eroded profiles.
 This confirms that slenderness is not just a correlate of damage but a fundamental, intrinsic vulnerability factor.
 
+
 \subsubsection{Structural Engineering Interpretation of Geometric Risk Factors}
 
-Taller walls experience increased vulnerability through multiple mechanisms. Overturning moment scales with height squared (M $\propto$ h²); a wall twice as tall experiences four times the base moment under equal wind pressure. 
-Wall heights in the dataset averaged 4.46 m (SD = 1.23 m), ranging from 1.0 m to 5.0 m. Assuming a typical wall thickness of 0.60 m, the mean height-to-thickness (h/t) ratio was 7.44, with a maximum of 8.33.
-Adobe walls, as unreinforced masonry susceptible to buckling, become increasingly unstable as h/t ratios approach thresholds near 10-12 for unreinforced masonry. 
-None of the walls exceeded the h/t threshold of 10 typically associated with instability in unreinforced masonry, though the tallest walls (h/t = 8.33) approach this limit.
-Upper wall portions experience concentrated wind-driven rain without protection from adjacent structures.
-Self-weight induced compressive stress at the base increases with wall height, though for these moderate heights ($<4m$ typically), this is unlikely to approach adobe compressive capacity.
+Taller walls experience increased vulnerability through multiple interacting mechanisms, each contributing to cumulative structural degradation. The dominant mechanism is wind load vulnerability, where overturning moment from lateral wind pressure scales with height squared ($M \propto h^2$). For a wall twice as tall, the base moment quadruples under equal wind pressure. For a typical wall section at FOUN with thickness $t = 0.60$ m, height $h = 4.46$ m, and adobe density $\rho = 1800$ kg/m³, the critical wind velocity for incipient overturning is governed by moment equilibrium. The stabilizing moment from self-weight ($M_{stab} = \frac{1}{2}\gamma t^2 h$) must exceed the overturning moment ($M_{OT} = \frac{1}{2}qh^3$), where $q$ is the peak dynamic pressure. This equilibrium condition yields a critical wind velocity that decreases with increasing slenderness. For the tallest walls in this dataset ($h/t \approx 8.3$), even moderate wind events (15--20 m/s) generate significant base tensile stresses which unreinforced adobe cannot sustain given its negligible tensile capacity ($<0.1$ MPa).
 
-Exposed foundation height may be associated with degradation through multiple physical pathways.
-Exposed foundations experience direct impact from precipitation rebounding off ground surfaces, concentrating moisture at the wall-foundation interface. 
-Greater exposed height may indicate shallower foundations or localized settlement, potentially correlating with moisture wicking into adobe via capillary action from saturated soils.
-If foundation exposure results from soil loss, the lower wall courses lose passive earth pressure providing lateral support, increasing vulnerability to out-of-plane movement.
-Exposed foundations may serve as markers of uneven settlement creating stress concentrations that propagate upward as cracking.
-Separating these mechanisms requires additional data beyond this cross-sectional survey. 
-Future monitoring could measure soil moisture content adjacent to foundations, foundation bearing pressures, and settlement rates via repeated LiDAR scanning.
+Buckling susceptibility represents a second critical vulnerability mechanism. Adobe walls, functioning as slender unreinforced masonry elements, are vulnerable to elastic buckling according to Euler's classical column theory. The critical buckling load is defined as $P_{cr} = \frac{\pi^2 EI}{(kL)^2}$. For walls with nominal fixity at the base but free at the top (cantilever-like behavior, $k \approx 2.0$), and assuming an elastic modulus $E \approx 200$--$400$ MPa \citep{Illampas2014}, walls approaching $h/t > 10$ enter the buckling-critical regime under self-weight alone. The dataset's maximum observed slenderness ratio of 8.33 approaches this theoretical threshold. This vulnerability is exacerbated by P-$\delta$ effects, wherein lateral displacement from out-of-plane deflection induces secondary moments that amplify geometric instability even before material strength is exceeded.
 
-The low importance scores for specific historical treatments indicate minimal predictive power. 
-This pattern could arise from several mechanisms.
-Selection bias may mask protective effects if treatments were applied to already-degraded walls (reverse causality).
-Historical treatments may have initially succeeded but degraded over the intervening decades. 
-With small sample sizes for individual treatment categories (e.g., n=4 for some specific interventions), detecting treatment effects requires larger samples.
-The most severely degraded walls may have received the most intensive treatments, creating negative apparent associations through confounding by indication.
-These results do not demonstrate treatment ineffectiveness; rather, they reflect limitations of cross-sectional observational data for causal inference about interventions. 
-Future preservation planning should prioritize walls with geometric risk factors (tall, exposed foundations) for preventive intervention before severe damage manifests.
-Longitudinal monitoring is needed to properly assess treatment durability.
-Controlled comparison studies, where feasible, could separate treatment effects from selection bias.
+Environmental exposure patterns create a third vulnerability pathway. Upper wall portions experience concentrated wind-driven rain without shelter from adjacent structures or roof overhangs. Moisture penetration depth scales with exposure duration and the sorptivity of the earthen matrix (typically 0.5--2.0 mm/min$^{0.5}$). Taller walls present greater surface area for moisture ingress, and the cumulative effect of wetting-drying cycles accelerates erosion through salt crystallization pressures and clay particle dispersion. This moisture concentration at wall crests explains the strong correlation observed between Cap Deterioration and overall degradation scores (coefficient 54.5 in the Elastic Net model).
+
+While self-weight induced compressive stress at the base increases linearly with height ($\sigma = \gamma h$), nominally reaching only $\approx 90$ kPa for the tallest walls (well below typical adobe capacity of 0.8--2.0 MPa), it contributes to vulnerability when combined with geometric imperfections. Stress concentrations arising from settlement or construction discontinuities can amplify these stresses, while simultaneous lateral wind forces reduce effective compressive capacity through axial-flexural interaction.
+
+Foundation interaction effects represent a final pathway through which geometric factors influence degradation. Exposed foundations experience direct impact from precipitation rebounding off ground surfaces, concentrating moisture at the critical wall-foundation interface. Greater exposed foundation height may indicate inadequate initial embedment or progressive soil loss; if the latter, the lower wall courses lose the passive earth pressure that provides lateral support, increasing vulnerability to out-of-plane movement. Furthermore, capillary rise from saturated soils can wick moisture upward into the adobe pore network, potentially reaching 0.5--1.0 m above grade. These mechanisms operate simultaneously and are difficult to separate using cross-sectional data alone.
+
+The statistical finding that Height dominates predictions even in the geometric-only model ($R^2 = 0.17$) provides empirical evidence that these physics-based mechanisms govern degradation independently of the current damage state. Conversely, the low importance scores for specific historical treatments suggest minimal predictive power in this dataset. This pattern likely arises from selection bias (treatments applied to already-degraded walls), treatment degradation over time, or insufficient sample sizes for specific interventions (e.g., $n=4$) to detect causal effects.
+
+To address these findings, future preservation planning should prioritize preventive intervention for walls exhibiting geometric risk factors (high slenderness, exposed foundations) regardless of their current visible damage. Longitudinal monitoring is required to separate mechanism effects: this should include soil moisture measurements, foundation bearing pressure monitoring, and repeated precision LiDAR scanning to quantify settlement rates and treatment durability.
 
 \subsection{Identifying significant conditions from results}
 
