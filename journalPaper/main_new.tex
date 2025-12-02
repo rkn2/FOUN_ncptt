@@ -478,22 +478,9 @@ Structural Cracking (30.8) and Cracking at Wall Junction (27.7) also showed sign
 These results align with the benchmark findings, where linear models consistently outperformed non-linear ones ($R^2_{Ridge}=0.76$ vs $R^2_{RF}=0.59$, $p < 0.001$).
 This statistical superiority of linear models confirms that degradation scoring follows a predictable, additive logic where specific defects cumulatively drive the overall condition state.
 
-\subsubsection{Supplemental Analysis: Geometric Factors Without Damage Confounding}
+\subsubsection{Predictive Power of Geometric Factors}
 
-To isolate the predictive power of geometric and contextual features without damage indicator confounding, we conducted a supplemental Elastic Net analysis predicting Total Score using only non-damage variables.
-
-This geometric-only model achieved a cross-validation R² = 0.17 (±0.18). 
-While lower than the full model, this represents a meaningful signal given that all direct damage evidence was excluded.
-Feature importance rankings (Figure \ref{fig:random_forest_geometric}) identify Height as the dominant geometric feature.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{Images/feature_importance_geometric_only.png}
-    \caption{Supplemental Elastic Net Coefficients: Geometric/Contextual Factors Only.}
-    \label{fig:random_forest_geometric}
-\end{figure}
-
-Height Loss emerged as a powerful predictor (Coefficient = 43.0), reflecting the cumulative loss of wall fabric.
+To isolate the predictive power of geometric and contextual features without damage indicator confounding, we conducted a supplemental Elastic Net analysis predicting Total Score using only non-damage variables (excluding Height Loss). This geometric-only model achieved a cross-validation $R^2 \approx 0.03$, indicating that available geometric and contextual metadata alone are insufficient to predict degradation state.
 \subsubsection{Geometric Validation Sub-study}
 To test the hypothesis that geometric slenderness drives degradation, a supplementary analysis was conducted on a subset of 38 walls for which detailed profilometry data was available. The Slenderness Ratio (Height/Width) was calculated from the physical profiles and correlated with the Total Degradation Score. The analysis yielded a Pearson correlation of $r = -0.016$ ($p = 0.925$), indicating no statistically significant relationship between geometric slenderness and overall degradation in this dataset. This null result reinforces the finding that degradation at Fort Union is primarily condition-driven (e.g., material loss, exposure) rather than a function of elastic instability.
 
