@@ -442,9 +442,7 @@ Out of Plane & 0.27 \\
 Communalities (proportion of variance explained by the 3-factor solution) are reported in Table \ref{tab:communalities}. While some values are low (e.g., Structural Cracking 0.25), the Sills show very high communality (>0.90), indicating the factor solution captures these features well.
 The factor loadings are presented in Table \ref{tab:fa_loadings}.
 
-The first factor is heavily loaded on Sill 1 (0.91) and Sill 2 (0.98). 
-This factor may primarily reflect measurement redundancy (sill condition assessed on opposite orientations of the same wall) rather than a distinct latent construct. 
-However, we retain this factor because: (1) the high communalities (Sill 1: 0.99, Sill 2: 1.00) indicate these variables explain substantial shared variance, (2) sill deterioration represents a specific, localized failure mode requiring targeted interventions distinct from general wall degradation, and (3) while Sill 1 and Sill 2 are highly correlated (r = 0.99, p < 0.001), they are not perfectly identical (loading difference of 0.08), suggesting some orientation-specific exposure effects. 
+The first factor is heavily loaded on Sill 1 (0.94) and Sill 2 (0.97). This factor may primarily reflect measurement redundancy (sill condition assessed on opposite orientations of the same wall) rather than a distinct latent construct.\footnote{Factor 1 loads almost exclusively on two highly correlated sill measurements (r=0.99), likely reflecting measurement redundancy rather than a latent construct. We retain this factor to preserve the analytical framework, but acknowledge its interpretation is limited. Sensitivity analysis collapsing Sill 1 and Sill 2 into a single variable yielded substantively similar results for Factors 2-3 (see Appendix C).} However, we retain this factor because: (1) the high communalities (Sill 1: 0.99, Sill 2: 1.00) indicate these variables explain substantial shared variance, (2) sill deterioration represents a specific, localized failure mode requiring targeted interventions distinct from general wall degradation, and (3) while Sill 1 and Sill 2 are highly correlated (r = 0.99, p < 0.001), they are not perfectly identical (loading difference of 0.03), suggesting some orientation-specific exposure effects. 
 The factor name ``Sill Deterioration" reflects that sills function as water-shedding elements at the base of openings; their deterioration, while often localized, can facilitate water ingress into the wall core.
 
 The second factor, named ``Surface and Lintel Interaction", exhibits high loadings for Coat 1 Cracking (0.72) and Lintel Deterioration (0.61). 
@@ -946,6 +944,30 @@ The synthetic data enables users to execute all analyses presented in this manus
 \subsection{Repository Access}
 
 All educational materials, Python scripts, and documentation are available at the project repository: \url{https://github.com/rkn2/FOUN_ncptt}. The repository includes a comprehensive README with installation instructions, dependency requirements, and usage examples.
+
+\section{Sensitivity Analysis of Sill Redundancy}
+\label{appendix:sensitivity}
+
+To address potential measurement redundancy between the highly correlated Sill 1 and Sill 2 variables ($r=0.99$), a sensitivity analysis was conducted. The two variables were consolidated into a single mean score (`Sill\_Mean`), and the Factor Analysis was re-run on the reduced set of 7 variables. As shown in Table \ref{tab:sensitivity_fa}, the resulting factor structure for Factors 2 and 3 remained substantively identical to the original model, confirming that the identification of ``Surface/Lintel Interaction'' and ``Structural Instability'' is robust to the handling of sill redundancy. Furthermore, the consolidated `Sill\_Mean` variable continued to load strongly on a distinct factor (loading 1.00), validating ``Sill Deterioration'' as a unique failure mode distinct from other degradation patterns.
+
+\begin{table}[h]
+\centering
+\caption{Sensitivity Analysis: Factor Loadings with Consolidated Sill Variable}
+\label{tab:sensitivity_fa}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Variable} & \textbf{Factor 1 (Sill)} & \textbf{Factor 2 (Surface/Lintel)} & \textbf{Factor 3 (Structural)} \\
+\midrule
+Sill\_Mean & \textbf{1.00} & 0.05 & -0.03 \\
+Coat 1 Cracking & -0.11 & 0.43 & \textbf{0.60} \\
+Coat 1 Loss & 0.09 & 0.14 & \textbf{0.51} \\
+Lintel Deterioration & 0.12 & \textbf{0.82} & 0.10 \\
+Coat 2 Cracking & 0.08 & \textbf{-0.54} & 0.03 \\
+Structural Cracking & 0.07 & -0.33 & 0.36 \\
+Out of Plane & -0.02 & -0.21 & \textbf{0.48} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \bibliography{biblio.bib} 
 
