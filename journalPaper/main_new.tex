@@ -481,6 +481,8 @@ To isolate the predictive power of geometric and contextual features without dam
 \subsubsection{Geometric Validation Sub-study}
 To test the hypothesis that geometric slenderness drives degradation, a supplementary analysis was conducted on a subset of 38 walls for which detailed profilometry data was available. The Slenderness Ratio (Height/Width) was calculated from the physical profiles and correlated with the Total Degradation Score. A simplified geometric slenderness ratio (Height/Width) showed no correlation with degradation ($r = -0.016$, $p = 0.925$). However, this metric does not account for boundary conditions, material properties, or load eccentricity that govern true structural slenderness per Euler buckling theory. The null result suggests simple dimensional ratios are insufficient proxies for stability risk; future work should incorporate effective height calculations and finite element analysis to assess elastic instability.
 
+To physically contextualize this statistical finding, a simplified structural stability check was performed on the geometric subset (see Appendix E for details). The analysis demonstrated that while no walls exceeded the critical buckling load (mean Factor of Safety $> 40$), 95\% of walls developed net tensile stresses under moderate wind loading (20 psf) that exceeded the negligible tensile capacity of adobe. This confirms that failure is governed by tensile cracking—a mechanism directly exacerbated by the condition-based factors (e.g., material loss, existing cracks) identified by the Elastic Net model—rather than by elastic instability.
+
 
 
 
@@ -980,6 +982,38 @@ Residual diagnostics for the Elastic Net model are presented in Figure \ref{fig:
     \caption{Residual diagnostic plots for the Elastic Net model: (a) Residuals vs Fitted, (b) Normal Q-Q, (c) Scale-Location, and (d) Residuals vs Leverage.}
     \label{fig:residual_diagnostics}
 \end{figure}
+
+    \caption{Residual diagnostic plots for the Elastic Net model: (a) Residuals vs Fitted, (b) Normal Q-Q, (c) Scale-Location, and (d) Residuals vs Leverage.}
+    \label{fig:residual_diagnostics}
+\end{figure}
+
+\section{Structural Stability Check Details}
+\label{appendix:structural}
+
+A simplified structural analysis was performed to distinguish between elastic instability (buckling) and tensile failure risks. The analysis used the following parameters and governing equations:
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item Modulus of Elasticity ($E$): 50,000 psi (conservative estimate for adobe).
+    \item Wind Pressure ($q$): 20 psf.
+    \item Effective Length Factor ($k$): 2.0 (Cantilever).
+    \item Wall Thickness ($d$): Maximum profile width derived from LiDAR/DXF.
+\end{itemize}
+
+\textbf{Equations:}
+\begin{itemize}
+    \item Critical Buckling Load: $P_{cr} = \frac{\pi^2 E I}{(kL)^2}$
+    \item Factor of Safety (Buckling): $FS = P_{cr} / P_{actual}$
+    \item Net Tension: $\sigma_{net} = -\frac{P}{A} + \frac{Mc}{I}$
+\end{itemize}
+
+\textbf{Results:}
+\begin{itemize}
+    \item \textbf{Buckling:} Min FS = 1.19, Mean FS = 44.5. Zero walls failed ($FS < 1$).
+    \item \textbf{Tension:} 95\% of walls developed net tension ($> 0$ psi).
+\end{itemize}
+
+\textbf{Conclusion:} Walls are geometrically stable against buckling but highly vulnerable to tensile cracking, validating the importance of condition-based predictors.
 
 \bibliography{biblio.bib} 
 
