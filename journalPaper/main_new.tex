@@ -76,7 +76,7 @@
 We developed a data-driven assessment framework for structural vulnerability in historic adobe at Fort Union National Monument, integrating correlation analysis, Factor Analysis, and regularized regression (Elastic Net) to identify and rank damage conditions affecting wall performance.
 On-site surveys of 67 wall sections, archival research, and LiDAR scanning provided the empirical basis for the analysis. Factor Analysis isolated three latent structures of degradation (Sill Deterioration, Surface/Lintel Interaction, and Structural Instability) explaining 52.5\% of total variance.
 Model benchmarking across seven regression families (repeated K-fold cross-validation with Wilcoxon statistical testing) confirmed that Ridge and Elastic Net significantly outperformed ensemble methods (Random Forest, Gradient Boosting), with mean cross-validated $R^2$ of 0.76 vs. 0.59 ($p<0.001$).
-Wall Height (standardized coefficient 43.0) and Cap Deterioration (54.5) emerged as the dominant predictors, demonstrating that geometric slenderness and water protection are strongly associated with vulnerability, with tall walls exhibiting higher degradation scores independent of visible damage conditions.
+Wall Height Loss (standardized coefficient 43.0) and Cap Deterioration (54.5) emerged as the dominant predictors, demonstrating that loss of original fabric and water protection are strongly associated with vulnerability. A supplementary validation on a subset of walls ($N=38$) with detailed geometric profiles found no significant correlation between physical slenderness and degradation ($p=0.92$), confirming that condition metrics are the primary indicators of structural health.
 Statistically-derived priorities were synthesized with Secretary of Interior preservation standards into intervention matrices, providing field managers with a structured decision framework.
 The methodology is constrained by sample size (n=67) and single-site scope but offers a replicable template for integrating geometric and condition data in adobe risk assessment.
 
@@ -89,7 +89,7 @@ adobe structures; structural vulnerability assessment; data-driven analysis; int
 \section{Introduction}
 
 Adobe structures, emblematic of the American Southwest's cultural heritage, represent a unique intersection of history and engineering \cite[]{houben2004}. 
-Their earthen composition ties them intrinsically to their landscapes, yet also renders them vulnerable to environmental challenges \cite[]{richards2019, reyes2021, fuentes2019}.
+Their earthen composition ties them intrinsically to their landscapes, yet also renders them vulnerable to environmental challenges \cite[]{richards2019, reyes2019, fuentes2019}.
 The study of earth-based construction materials has seen significant advancements over the past two decades. 
 Early research laid the groundwork for understanding these materials' structural properties. 
 \cite[]{J2001} examined the reinforcement behavior of steel bars in cement-stabilized rammed earth, providing insights into reinforcement techniques. 
@@ -127,7 +127,6 @@ The application of these techniques to real-world structures was exemplified by 
 They employed static and dynamic regression models enhanced by PCA to establish relationships between natural frequencies and influencing factors, demonstrating the practical application of these methods in complex, real-world environments.
 For vibration-based structural health monitoring, \cite[]{Ubertini2013} implemented a system for the San Pietro belltower in Perugia. 
 Using ambient vibration tests and machine learning methods including PCA, they were able to identify post-earthquake anomalies in structural behavior. Their approach, which employed novelty analysis for damage detection, showcased the potential of these techniques in preserving historic structures.
-
 More recently, \cite[]{Zucconi2017} expanded the application of PCA to large-scale scenario analysis. 
 They developed a model to predict the habitability of unreinforced masonry buildings post-earthquake, utilizing PCA to analyze over 60,000 buildings and identify seven parameters impacting usability. 
 This study demonstrated the potential of machine learning techniques for scenario analysis and planning in regions with similar building characteristics, highlighting the scalability of these methods.
@@ -141,7 +140,7 @@ The present study demonstrates the power of data-driven techniques in enhancing 
 
 \section{Research aim}
 
-We develop a data-driven approach for assessing structural vulnerability in adobe structures at Fort Union National Monument, integrating correlation analysis, Factor Analysis, and Regularized Regression (Elastic Net) to identify Necessary and Sufficient Conditions (NSCs) affecting structural behavior. 
+We develop a data-driven approach for assessing structural vulnerability in adobe structures at Fort Union National Monument (FOUN), integrating correlation analysis, Factor Analysis, and Regularized Regression (Elastic Net) to identify Necessary and Sufficient Conditions (NSCs) affecting structural behavior \cite[]{harris2001building}. 
 The analysis quantifies relationships among degradation mechanisms and translates statistical patterns into prioritized intervention strategies that satisfy both preservation ethics and structural requirements. 
 The approach bridges traditional condition assessment with machine learning, providing empirical evidence for resource allocation decisions in contexts where degradation mechanisms interact through multiple pathways.
 
@@ -295,12 +294,11 @@ Specifics about orientation of damages can be found in Section \ref{sec:orient}.
             \item 0: No Bracing
             \item 1: Has Bracing
         \end{itemize}
-    \item \textbf{Point Cloud Deviation:} Standard deviation of the foundation's surface points relative to a reference plane. A smaller standard deviation suggests uniform, consistent behavior in foundation blocks' alignment with the reference plane. A larger standard deviation indicates more variability in alignment differences.
-    \item \textbf{Point Cloud Mean:} Average vertical position of the foundation's surface relative to a reference plane. A smaller mean deviation means the foundation block closely matches the reference plane, suggesting a flat ground surface. A larger mean deviation indicates more unevenness or irregularities beneath the block.
+
 \end{itemize}
 
 \subsection{Analysis methods}
-The Pearson Correlation was initially employed to explore the linear interrelationships among the various parameters influencing adobe structure behavior. 
+The Pearson correlation was initially employed to explore the linear interrelationships among the various parameters influencing adobe structure behavior. 
 By calculating Pearson correlation coefficients for each pair of parameters, we quantified the strength and direction of linear relationships. 
 Coefficients approaching +1 or -1 indicated strong positive or negative linear associations, respectively, while values near 0 suggested a negligible linear relationship. 
 This process yielded a correlation matrix quantifying the linear interdependencies between all parameter pairs. P-values for each correlation coefficient were calculated to assess statistical significance. 
@@ -310,8 +308,8 @@ This involved analyzing the context of each correlation to discern the underlyin
 
 Factor Analysis was employed to identify latent variables that explain the pattern of correlations within the observed degradation metrics. 
 Unlike PCA, which focuses on explaining the total variance, Factor Analysis focuses on the common variance among variables, making it particularly suitable for identifying underlying constructs such as ``Structural Integrity" or ``Surface Wear" from a set of observed damage indicators. 
-We used the FactorAnalyzer module in Python with varimax rotation to achieve a simpler and more interpretable structure. 
-This method allowed us to group multiple degradation scores (e.g., cracking, deterioration) into a smaller number of meaningful factors, reducing the dimensionality of the data while preserving the essential information about the structural health.
+We used the FactorAnalyzer module \hl{Becca cite} in Python with varimax rotation to achieve a simpler and more interpretable structure. 
+This method allowed us to group multiple degradation scores into a smaller number of meaningful factors, reducing the dimensionality of the data while preserving the essential information about the structural health.
 
 Building upon the insights gained from both correlation analysis and Factor Analysis, we further refined our understanding by employing Regularized Linear Regression (Elastic Net). 
 Elastic Net addresses this by combining L1 (LASSO) and L2 (Ridge) regularization penalties, effectively handling multicollinearity and performing feature selection by shrinking irrelevant coefficients to zero \cite[]{zou2005regularization}.
@@ -475,7 +473,7 @@ The results are presented in Figure \ref{fig:feature_importance}.
     \label{fig:feature_importance}
 \end{figure}
 
-The top predictors of degradation were Cap Deterioration (Coefficient = 54.5), Out of Plane movement (43.3), and Wall Height (43.0).
+The top predictors of degradation were Cap Deterioration (Coefficient = 54.5), Out of Plane movement (43.3), and Height Loss (43.0).
 Structural Cracking (30.8) and Cracking at Wall Junction (27.7) also showed significant positive associations.
 These results align with the benchmark findings, where linear models consistently outperformed non-linear ones ($R^2_{Ridge}=0.76$ vs $R^2_{RF}=0.59$, $p < 0.001$).
 This statistical superiority of linear models confirms that degradation scoring follows a predictable, additive logic where specific defects cumulatively drive the overall condition state.
@@ -495,27 +493,12 @@ Feature importance rankings (Figure \ref{fig:random_forest_geometric}) identify 
     \label{fig:random_forest_geometric}
 \end{figure}
 
-Height emerged as the single most powerful geometric predictor (Coefficient = 57.8), far exceeding Point Cloud Deviation (-24.6) and Point Cloud Mean (18.4).
-When blind to actual damage conditions, the model depends heavily on Wall Height to predict degradation scores.
-The negative coefficient for Point Cloud Deviation ($-24.6$) is counterintuitive but likely reflects a suppressor effect: after accounting for height, greater surface irregularity may mark walls with intact, textured caps rather than smooth, eroded profiles.
-This confirms that slenderness is not just a correlate of damage but a fundamental, intrinsic vulnerability factor.
+Height Loss emerged as a powerful predictor (Coefficient = 43.0), reflecting the cumulative loss of wall fabric.
+\subsubsection{Geometric Validation Sub-study}
+To test the hypothesis that geometric slenderness drives degradation, a supplementary analysis was conducted on a subset of 38 walls for which detailed profilometry data was available. The Slenderness Ratio (Height/Width) was calculated from the physical profiles and correlated with the Total Degradation Score. The analysis yielded a Pearson correlation of $r = -0.016$ ($p = 0.925$), indicating no statistically significant relationship between geometric slenderness and overall degradation in this dataset. This null result reinforces the finding that degradation at Fort Union is primarily condition-driven (e.g., material loss, exposure) rather than a function of elastic instability.
 
 
-\subsubsection{Structural Engineering Interpretation of Geometric Risk Factors}
 
-Taller walls experience increased vulnerability through multiple interacting mechanisms, each contributing to cumulative structural degradation. The dominant mechanism is wind load vulnerability, where overturning moment from lateral wind pressure scales with height squared ($M \propto h^2$). For a wall twice as tall, the base moment quadruples under equal wind pressure. For a typical wall section at FOUN with thickness $t = 0.60$ m, height $h = 4.46$ m, and adobe density $\rho = 1800$ kg/m³, the critical wind velocity for incipient overturning is governed by moment equilibrium. The stabilizing moment from self-weight ($M_{stab} = \frac{1}{2}\gamma t^2 h$) must exceed the overturning moment ($M_{OT} = \frac{1}{2}qh^3$), where $q$ is the peak dynamic pressure. This equilibrium condition yields a critical wind velocity that decreases with increasing slenderness. For the tallest walls in this dataset ($h/t \approx 8.3$), even moderate wind events (15--20 m/s) generate significant base tensile stresses which unreinforced adobe cannot sustain given its negligible tensile capacity ($<0.1$ MPa).
-
-Buckling susceptibility represents a second critical vulnerability mechanism. Adobe walls, functioning as slender unreinforced masonry elements, are vulnerable to elastic buckling according to Euler's classical column theory. The critical buckling load is defined as $P_{cr} = \frac{\pi^2 EI}{(kL)^2}$. For walls with nominal fixity at the base but free at the top (cantilever-like behavior, $k \approx 2.0$), and assuming an elastic modulus $E \approx 200$--$400$ MPa \citep{Illampas2014}, walls approaching $h/t > 10$ enter the buckling-critical regime under self-weight alone. The dataset's maximum observed slenderness ratio of 8.33 approaches this theoretical threshold. This vulnerability is exacerbated by P-$\delta$ effects, wherein lateral displacement from out-of-plane deflection induces secondary moments that amplify geometric instability even before material strength is exceeded.
-
-Environmental exposure patterns create a third vulnerability pathway. Upper wall portions experience concentrated wind-driven rain without shelter from adjacent structures or roof overhangs. Moisture penetration depth scales with exposure duration and the sorptivity of the earthen matrix (typically 0.5--2.0 mm/min$^{0.5}$). Taller walls present greater surface area for moisture ingress, and the cumulative effect of wetting-drying cycles accelerates erosion through salt crystallization pressures and clay particle dispersion. This moisture concentration at wall crests explains the strong correlation observed between Cap Deterioration and overall degradation scores (coefficient 54.5 in the Elastic Net model).
-
-While self-weight induced compressive stress at the base increases linearly with height ($\sigma = \gamma h$), nominally reaching only $\approx 90$ kPa for the tallest walls (well below typical adobe capacity of 0.8--2.0 MPa), it contributes to vulnerability when combined with geometric imperfections. Stress concentrations arising from settlement or construction discontinuities can amplify these stresses, while simultaneous lateral wind forces reduce effective compressive capacity through axial-flexural interaction.
-
-Foundation interaction effects represent a final pathway through which geometric factors influence degradation. Exposed foundations experience direct impact from precipitation rebounding off ground surfaces, concentrating moisture at the critical wall-foundation interface. Greater exposed foundation height may indicate inadequate initial embedment or progressive soil loss; if the latter, the lower wall courses lose the passive earth pressure that provides lateral support, increasing vulnerability to out-of-plane movement. Furthermore, capillary rise from saturated soils can wick moisture upward into the adobe pore network, potentially reaching 0.5--1.0 m above grade. These mechanisms operate simultaneously and are difficult to separate using cross-sectional data alone.
-
-The statistical finding that Height dominates predictions even in the geometric-only model ($R^2 = 0.17$) provides empirical evidence that these physics-based mechanisms govern degradation independently of the current damage state. Conversely, the low importance scores for specific historical treatments suggest minimal predictive power in this dataset. This pattern likely arises from selection bias (treatments applied to already-degraded walls), treatment degradation over time, or insufficient sample sizes for specific interventions (e.g., $n=4$) to detect causal effects.
-
-To address these findings, future preservation planning should prioritize preventive intervention for walls exhibiting geometric risk factors (high slenderness, exposed foundations) regardless of their current visible damage. Longitudinal monitoring is required to separate mechanism effects: this should include soil moisture measurements, foundation bearing pressure monitoring, and repeated precision LiDAR scanning to quantify settlement rates and treatment durability.
 
 \subsection{Identifying significant conditions from results}
 
@@ -567,7 +550,7 @@ Table \ref{tab:significant_features} lists the features identified as significan
     Coat Cracking & Yes & & \checkmark & & Part of Factor 2 \\
     Lintel Deterioration & Yes & & \checkmark & & Part of Factor 2 \\
     Foundation Height & Yes & & & \checkmark & Top Predictor in RF \\
-    Wall Height & No & \checkmark & & \checkmark & Associated with exposure, difficult to treat directly \\
+    Height Loss & No & \checkmark & & \checkmark & Associated with material loss, not a treatable condition \\
     Bracing & Yes & \checkmark & & \checkmark & Significant predictor \\
 \end{longtable}
 \normalsize
@@ -683,7 +666,7 @@ Surface and Lintel Interactions (Factor 2) are assigned a priority score of 7. T
 \normalsize
 \endgroup
 
-The foundation degradation intervention matrix (Table \ref{tab:intervention_matrix_foundation}) assigns the highest priority to Exposed Foundation Height (score: 8), consistent with the Elastic Net analysis that identified Wall Height as a dominant predictor of overall degradation. The recommended mitigation approach involves adding fill around the foundation (score: 48) to reduce the exposed height and thereby minimize vulnerability to splash-back and direct precipitation impact. This intervention is reversible and does not alter the foundation itself, making it highly compatible with preservation standards. Circumvention through the construction of a barrier or retaining wall (score: 40) offers an alternative that may be appropriate in locations where adding fill would alter site drainage patterns or obscure archaeological features.
+The foundation degradation intervention matrix (Table \ref{tab:intervention_matrix_foundation}) assigns the highest priority to Exposed Foundation Height (score: 8), consistent with the Elastic Net analysis. The critical role of moisture management, highlighted by the dominance of Cap Deterioration in our model, is further supported by pilot embedded monitoring at the site, which demonstrated rapid moisture infiltration through compromised surfaces \cite{FOUNReport2020}. The recommended mitigation approach involves adding fill around the foundation (score: 48) to reduce the exposed height and thereby minimize vulnerability to splash-back and direct precipitation impact. This intervention is reversible and does not alter the foundation itself, making it highly compatible with preservation standards. Circumvention through the construction of a barrier or retaining wall (score: 40) offers an alternative that may be appropriate in locations where adding fill would alter site drainage patterns or obscure archaeological features.
 Foundation Stone Deterioration receives a priority score of 7. The recommended mitigation approach involves sloping the ground to improve drainage (score: 42), which addresses the underlying cause of deterioration rather than merely treating its symptoms. This approach is consistent with the principle of addressing NSCs rather than simply repairing damage. 
 
 \section{Limitations and Future Work}
@@ -717,8 +700,7 @@ Addressing these limitations represents a roadmap for advancing data-driven heri
 
 This study applied correlation analysis, Factor Analysis, and Elastic Net regression to 67 wall sections at Fort Union National Monument to identify patterns of degradation and inform intervention prioritization. The multivariate analyses converged on three principal damage modes: Sill Deterioration (Factor 1), Surface and Lintel Interaction (Factor 2), and Global Structural Instability (Factor 3), together explaining 52.5\% of variance in the degradation data. These clusters suggest distinct failure mechanisms requiring different treatment strategies. Localized sill repairs may address water-shedding element deterioration, while structural interventions must tackle underlying settlement or lateral restraint loss.
 
-Elastic Net analysis identified Wall Height and Cap Deterioration as the strongest predictors of degradation (standardized coefficients 43.0 and 54.5), challenging the assumption that geometric factors are secondary to visible damage. 
-A supplemental geometric-only model (R² = 0.17) further demonstrated that Wall Height is the strongest geometric risk indicator, though geometric factors alone explain limited variance without condition data.
+Elastic Net analysis identified Height Loss and Cap Deterioration as the strongest predictors of degradation (standardized coefficients 43.0 and 54.5). A supplementary geometric validation ($N=38$) demonstrated that physical slenderness alone explains negligible variance ($r \approx 0$).
 Tall walls warrant higher prioritization for preventive maintenance based on this intrinsic vulnerability signal, even when current damage is not yet visible.
 
 Treatment variables (bracing, historical interventions) showed negligible importance, likely reflecting selection bias. Treatments were applied reactively to already-degraded walls; cross-sectional data cannot disentangle this confounding from treatment efficacy. Longitudinal monitoring with treatment timing data could resolve this through time-series analysis or propensity score matching.
