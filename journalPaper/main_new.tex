@@ -724,7 +724,8 @@ The data that support the findings of this study, along with interactive educati
 \section{Data collection}
 % Content of your first appendix
 \subsection{RAS} \label{sec:ras}
-\includepdf[pages=-]{FOUN_RAS_Glossary.pdf}
+\includepdf[pages=1-14]{FOUN_RAS_Glossary.pdf}
+
 
 
 \subsection{Bracing details} \label{sec:bracing}
@@ -925,9 +926,9 @@ To facilitate knowledge transfer and enable replication of this methodology at o
 
 Two educational notebooks accompany this manuscript:
 
-\textbf{1. Grant Methodology Demonstration} (\texttt{grant\_methodology\_demo.ipynb}): This notebook provides a step-by-step walkthrough of the complete analytical pipeline, including data preprocessing, correlation analysis, Factor Analysis, and Elastic Net regression. Each code cell is annotated with explanations of statistical assumptions, parameter choices, and interpretation guidelines. The notebook uses synthetic data (described below) to demonstrate the methodology without exposing sensitive site information.
+\textbf{1. Data Exploration and Pattern Analysis} (\texttt{data\_exploration\_and\_pattern\_analysis.ipynb}): This notebook provides a step-by-step walkthrough of the analytical pipeline, focusing on two key objectives: identifying latent patterns of damage co-occurrence using Factor Analysis, and recovering the implicit weights of the scoring system using Elastic Net regression. Each code cell is annotated with explanations of statistical assumptions and interpretation guidelines, helping users distinguish between predictive modeling and weight recovery analysis.
 
-\textbf{2. Intervention Matrix Development} (\texttt{intervention\_matrix\_notebook.ipynb}): This notebook illustrates the process of translating statistical findings into actionable intervention matrices. It demonstrates how Factor Analysis loadings and regression coefficients inform the identification of Necessary and Sufficient Conditions (NSCs), and how preservation standards are integrated into the priority scoring framework. The notebook includes worked examples of matrix construction and priority calculation.
+\textbf{2. Expert-Statistical Intervention Framework} (\texttt{intervention\_matrix\_notebook.ipynb}): This notebook illustrates the process of translating statistical findings into actionable intervention matrices. It demonstrates how statistical importance (derived from Factor Analysis variance and recovered regression weights) is combined with preservation ethics (Secretary of Interior Standards) to generate priority scores. The notebook includes interactive modules for building intervention matrices and simulating budget allocation decisions.
 
 \subsection{Synthetic Data Generation}
 
@@ -980,10 +981,6 @@ Residual diagnostics for the Elastic Net model are presented in Figure \ref{fig:
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.9\textwidth]{Images/residual_diagnostics.png}
-    \caption{Residual diagnostic plots for the Elastic Net model: (a) Residuals vs Fitted, (b) Normal Q-Q, (c) Scale-Location, and (d) Residuals vs Leverage.}
-    \label{fig:residual_diagnostics}
-\end{figure}
-
     \caption{Residual diagnostic plots for the Elastic Net model: (a) Residuals vs Fitted, (b) Normal Q-Q, (c) Scale-Location, and (d) Residuals vs Leverage.}
     \label{fig:residual_diagnostics}
 \end{figure}
