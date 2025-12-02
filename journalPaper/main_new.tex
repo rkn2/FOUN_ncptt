@@ -283,7 +283,7 @@ Specifics about orientation of damages can be found in Section \ref{sec:orient}.
             \item 1: Has Fireplace
             \item 2: Adjacent Fireplace
         \end{itemize}
-    \item \textbf{Treatment History:} A binary indicator aggregating 41 specific historical intervention records (e.g., 1960s capping, recent repointing). Due to the sparsity of individual treatment types, these were combined into a single feature indicating the presence of any past intervention.
+    \item \textbf{Treatment History:} A binary indicator aggregating 41 specific historical intervention records (e.g., 1960s capping, recent repointing). Due to the sparsity of individual treatment types, these were combined into a single feature indicating the presence of any past intervention. (Note: In the final analysis, this variable was excluded as it exhibited zero variance across the sample).
         \begin{itemize}
             \item 0: Not Treated
             \item 1: Treated
@@ -333,7 +333,7 @@ Models with corrected p-values exceeding 0.05 were deemed statistically indistin
 The benchmark revealed that regularized linear models (Ridge and Elastic Net) significantly outperformed complex non-linear ensembles (Random Forest, Gradient Boosting).
 Ridge Regression achieved the highest mean $R^2$ (0.76), far exceeding the Naive Baseline ($R^2 = -0.10$), confirming the model captures significant signal beyond random chance. Elastic Net ($R^2 = 0.75$) was statistically indistinguishable from Ridge ($p_{adj} = 0.17$).
 Given their statistical equivalence, we selected Elastic Net as the primary model for interpretation due to its ability to perform feature selection via L1 regularization, offering a parsimonious explanation of the degradation drivers.
-All predictors were standardized to z-scores (mean=0, SD=1) prior to modeling, allowing regression coefficients to serve as direct measures of feature importance. Missing values in foundation variables were handled using mean imputation. The Elastic Net model was configured with a mixing parameter ($\alpha$) of 1.0 and an L1 ratio of 0.5, balancing LASSO and Ridge penalties. Residual diagnostics for the Elastic Net model confirmed homoscedasticity and approximate normality, with no highly influential outliers detected (see Appendix D for diagnostic plots).
+All predictors were standardized to z-scores (mean=0, SD=1) prior to modeling, allowing regression coefficients to serve as direct measures of feature importance. Missing values in foundation variables were handled using mean imputation. The Elastic Net model was configured with a mixing parameter ($\alpha$) of 1.0 and an L1 ratio of 0.5, balancing LASSO and Ridge penalties. Residual diagnostics for the Elastic Net model confirmed homoscedasticity and approximate normality, with no highly influential outliers detected (see Appendix D for diagnostic plots). Variance Inflation Factors (VIF) for the active predictors ranged from 1.4 to 8.2 (median 1.9), confirming moderate multicollinearity (particularly between sill measurements) that justified the use of regularized regression.
 
 \begin{table}[h]
 \centering
