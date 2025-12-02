@@ -94,7 +94,18 @@ def run_geo_analysis():
     print(f"Features included in Geometric-Only Model (n={len(features)}):")
     print(features)
     
-    # Pipeline
+    from sklearn.dummy import DummyRegressor
+    
+    # CV
+    rkf = RepeatedKFold(n_splits=5, n_repeats=5, random_state=RANDOM_STATE)
+    
+    # 1. Naive Baseline
+    dummy = DummyRegressor(strategy='mean')
+    dummy_scores = cross_val_score(dummy, X, y, cv=rkf, scoring='r2')
+    print(f"\nNaive Baseline (Mean) Performance:")
+    print(f"Mean R2: {np.mean(dummy_scores):.3f} (+/- {np.std(dummy_scores):.3f})")
+
+    # 2. Geometric Model
     pipeline = Pipeline([
         ('imputer', SimpleImputer(strategy='mean')),
         ('scaler', StandardScaler()),
@@ -102,7 +113,6 @@ def run_geo_analysis():
     ])
     
     # CV
-    rkf = RepeatedKFold(n_splits=5, n_repeats=5, random_state=RANDOM_STATE)
     scores = cross_val_score(pipeline, X, y, cv=rkf, scoring='r2')
     
     print(f"\nGeometric-Only Model Performance (without Height):")
